@@ -1,0 +1,145 @@
+\begin{center}
+\begin{table}[!htbp]
+\caption{MAESPA olive tree (\textit{Olea europaea}) parameterisation, with parameter values taken from cited literature sources. \label{tab:oliveparam}}
+
+\scalebox{0.85}{
+\begin{tabular}{ |  p{9.3cm} | p{2.5cm} | p{5.6cm} |}
+\hline \textbf{Parameter} & \textbf{Value(s)} & \textbf{Source} \\ 
+\hline
+Soil reflectance (\%PAR, \%NIR, and \%IR)  & 0.10, 0.05, 0.05 & \cite{Levinson2007,Oke1987z} \\ \hline
+Leaf transmittance (\%PAR, \%NIR, and \%IR)  & 0.01, 0.28, 0.01 & \cite{Baldini1997} \\ \hline
+Leaf reflectance (\%PAR, \%NIR, and \%IR)  & 0.08, 0.42, 0.05 & \cite{Baldini1997} \\ \hline
+Minimum stomatal conductance g0 (mol m$^{-2}$s$^{-1}$) & 0.03 & \cite{Coutts2014a}\\ \hline
+Slope parameter g1  & 2.615 &\cite{Coutts2014a} \\ \hline
+\# of sides of the leaf with Stomata & 1&\cite{Fernandez1997}\\ \hline
+Width of leaf (m)& 0.0102&\\ \hline
+CO$_{2}$ compensation point ($\mu$mol m$^{-2}$s$^{-1}$)& 55& \cite{Coutts2014a}\\ \hline
+Max rate electron transport (Jmax) ($\mu$mol m$^{-2}$s$^{-1}$)& 112.4& \cite{Coutts2014a}\\ \hline
+Max rate rubisco activity (VCmax) ($\mu$mol m$^{-2}$s$^{-1}$)& 81.18& \cite{Coutts2014a}\\ \hline
+Curvature of the light response curve &0.62& \cite{Coutts2014a}\\ \hline
+Activation energy of Jmax (KJ mol$^{-1}$)& 35350& \cite{Diaz-Espejo2006}\\ \hline
+Deactivation energy of Jmax (J mol$^{-1}$)& 200000 &\cite{Medlyn2005a}\\ \hline
+Entropy term (KJ mol$^{-1}$)& 644.4338& \cite{Medlyn2005a}\\ \hline
+Quantum yield of electron transport (mol electrons mol$^{-1}$)& 0.19& \cite{Sierra2012}\\ \hline
+Dark respiration ($\mu$mol m$^{-2}$s$^{-1}$)& 0.94& \cite{Coutts2014a}\\ \hline
+Specific leaf area (mm$^{2}$kg$^{-1}$)&5.1 &\cite{Mariscal2000}\\ \hline
+\end{tabular} 
+}
+\end{table}
+\end{center}
+%
+%
+%g0 = 0.03		!residual conductance/minimum stomatal conductance (mmol.m-1.s-1) (From Smith St. data)
+%g1 = 2.615		!Slope parameter/coefficient (kPA^0.5) (From Smith St. data) (g1 must be for H2O of stomatal conductance)
+%nsides = 1		!no. of sides of the leaf with Stomata
+%wleaf = 0.0102		!width of leaf (metres)
+%gamma = 55		!CO2 compensation point (CO2 curves)
+%
+%&jmax
+%values = 112.4		!Value for Jmax (maximum rate of electron transport) (umol.m-2.s-1) (CO2 Curves)
+%
+%&vcmax
+%values = 81.18		!Value for VCmax (maximal rate of rubisco activity at 25 degrees) (umol.m-2.s-1) (CO2 curves)
+%
+%	
+%&jmaxpars
+%theta =0.62		!Curvature of the light response curve of electron transport (PAR curves)
+%eavj = 35350		!Activation energy of Jmax (KJ.mol-1) (also know as Hj) (Bernacchi et al 2001)
+%edvj = 200000		!Deactivation energy of Jmax (J.mol-1) (Medlyn et al 2005)
+%delsj = 644.4338	!Entropy term (KJ.mol-1)
+%ajq = 0.19		!Quantam yield of electron transport (mol.mol-1) (PAR curves) (PSICO2=Absorb*8*0.5)
+%/
+%
+%&rd
+%values = 0.94		!Dark respiration (umol.m-2.s-1) (CO2 Curves)
+%dates = '01/03/15' 	!Date for which Rd is specified
+%/
+%
+%&sla
+%values = 5.1		!Specific leaf area (5.1=Mariscal et al 2000) (m2.kg-1) Specific leaf area (SLA) is the one-sided area of a fresh leaf, divided by its oven-dry mass
+%dates = '01/03/15'
+%
+%% tree.dat
+%&aerodyn			
+%zht = 4			!Height of wind speed measurements (Met file for Smith st used East Melbourne wind speed)
+%zpd = 6.67		!2/3 of the tree crown height (rule of thumb)
+%z0ht = 1		!1/10 of the tree crown height (rule of thumb)
+%/
+%leaf area (m2.tree-1)
+%&alllarea		
+%nodates = 1
+%values = 48.7		!Total leaf area then is = LAI * tree area (radius^2*pi). LAI=2.48; 5^2*pi=19.6; => Total LA=48.7
+%/
+%
+%%watpars.dat
+%Single tree in Smith St Collingwood
+%
+%
+%&watcontrol
+%keepwet = 0		!Soil water stays wet if = 1 (used for testing)
+%simtsoil = 1		!Simulate soil temperature (yes=1) (must do)
+%simsoilevap = 1		!Simulate soil evaporation (yes=1)
+%reassignrain = 0	!Re-assign half hourly rain if only DAILY rainfall (PPT) available (yes=1)
+%wsoilmethod = 1		!If = 1 then use Emax method (unlimited water); if = 2 Use Vol Wat content; if = 4 use exponenetial relationship with SMD1 & SMD2;
+%retfunction = 1		!Water retention curve (1=Campbell curve: parameters in "soilret")
+%equaluptake = 0		!water uptake from soil layers (0=based on fine root density and soil water potential)
+%usemeaset = 0		!Use canopy transpiration if = 1; need to add 'ET' to met.dat file
+%usemeassw = 1		!Use measured soil water if = 1; 
+%usestand = 0		!If = 1, water used by single trees scaled up to stand; If=0, scaling not done - use for single tree in stand, or BY ITSELF
+%/
+%
+%Rainfall canopy interception
+%&wattfall
+%rutterb = 3.7		!Drainage coefficient (B parameter in Rutter et al 1975) to calculate canopy drainage (mm)
+%rutterd = 0.002		!Drainage parameter in Rutter et al 1975 (0.002) (dimensionless)
+%maxstorage = 0.4	!Maximum canopy storage of water
+%throughfall = 0.6	!rainfall passing through the canopy
+%/
+%
+%&watinfilt
+%expinf = 0.0		!
+%/
+%
+%Soil evaporation
+%&soiletpars
+%drythickmin = 0.01	!Minimum thickness of the dry soil layer (m)
+%tortpar = 0.66		!XX Parameter describing tortuosity of the soil: describes diffusion in porous media
+%/
+%
+%Root parameters
+%&rootpars
+%rootrad = 0.0001	!Average root radius (m)
+%rootdens = 0.5e6	!Root density (g.m-3)
+%rootmasstot = 2.4	!Total root biomass (kg.m-2) (0.417*d^2 where d is trunk diameter Ruiz-Peinado et al 2012)
+%nrootlayer = 7		!Number of soil layers that are rooted. Together with the LAYTHICK parameter, it determines the rooting depth
+%rootbeta = 0.9		!Beta parameter characterising root distribution (Jackson et al 1996)
+%/
+%
+%Plant parameters
+%&plantpars 
+%minrootwp = -2.5	!Minimum root water potential (MPa) (Fernandez and Moreno 2008)
+%minleafwp = -10		!Minimum leaf water potential (MPa) (not needed if MODELGS=6: Tuzet model) (Giorio 1999)
+%plantk = 1.8		!leaf specific (total) plant hydraulic conductance (IMPORTANT!!!) (Dichio et al 2013) (=3.21 kg.m-2.s-1.MPa-1 x 10^-5   divide by 1.8 x 10^-5 gives 1.8 mmol.m-2.s-1.MPa-1)
+%/
+%
+%Soil water retention and conductivity
+%&soilret
+%bpar = 2.79		!Empiral coefficient related to clay content of the soil (Duusma et al. 2008)
+%psie = -0.00068		!air entry water potential (MPa) (Duursma et al. 2008)
+%ksat = 264.3		!saturated soil hydaulic conductivity (Duursma et al. 2008) (mol.m-1.s-1.MPa-1)
+%/
+%
+%Soil layer parameters
+%&laypars
+%nlayer = 10		!number of soil layers in the model
+%laythick = 0.1		!Layer thickness (m)
+%porefrac = 0.38		!Soil porosity (m3.m-3)
+%Drainlimit = 0		!fraction of the pore fraction below which no drainage occurs (fraction 0-1)
+%fracorganic = 0		!Fraction of organic matter
+%/
+%
+%Initial soil parameters
+%&initpars
+%initwater = 0.12	!Soil water content (m3.m-3)
+%soiltemp = 15		!Soil temperature
+%/
