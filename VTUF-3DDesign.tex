@@ -137,79 +137,112 @@ micro-climate modelling, urban vegetation, VTUF-3D
 %% main text
 
 \section{Introduction}\label{sec:introduction}
-
-
-
-
-
-
 Urban areas are facing a growing number of challenges. Cities are now home to the majority of the world's population and trends will result in further increases \citep{UNDESA2015,WHO2016}. To accommodate increasing urban populations \citep{ABS2008}, cities are expanding \citep{Seto2011} and densifying \citep{Byrne2016,Ruth2016,DSE2002}, leading to loss of urban green spaces \citep{Hamin2009,Coutts2007}. In these increasingly urbanised areas, the removal of vegetation, combined with rapid stormwater removal, and possibly restricted irrigation during drought conditions, can leave urban landscape water starved. Urban development that does not consider the implications on urban climate, risks intensifying urban heating and compromising the thermal comfort of city residents. In addition, climate trends are towards increased average temperatures and increasing temperature extremes \citep{Alexander2009,IPCC2013a}. This is concerning given the increasing understanding of the impacts on human health of extreme temperatures \citep{Katsouyanni1993,Nicholls2008,Loughnan2010} and demographics that are shifting towards increased older and elderly citizens \citep{Cohen2003,FIFARS2016} that are particularly vulnerable to extreme heat. These factors leave those in urban areas in an increasingly dangerous position. In coming years, strategies are needed to adapt to and deal with these challenges.
 
 Incorporating more vegetation and water into urban areas can be an effective way to mitigate extreme urban temperatures. From an examination of a range of different studies exploring cooling effects of urban greenery \citep{Tsiros2010,Shashua-Bar2010a,Spangenberg2008}, it is clear that increased vegetation and water can have positive benefits, from city-wide scale down to a micro-climate street level scale \citep{Coutts2012}. Shading and evapotranspiration are cited as the main drivers of these cooling effects \citep{Bowler2010}. The degree of cooling effects are variable however, and depend on factors such as vegetation density \citep{Hall2016,Bodnaruk2017}, street orientation and aspect ratio \citep{Thorsson2011,Ali-Toudert2006b}, and amounts of irrigation used \citep{Jenerette2011}. Trees in particular provide a strong benefit for HTC during the day, especially those with large, dense canopies that provide shade and are well irrigated to promote transpiration \citep{Coutts2015,Huang2008,Ylmaz2007,Shashua-Bar2000}. Water sensitive urban design (WSUD) presents an opportunity to capture and retain stormwater in urban areas using engineered and natural features (trees and vegetation) to capture, filter, and store water as an additional urban water source \citep{Wong2009}. A more focused effort in using trees and WSUD for urban climate benefits can deliver improvements to human thermal comfort (HTC) \citep{Coutts2012}. 
 
-%WSUD is premised on the use of captured and retained stormwater as an additional urban water source \citep{Wong2009}. It uses engineered and natural features (trees and vegetation) to capture, filter, and store water, while restoring a more natural water balance distorted by impervious surfaces and other modifications to previously natural landscapes. A more focused effort in using WSUD and WSUD features (especially the vegetated components) for urban climate benefits can deliver improvements to human thermal comfort (HTC). An extension to WSUD, Climate Sensitive Urban Design (CSUD) proposes exactly to do this \citep{Coutts2012}. The three mechanisms cited to provide these benefits are oasis effects (cooling through evapotranspiration), the use of WSUD augmented water supplies to promote healthy vegetation, which provides shading and transpiration cooling effects, and finally the reduction of surface temperatures. However, with only a small body of work in this area, \cite{Coutts2012} cites the need for additional research to fully explore these possibilities. 
 
 While the benefits of urban vegetation and water are well understood in the climate community, uptake and application of knowledge in urban planning is lacking. Yet, \cite{Bowler2010} suggests that the current research does not demonstrate exactly how urban greening should be implemented in terms of abundance, type and distribution.  A suitable modelling tool is needed to provide solid quantitative assessments of the effectiveness of trees and water in terms of heat mitigation, across contrasting micro-scale urban environments and therefore provide guidance on how to most effectively use trees and WSUD for improved HTC. 
 
-%A suitable modelling tool is needed, as guidance on how to most effectively use WSUD for HTC benefits is lacking. More importantly, there is a lack of solid quantitative assessments of how well WSUD and CSUD can perform in urban areas in terms of heat mitigation. A review shows there are a number of models available and techniques suitable to model urban areas, and to a lesser extent, to include vegetation as part of this assessment \citep{Nice2016}. 
-
-
 A suitable modelling tool for these assessments needs to resolve detailed temperature gradients (as well as wind speed and humidity in order to calculate HTC) across a modelled urban canyon. This necessitates micro-scaled resolution climate modelling. In addition, modelling needs to incorporate important cooling mechanisms of evapotranspiration and shading. This requires proper modelling of vegetation, including vegetation physiology to estimate accurate latent energy fluxes and the soil-vegetation-atmosphere pathway critical for vegetation and WSUD assessments within the urban canyon. Models such as SOLWEIG \citep{SOLWEIG2011} and RayMan \citep{Matzarakis2007,Matzarakis2010} resolve at a suitable scale and generate useful insights into mean radiant temperatures in urban areas \citep{Chen2014a}, however they only capture the radiation shading effects of vegetation, and are unable to account for the effects of water and evapotranspiration. At the other end of the complexity spectrum, a number of models, primarily based on computational fluid dynamics (CFD), are able to resolve at a micro-scale and account for many of the influences of vegetation \citep{Bailey2014,Bailey2016,Kunz2000,Schlunzen2011a,Yamada2011,Bruse1999}. However their complexity and computational intensity leaves them out of reach for less specialised users.
 
-%A suitable modelling tool for these assessments needs to resolve detailed temperature gradients (as well as wind speed and humidity in order to calculate HTC) across a modelled urban canyon. This necessitates micro-scaled resolution. In addition, proper modelling of latent energy fluxes and vegetation is critical to WSUD studies, as a desired side effect of WSUD is localised cooling effects due to increased water and vegetation within the urban canyon. However, no existing models meet this requirement. Models such as SOLWEIG \citep{SOLWEIG2011} and RayMan \citep{Matzarakis2007,Matzarakis2010} resolve at a suitable scale and generate useful insights into urban areas \citep{Chen2014a}, however they only capture the radiation shading effects of vegetation, and are unable to account for the effects of water and evaportranspiration. At the other end of the complexity spectrum, a number of models, primarily based on computational fluid dynamics (CFD), are able to resolve at a micro-scale and account for many of the influences of vegetation \citep{Bailey2014,Bailey2016,Kunz2000,Schlunzen2011a,Yamada2011,Bruse1999}. However their complexity and computational intensity leaves them out of reach for less specialised users.
 
 What is needed is an approach that fits in between these two levels of complexity, a new innovative method to balance detail, accuracy, and complexity with efficiency and usability, while also being able to consider a wide variety of vegetation types and arrangements. This approach needs to capture the detailed movement of radiation through complex urban areas integrated with a widely configurable amount of vegetation. It also needs to balance this complexity against usability to create a model that can be widely used to consider a large variety of questions about HTC impacts of urban vegetation in support of urban planning decisions and guidelines. This study presents the development of a new model: VTUF-3D (Vegetated Temperatures of Urban Facets in 3D v1.0) that aims to provide a model capable of assessing the benefits of vegetation (including trees) and WSUD on urban canopy layer air temperature and HTC. VTUF-3D is developed from the TUF-3D (Temperatures Of Urban Facets in 3D) model \citep{Krayenhoff2007} that prior to this study, lacked vegetation and water components. The TUF-3D was coupled with the MAESPA model \citep{Duursma2012}, allowing insertion of any type of vegetation in any arrangement, accounting for vegetation structural and physiological processes. This study also aims to evaluate the model, in terms of the surface energy balance, for an urban site in Melbourne, Australia.
 
 VTUF-3D has the capacity to address the research gap identified by \cite{Bowler2010} around identifying how vegetation (especially trees) should be implemented in terms of abundance, type and distribution, as well as the potential for accounting for water availability through WSUD. This can facilitate the integration of urban greening into the urban landscapes and inform planning decisions, with urban climate knowledge, about how to best utilise urban greening to maximise the thermal comfort impacts and meet the challenges of urban heat. VTUF-3D can help inform how to best to protect human health in light of all the concerning trends progressing in urban areas.
 
-%The TUF-3D (Temperatures Of Urban Facets in 3D) model \citep{Krayenhoff2007} has been identified as a starting point for a new model that will address these problems, however its lack of vegetation and water modelling leaves it incomplete. Coupling TUF-3D with the MAESPA model \citep{Duursma2012}, allowing insertion of any type of vegetation in any arrangement, accounting for vegetation structural and physiological processes and including their influences, can create the model needed for assessing WSUD features in support of HTC in urban areas.
+\section{Model design}\label{sec:method}
 
-%Now, with the completion of this new model, VTUF-3D (Vegetated Temperatures Of Urban Facets) v1.0, it can be used to start assessing the impacts of WSUD. This can facilitate the integration of urban greening into the urban landscapes and inform planning decisions with urban climate knowledge about how to best utilise urban greening to maximise the thermal comfort impacts and meet the challenges of urban heat. The cooling benefits of urban vegetation, through shading effects and evapotranspiration, can be examined for their micro-climate benefits, filling a large research gap on how to best protect human health in light of all the concerning trends progressing in urban areas.
-
-\section{Methodology}\label{sec:method}
-
-\subsection{Overview of changes}\label{sec:DesignOverview}
+\subsection{Overview of the VTUF-3D model}\label{sec:DesignOverview}
 
 To model the impacts of increased water and vegetation on human thermal comfort in urban areas requires modifications to the TUF-3D \citep{Krayenhoff2007} model. TUF-3D in its unmodified form lacks functionality for the physical representation of vegetation along with their physiological processes. Also missing are latent energy fluxes and the water cycle associated with soil, vegetation, evaporation, and precipitation. 
 
-Two major changes must be made to the TUF-3D model to add this missing functionality. The first is representation of vegetation's physical form and radiative interactions within an urban canyon. VTUF-3D (Vegetated Temperatures Of Urban Facets) uses cube shaped structures (as TUF-3D uses to represent buildings) to represent vegetation. These cubes store the surface properties and states and interact with the rest of the VTUF-3D domain. The vegetation's true shape is represented in MAESPA \citep{Duursma2012}, with each vegetation element individually modelled offline, calculating values of vegetation absorption, transmission, and reflection to be loaded by VTUF-3D as needed in a simulation (Figure \ref{fig:TUFWithMaespaVegRadiation}).  
+Two major changes were made to the TUF-3D model to add this missing functionality. The first is the representation of the physical form of vegetation and the associated radiative interactions within an urban canyon. VTUF-3D uses cube shaped structures (as TUF-3D uses to represent buildings) to represent vegetation. A single tower of cubes forms the tree trunk at the x,y location of the tree and extends upward to the height of the tree. If a canopy extends past the surface grid square boundaries, additional cubes are allowed to overhang the ground surface to fill out the full width of the canopy. These cubes store the surface properties and states and interact with the rest of the VTUF-3D domain. The vegetation’s true shape (e.g. ellipsoidal, conical, etc.) is represented in MAESPA \citep{Duursma2012}, with each vegetation element individually modelled offline, calculating values of vegetation absorption, transmission, and reflection to be loaded by VTUF-3D as needed in a simulation (Figure \ref{fig:TUFWithMaespaVegRadiation}).
+
 
 \begin{figure}[!htbp]
  \includegraphics[trim = 15mm 41mm 0mm 31mm, clip, scale=0.45]{images/TUFWithMaespaVegRadiation.pdf}  
  \caption{Integration of MAESPA tree model into VTUF-3D radiation fluxes routines, in which tiled instances of MAESPA vegetation (in green) are used to calculate radiation transmission for VTUF-3D placeholder vegetation structures (in grey)\label{fig:TUFWithMaespaVegRadiation}.}
 \end{figure}
 
-The second major change required is including the physiological processes of vegetation and soil in the model. Using a novel approach, MAESPA tiles replace VTUF-3D ground surfaces with vegetated MAESPA surfaces and use results of MAESPA's photosynthesis and water cycle routines to modify VTUF-3D's energy balance calculations. Each embedded MAESPA surface calculates a full 3 dimensional tree (along with associated soil and movement of water) and feeds results back to VTUF-3D ground surface energy balances (Figure \ref{fig:TUFWithMaespaInsert}). 
+The second major change required is including the physiological processes of vegetation and soil in the model. Using a novel approach, MAESPA tiles replace VTUF-3D ground surfaces with vegetated MAESPA surfaces and use results of MAESPA’s photosynthesis and water balance routines to modify VTUF-3D's energy balance calculations. The vegetation is treated as a flat two dimensional ground surface tile for the surface energy balances. However, each embedded MAESPA surface actually models a full 3 dimensional tree (along with associated soil and vertical movement of water) and feeds results back to VTUF-3D ground surface energy balances (Figure \ref{fig:TUFWithMaespaInsert}).
+
+%The second major change required is including the physiological processes of vegetation and soil in the model. Using a novel approach, MAESPA tiles replace VTUF-3D ground surfaces with vegetated MAESPA surfaces and use results of MAESPA's photosynthesis and water cycle routines to modify VTUF-3D's energy balance calculations. Each embedded MAESPA surface calculates a full 3 dimensional tree (along with associated soil and movement of water) and feeds results back to VTUF-3D ground surface energy balances (Figure \ref{fig:TUFWithMaespaInsert}). 
 
 \begin{figure}[!htbp]
  \includegraphics[trim = 0mm 14mm 22mm 0.0mm, clip, scale=0.25]{images/TUFWithMaespaInsert.png}
- \caption{VTUF-3D energy balance modelling with vegetation MAESPA tiles\label{fig:TUFWithMaespaInsert}.}
+ \caption{\label{fig:TUFWithMaespaInsert} In VTUF-3D energy balance modelling, ground surfaces can contain either regular TUF-3D surfaces or a surface containing MAESPA modelled vegetation. All surfaces will calculate energy balances at the conclusion of each timestep, partitioning available energy into radiative and storage fluxes. Those surfaces with vegetation will also account for vegetation physiological processes when performing energy balances.}
 \end{figure}
 
-At the conclusion of each timestep, VUF-3D calculates the energy balance of each surface. Incoming radiation energy and existing stored energy are partitioned into new values of stored and radiated heat. A variable for latent energy has been added to the  model and energy is allocated to it from the pool of available energy. The vegetation is treated as a flat two dimensional ground surface tile for the surface energy balances. Tiles of MAESPA instances (in each an individual tree or other types of vegetation) are used for surfaces that have vegetation (Figure \ref{fig:TUFWithMaespaInsert}). These instances provide values of radiation transmission, energy fluxes, and soil water storage for each item of vegetation in the domain using their unique properties and characteristics. If a surface does not contain vegetation, VTUF-3D runs its normal energy balance calculations. 
+At the conclusion of each timestep (default of 30 minutes but duration is user configured), VUF-3D calculates the energy balance of each surface. Incoming radiation energy and existing stored energy are partitioned into new values of stored and radiated heat. A variable for latent energy has been added to the model and energy is allocated to it from the pool of available energy. Tiles of MAESPA instances (with an individual tree or other types of vegetation in each) are used for surfaces that have vegetation (Figure \ref{fig:TUFWithMaespaInsert}). These instances provide values of radiation transmission, energy fluxes, and soil water storage for each item of vegetation in the domain using their unique properties and characteristics. If a surface does not contain vegetation, VTUF-3D runs its normal energy balance calculations.
 
-\subsection{Model description}
-In the following sections, the VTUF-3D model is detailed. This model is constructed using the TUF-3D model, as described in \cite{Krayenhoff2007}, leaving all its components largely unchanged except for the two interactions as described in the overview of changes (Section \ref{sec:DesignOverview}). The vegetation functionality is added through the MAESPA model, described in \cite{Duursma2012}, with some of its components running in parallel and replacing some of the TUF-3D components in some parts of a modelled domain. The linkage components will be described later in this article in the model integration section, Section \ref{sec:integration}.
 
-\subsection{Radiative processes}
-\subsubsection{Radiative transfer}\label{sec:radiativetransfer}
+%\subsection{Model description}
+In the following sections, the VTUF-3D model is detailed. VTUF-3D is constructed using the TUF-3D model, as described in \cite{Krayenhoff2007}, leaving all its components largely unchanged except for the two interactions as described in the overview of changes (Section \ref{sec:DesignOverview}). The vegetation functionality is added through the MAESPA model, described in \cite{Duursma2012}, with some of its components running in parallel and replacing some of the TUF-3D components in some parts of a modelled domain. The linkage components will be described later in this article in the model integration section (Section \ref{sec:integration}).
 
-In order to track the movement and allocation of radiation, VTUF-3D's modelling domain is built up in 3-D using cubes and their surfaces (facets). Ray tracing determines the visibility of each surface to each other, matched using plane parallel analytical equations of \cite{Siegel2001} and \cite{Hottel1967}. Ray tracing also determines determine sunlit and shaded patterns on the 3-D urban surface throughout a simulation using a modified version of the \cite{Soux2004} algorithm. Reflections and absorption of longwave and shortwave are modelled using a radiosity approach (radiative reflection and emission treated as perfectly diffuse). All the specific details of these radiative transfer calculations are contained in \cite{Krayenhoff2007}.
+%\subsection{Radiative processes}
+\subsection{Radiative transfer}\label{sec:radiativetransfer}
 
-For vegetated parts of the domain, radiative transfer is calculated by components from MAESPA. Incoming radiation, both photosynthetic radiation (PAR) and near infrared (NIR) is partitioned into direct and diffuse using \cite{Weiss1985}. Canopy structure is calculated based on \cite{Wang1990}, supporting a variety of crown shapes including conical, half-ellipsoidal, and paraboloidal. Absorption and scattering of radiation (PAR, NIR, and thermal radiation) by the canopy is calculated using \cite{Norman1979}. Full details of all calculations are included in \cite{Duursma2012}.
+In order to track the movement and allocation of radiation, VTUF-3D’s modelling domain is built up in 3-D using cubes and their surfaces (facets). Ray tracing determines the visibility of each surface to each other, matched using plane parallel analytical equations of \cite{Siegel2001} and \cite{Hottel1967}. Ray tracing also determines sunlit and shaded patterns on the 3D urban surfaces throughout a simulation using a modified version of the \cite{Soux2004} algorithm. Reflections and absorption of longwave and shortwave radiation are modelled using a radiosity approach (radiative reflection and emission treated as perfectly diffuse). All the specific details of these radiative transfer calculations are contained in \cite{Krayenhoff2007}.
 
-\subsubsection{Stomatal conductance}\label{Stomatalconductance}
-Stomatal conductance within the vegetation uses MAESPA components based on the widely used Ball-Berry type approach \citep{Ball1987,Duursma2012}. Options are available to use a number of variations including: the Ball-Berry model \citep{Ball1987}, the Ball-Berry-Leuning model \citep{Leuning1995}, the Ball-Berry-Opti model \citep{Medlyn2011}, the Tuzet model \citep{Tuzet2003}. The use of this stomatal conductance approach requires more detailed parameters than the `Big Leaf' stomatal resistance scheme \citep{Bailey1981,Kowalczyk1991}, but this detail allows modelling of specific species as well as variations of canopy size and vegetation health and drilling down to specific items of vegetation \citep{Duursma2012} as opposed to a canopy-wide average. 
+For vegetated parts of the domain, radiative transfer is calculated by components from MAESPA. Incoming radiation, both photosynthetic radiation (PAR) and near infrared (NIR) is partitioned into direct and diffuse using \cite{Weiss1985}. Canopy structure is calculated based on \cite{Wang1990}, supporting a variety of crown shapes namely: conical, half-ellipsoidal, ellipsoidal and paraboloidal. Absorption and scattering of radiation (PAR, NIR, and thermal radiation) by the canopy is calculated using \cite{Norman1979}. Full details of all calculations are included in \cite{Duursma2012}.
+
+Net radiation, is calculated in Equation (\ref{eq:rnet}) ($Q^{*}_{veg}$ for vegetated grid squares, otherwise $Q^{*}$ for non-vegetated grid squares), 
+
+
+\begin{equation}\label{eq:rnet}
+\begin{split}
+Q^{*}_{veg} =& K\downarrow - (\alpha _{veg} K\downarrow) + \epsilon _{veg} L\downarrow - \epsilon _{veg} \sigma  (T_{sfc,veg}) ^{4} 
+\\
+Q^{*} =& K\downarrow - (\alpha K\downarrow) + \epsilon L\downarrow - \epsilon \sigma  (T_{sfc}) ^{4} 
+\end{split}
+\end{equation}
+
+where $K\downarrow$ is the downward shortwave radiative flux density (Wm$^{-2}$), $L\downarrow$ is the downward longwave radiative flux density (Wm$^{-2}$), $\alpha _{veg}$ of vegetation is set to 0.20 and $\epsilon _{veg}$ of vegetation set to 0.97 \citep[p. 12]{Oke1987z}, otherwise $\alpha$ and $\epsilon$ (of non-vegetated surfaces) are set to user configured values (model default values are 0.10 and 0.92 \citep{Krayenhoff2007}), and $\sigma$ is the Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$Wm$^{-2}$K$^{-4}$), and $T_{sfc,veg}$ is the vegetation surface temperature (K), or $T_{sfc}$ for non-vegetated surfaces.
+
+\nomenclature{$K\downarrow$}{downward shortwave radiative flux density (Wm$^{-2}$)} 
+\nomenclature{$L\downarrow$}{downward longwave radiative flux density (Wm$^{-2}$)}
+\nomenclature{$\alpha _{veg}$}{shortwave albedo of vegetation}
+\nomenclature{$\epsilon _{veg}$}{longwave emissivity of vegetation}
+\nomenclature{$\alpha$}{shortwave albedo }
+%\nomenclature{$\sigma$}{Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$Wm$^{-2}$K$^{-4}$)} 
+\nomenclature{$T_{sfc,veg}$}{vegetation surface temperature (K)} 
+
+\nomenclature{$T_{sfc}$}{surface temperature (K)} 
+\nomenclature{$Q^{*}_{veg}$}{calculation of vegetation net radiation flux density (Wm$^{-2}$)}
+\nomenclature{$Q^{*}$}{net radiation flux density (Wm$^{-2}$)} 
+
+\subsection{Convective energy fluxes}
+
+As the simulation proceeds through each timestep, an energy balance is performed on each surface. For each surface with vegetation, the surface temperature ($T_{sfc}$) is set to the value calculated by MAESPA for that tree. The following describes the differences that the unmodified TUF-3D uses to calculate the energy balances needed by VTUF-3D to partition the energy fluxes of a vegetated surface.
+
+\subsubsection{Latent energy fluxes}
+\nomenclature{$Q_{E}$}{latent heat flux (Wm$^{-2}$)}
+\nomenclature{$Q_{E,veg}$}{calculation of vegetation latent heat flux (Wm$^{-2}$)} 
+
+For latent energy fluxes ($Q_{E}$), $Q_{E,veg}$ is the value for the grid square calculated in the MAESPA tree calculations, loaded from the MAESPA data for the individual item of vegetation and accompanying soil. Physiological processes and the water balance are modelled by MAESPA supporting the soil-plant-atmosphere continuum. Stomatal conductance within the vegetation uses MAESPA components based on the widely used Ball-Berry type approach \citep{Ball1987,Duursma2012}. Options are available to use a number of variations including: the Ball-Berry model \citep{Ball1987}, the Ball-Berry-Leuning model \citep{Leuning1995}, the Ball-Berry-Opti model \citep{Medlyn2011}, the Tuzet model \citep{Tuzet2003}. The use of this stomatal conductance approach requires more detailed parameters than the `Big Leaf' stomatal resistance scheme \citep{Bailey1981,Kowalczyk1991} which only provides a canopy-wide average. This allows precise modelling of individual species and specimens of vegetation, accounting for variations of vegetation type, canopy size, and vegetation health \citep{Duursma2012}. Each individually modelled element of vegetation can be placed precisely in a modelling domain scenario.
+
+ 
+
+Stomatal conductance is used for the calculation of leaf temperature. $E_{L}$, leaf level transpiration rate ($\mu$mol m$^{-2}$s$^{-1}$) is calculated to find $\Psi_{L}$, the leaf water potential ($MPa$) (i.e. solving the Tuzet variation of the Ball-Berry stomatal conductance), and to estimate leaf temperature throughout the canopy. For each grid point, $E_{L}$ is calculated with the Penman-Monteith equation, using the boundary layer conductance and total conductance (all detailed in the next section, Section \ref{sec:totalcanopy}). Leaf temperature is found by iteratively closing the energy balance of the leaf, based on \cite{Wang1998}. See \cite{Duursma2012} for complete details.
+
+
+Finally, canopy transpiration, for a MAESPA tile, is calculated using the Penman-Monteith equation \citep{Penman1948,Monteith1965}. It is calculated by summing the application of the equation to each grid point using the calculated amounts of absorbed radiation (PAR, NIR, and thermal) for each tree. $g_{B}$, the boundary layer conductance (mol m$^{-2}$s$^{-1}$), and $g_{V}$, the total conductance to water vapour (mol m$^{-2}$s$^{-1}$), are calculated using \cite{Jones1992}. The output of the canopy transpiration is used in Section \ref{sec:calcleaftemp} for leaf temperature calculations. See \cite{Duursma2012} for complete details.
+
+
+
+%\subsubsection{Stomatal conductance}\label{Stomatalconductance}
+
 
 \subsubsection{Calculation of leaf temperature and leaf water potential}\label{sec:calcleaftemp}
-Solving the Tuzet variation of the Ball-Berry stomatal conductance, using $E_{L}$, leaf level transpiration rate ($\mu$mol m$^{-2}$s$^{-1}$), to find $\Psi_{L}$, the leaf water potential ($MPa$), is used to estimate leaf temperature throughout the canopy. For each grid point, $E_{L}$ is calculated with the Penman-Monteith equation, using the boundary layer conductance and total conductance (all detailed in the next section, Section \ref{sec:totalcanopy}). Leaf temperature is found by iteratively closing the energy balance of the leaf, based on \cite{Wang1998}. See \cite{Duursma2012} for complete details.
+
 
 %\nomenclature{$E_{L}$}{leaf level transpiration rate ($\mu$mol m$^{-2}$s$^{-1}$)} 
 %\nomenclature{$\Psi_{L}$}{leaf water potential (MPa)} 
 
 \subsubsection{Total canopy transpiration}\label{sec:totalcanopy}
 
-Canopy transpiration is calculated using the Penman-Monteith equation \citep{Penman1948,Monteith1965}. It is calculated by summing the application of the equation to each grid point using the calculated amounts of absorbed radiation (PAR, NIR, and thermal) for each tree. $g_{B}$, boundary layer conductance (mol m$^{-2}$s$^{-1}$), and $g_{V}$, the total conductance to water vapour (mol m$^{-2}$s$^{-1}$), are calculated using \cite{Jones1992}. The output of the canopy transpiration is used in Section \ref{sec:calcleaftemp} for leaf temperature calculations. See \cite{Duursma2012} for complete details.
+
 
 %\nomenclature{$g_{B}$}{boundary layer conductance (mol m$^{-2}$s$^{-1}$)} 
 %\nomenclature{$g_{V}$}{total conductance to water vapour (mol m$^{-2}$s$^{-1}$)} 
@@ -221,32 +254,10 @@ Heat conduction between the layers in each surface in VTUF-3D (based on TUF-3D) 
 
 
 \subsubsection{Energy balance partitioning during simulation timesteps}\label{sec:parttimestep}
-\nomenclature{$T_{sfc}$}{surface temperature (K)} 
-\nomenclature{$Q^{*}_{veg}$}{calculation of vegetation net radiation flux density (Wm$^{-2}$)}
-\nomenclature{$Q^{*}$}{net radiation flux density (Wm$^{-2}$)} 
-
-As the simulation proceeds through each time step, an energy balance is performed on each surface. For each surface with vegetation, the surface temperature ($T_{sfc}$) is set to the value calculated by MAESPA for that tree. The following describes the differences from the normal calculations the unmodified TUF-3D uses to calculate the energy balances needed by VTUF-3D to partition the energy fluxes of a vegetated surface.
-
-Net radiation, is calculated in Equation (\ref{eq:rnet}) ($Q^{*}_{veg}$ for vegetated grid squares, otherwise $Q^{*}$), 
 
 
-\begin{equation}\label{eq:rnet}
-\begin{split}
-Q^{*}_{veg} =& K\downarrow - (\alpha _{veg} K\downarrow) + \epsilon _{veg} L\downarrow - \epsilon _{veg} \sigma  (T_{sfc,veg}) ^{4} 
-\\
-Q^{*} =& K\downarrow - (\alpha K\downarrow) + \epsilon L\downarrow - \epsilon \sigma  (T_{sfc}) ^{4} 
-\end{split}
-\end{equation}
 
-where $K\downarrow$ is the downward shortwave radiative flux density (Wm$^{-2}$), $L\downarrow$ is the downward longwave radiative flux density (Wm$^{-2}$), $\alpha _{veg}$ of vegetation is set to 0.20 and $\epsilon _{veg}$ of vegetation set to 0.97 \citep[p. 12]{Oke1987z}, otherwise $\alpha$ and $\epsilon$ are set to user configured values (model default values are 0.10 and 0.92 \citep{Krayenhoff2007}), and $\sigma$ is the Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$Wm$^{-2}$K$^{-4}$), and $T_{sfc,veg}$ is the vegetation surface temperature (K), or $T_{sfc}$ for non-vegetated surfaces.
 
-\nomenclature{$K\downarrow$}{downward shortwave radiative flux density (Wm$^{-2}$)} 
-\nomenclature{$L\downarrow$}{downward longwave radiative flux density (Wm$^{-2}$)}
-\nomenclature{$\alpha _{veg}$}{shortwave albedo of vegetation}
-\nomenclature{$\epsilon _{veg}$}{longwave emissivity of vegetation}
-\nomenclature{$\alpha$}{shortwave albedo }
-%\nomenclature{$\sigma$}{Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$Wm$^{-2}$K$^{-4}$)} 
-\nomenclature{$T_{sfc,veg}$}{vegetation surface temperature (K)} 
 
 For sensible heat fluxes ($Q_{H}$), vegetation is accounted for differently by using the $T_{sfc}$ of the vegetation instead of the TUF-3D $T_{sfc}$ value in Equation (\ref{eq:qhveg}) and will yield a different result using the MAESPA vegetation $T_{sfc}$ than if the TUF-3D surface temperature had been used
 
@@ -261,10 +272,7 @@ where $h_{i}$ is the previously calculated heat transfer coefficient (Wm$^{-2}$K
 \nomenclature{$h_{i}$}{heat transfer coefficient (Wm$^{-2}$K$^{-1}$)} 
 \nomenclature{$T_{conv}$}{converging canyon temperature (K)} 
 
-For latent energy fluxes ($Q_{E}$), $Q_{E,veg}$ is the value for the grid square calculated in the MAESPA tree calculations, loaded from the MAESPA data for the individual item of vegetation.
 
-\nomenclature{$Q_{E}$}{latent heat flux (Wm$^{-2}$)}
-\nomenclature{$Q_{E,veg}$}{calculation of vegetation latent heat flux (Wm$^{-2}$)} 
 
 Finally, ground storage fluxes ($Q_{G}$) of vegetated grid squares are calculated as a residual of $Q^{*}$ - $Q_{H}$ - $Q_{E}$. Calculation of $Q_{G}$ uses Equation (\ref{eq:qgvtuf}) for grid squares containing vegetation (calculating $Q_{G,veg}$), while non-vegetated grid squares calculate $Q_{G,street}$ in Equation (\ref{eq:qgtuf}) to calculate the street ground storage fluxes
 
