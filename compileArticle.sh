@@ -4,6 +4,9 @@ cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-EnergyB
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04NoVeg-ErrorPlots.png images/Pr04NoVeg-ErrorPlots.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/PrestonBase8/CentralBuildingHeights.png images/CentralBuildingHeights.png
 
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-EnergyBalanceOverallAve_.png images/Pr04Val-EnergyBalanceOverallAve_.png
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04NoVeg-EnergyBalanceOverallAve_.png images/Pr04NoVeg-EnergyBalanceOverallAve_.png
+
 
 #cd /home/kerryn/git/PhDProposal/PhDProposal
 ##pdflatex -file-line-error -synctex=1 -interaction=errorstopmode PhDThesis.tex
