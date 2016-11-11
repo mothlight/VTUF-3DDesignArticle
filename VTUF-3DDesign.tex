@@ -750,17 +750,8 @@ There will remain an amount of uncertainty in comparing the modelled results to 
 
 %To demonstrate the significant improvement of the model, the VTUF-3D model was run with a no vegetation scenario. This scenario (named Pr04NoVeg), will represent an unimproved TUF-3D without vegetation modelling capability, as the lack of vegetation will not trigger any of the new logic and improvements added to the model. This will allow an analysis of level of improvement of VTUF-3D modelling over the previous TUF-3D model. As discussed earlier in this section, the Intercomparison project found that models without vegetation were among the poorest performers.
  
- 
-Figure \ref{fig:Prestonnovegerror} presents each component of the surface energy balance for the no vegetation scenario (Pr04NoVeg). These values show an improvement over the unimproved VTUF-3D model. The unimproved model yields results of d of 0.906, 0.0, 0.989, and 0.877 and $RMSE$ (W m$^{-2}$) of 87.0, 47.1, 51.6, 75.9 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. As an unimproved model, $Q_{H}$ is significantly over-predicted during the afternoon and under-predicted in the evenings. Flux $Q_{G}$ is under-predicted during the afternoons. Finally, $Q_{E}$ is not implemented in the model, so cannot be predicted at all.
+Figure \ref{fig:Prestonnoveg30day} presents a 30 day hourly average of both the Pr04Val and Pr04NoVeg scenarios with the Pr04Val showing a much closer fit for all fluxes over a diurnal cycle. Figure \ref{fig:Prestonnovegerror} presents each component of the surface energy balance for the no vegetation scenario (Pr04NoVeg). These values show an improvement over the unimproved VTUF-3D model. The unimproved model yields results of d of 0.906, 0.0, 0.989, and 0.877 and $RMSE$ (W m$^{-2}$) of 87.0, 47.1, 51.6, 75.9 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. As an unimproved model, $Q_{H}$ is significantly over-predicted during the afternoon and under-predicted in the evenings. Flux $Q_{G}$ is under-predicted during the afternoons. Finally, $Q_{E}$ is not implemented in the model, so cannot be predicted at all. 
 
-
-%To complete the comparison with the unimproved TUF-3D model, fluxes for this same period for scenario Pr04NoVeg are shown (Figure \ref{fig:Prestonnoveg30day}). 
-
-
-\begin{figure}[!htbp]
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/Pr04NoVeg-ErrorPlots.png}
-\caption{(TODO REPLACE THIS WITH THE CORRECT FIGURE) Pr04NoVeg scenario modelled vs. observations for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ fluxes for the period 10 February-10 March 2004. \label{fig:Prestonnovegerror}}    
-\end{figure}
 
 \begin{figure}[!htbp]
 \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.16]{images/Pr04Val-EnergyBalanceOverallAve_.png}
@@ -768,11 +759,20 @@ Figure \ref{fig:Prestonnovegerror} presents each component of the surface energy
 \caption{Pr04Val and Pr04NoVeg scenarios. 30 day hourly average VTUF-3D flux comparisons to Preston flux observations for the period 10 February-10 March 2004, with error bars at observations standard deviations. \label{fig:Prestonnoveg30day}}    
 \end{figure}
 
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/Pr04NoVeg-ErrorPlots.png}
+\caption{(TODO REPLACE THIS WITH THE CORRECT FIGURE) Pr04NoVeg scenario modelled vs. observations for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ fluxes for the period 10 February-10 March 2004. \label{fig:Prestonnovegerror}}    
+\end{figure}
+
+
+
 
 \subsubsection{Preston validation intercomparison results and discussion}\label{sec:interresults}
-During this validation, a number of different scenarios are considered and compared. The Pr04Val scenario (a scenario to best represent the area observed by the Preston flux tower observations) is compared to a baseline Pr04NoVeg scenario (an unimproved TUF-3D without vegetation modelling capability). As the observations used in this validation are the same as in Phase 4 of the Intercomparison project \citep{Best2012}, using the \cite{Coutts2007} Preston dataset, the performance of the VTUF-3D model can also be placed within this evaluation of urban land surface modelling schemes. 
+%During this validation, a number of different scenarios are considered and compared. The Pr04Val scenario (a scenario to best represent the area observed by the Preston flux tower observations) is compared to a baseline Pr04NoVeg scenario (an unimproved TUF-3D without vegetation modelling capability). As the observations used in this validation are the same as in Phase 4 of the Intercomparison project \citep{Best2012}, using the \cite{Coutts2007} Preston dataset, the performance of the VTUF-3D model can also be placed within this evaluation of urban land surface modelling schemes. 
 
-Intercomparison Phase 4 error analysis provides $RMSE$ values for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$ for three classifications of urban models. These three categories are of models that do not consider vegetation, those that model vegetation using tiles, and models that integrate vegetation into the urban area (referred to as classifications IntercomparisonNoVeg, IntercomparisonTiled, and IntercomparisonIntegrated, described in Table \ref{tab:simscompared}). These values are taken from Figure 2 of \cite{Best2012}, for the Feb/Mar period, corresponding to the period for which the validation scenarios were run. 
+%Intercomparison Phase 4 error analysis provides $RMSE$ values for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$ for three classifications of urban models. These three categories are of models that do not consider vegetation, those that model vegetation using tiles, and models that integrate vegetation into the urban area (referred to as classifications IntercomparisonNoVeg, IntercomparisonTiled, and IntercomparisonIntegrated, described in Table \ref{tab:simscompared}). 
+
+Using the RMSE values for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$ from Phase 4 of the Intercomparison project, the performance of the Pr04NoVeg scenario (as well as the Pr04NoVeg scenario) can be compared against the performance of 24 other urban land surface models. The RMSE values are taken from Figure 2 of \cite{Best2012}, for the Feb/Mar period, corresponding to the period for which the validation scenarios were run. 
 
 %\begin{figure}[!htbp]
 %\includegraphics[trim = 0mm 18mm 00mm 0mm, clip, scale=0.80]{/home/kerryn/git/Images/Best2012-Fig2-IntercomparionsRMSE.png} \caption{Median of the mean modelled flux, MBE, and RMSE for the surface fluxes determined for two month periods, for the models classified by their representation of vegetation. Note the scales are different for each flux \citep{Best2012}. \label{fig:best2012RMSE}}  
@@ -783,13 +783,15 @@ Intercomparison Phase 4 error analysis provides $RMSE$ values for fluxes $Q^{*}$
 %\caption{RMSE VTUF-3D vs. Intercomparison results comparison for Preston validations scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}}      
 %\end{figure}
 
+A comparison of Intercomparison RMSE results vs. modelled results is shown in Table \ref{fig:prestonrmse}. In Phase 4 comparisons, for all fluxes, models with integrated vegetation had the lowest $RMSE$ values. These were followed by tiled vegetation models while models without vegetation had the highest values. In comparison, the VTUF-3D Pr04Val scenario had lower $RMSE$ values for all fluxes except $Q_{E}$ than each of the Phase 4 three model categories. For $Q_{E}$, the VTUF-3D scenario Pr04Val performed better than the no vegetation category, but with slightly higher errors than the tiled and integrated categories. In terms of absolute differences between $RMSE$ values for the best performing Intercomparison model category, Pr04Val scenario $RMSE$ values differed by -6, -5, -25, and 7 W m$^{-2}$ for $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$ respectively.
+
 \begin{center}
 \begin{table}[!htbp]
-\caption{RMSE VTUF-3D vs. Intercomparison results comparison for Preston validations scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
+\caption{RMSE VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston validations scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
 \begin{tabular}{  | l | l | l|l|l| } 
 \hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
-Pr04NoVeg & 19.0&	40.2&	52.5&	33.1    \\ \hline
-Pr04Val & 51.6&	87.0&	75.9&	47.1  \\ \hline	
+Pr04Val & 19.0&	40.2&	52.5&	33.1    \\ \hline
+Pr04NoVeg & 51.6&	87.0&	75.9&	47.1  \\ \hline	
 IntercomparisonNoVeg & 40&	105&	85&	38   \\ \hline
 IntercomparisonTiled &  27&	60&	77&	25  \\ \hline
 IntercomparisonIntegrated & 25&	45&	77&	26   \\ \hline
@@ -797,39 +799,36 @@ IntercomparisonIntegrated & 25&	45&	77&	26   \\ \hline
 \end{table}
 \end{center} 
 
-A comparison of Intercomparison RMSE results vs. modelled results is shown in Table \ref{fig:prestonrmse}. In Phase 4 comparisons, for all fluxes, models with integrated vegetation had the lowest $RMSE$ values. These were followed by tiled vegetation models while models without vegetation had the highest values. In comparison, the VTUF-3D Pr04Val scenario had lower $RMSE$ values for all fluxes except $Q_{E}$ than each of the Phase 4 three model categories. For $Q_{E}$, the VTUF-3D scenario Pr04Val performed better than the no vegetation category, but with slightly higher errors than the tiled and integrated categories. In terms of absolute differences between $RMSE$ values for the best performing Intercomparison model category, Pr04Val scenario $RMSE$ values differed by -6, -5, -25, and 7 W m$^{-2}$ for $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$ respectively.
-
-\subsubsection{Preston validation conclusions}
-
-This analysis of VTUF-3D performance when comparing predicted results to flux tower observations and in comparison to error rates of other urban models has shown significant improvement over the unimproved (non-vegetated) TUF-3D model. Furthermore, these comparisons to observations show the model is able to capture well the temporal and amplitude variations of fluxes observed by flux towers. 
-
-In a comparison of VTUF-3D modelled results to other urban models, VTUF-3D performs well within the range of those other models, even though most of those models are local scaled and not being run at a micro-climate scale. Error analysis puts VTUF-3D's performance in all fluxes except $Q^{*}$ slightly better than the all categories of these models. With the $Q^{*}$ flux, VTUF-3D performs with lower errors than the models in the no vegetation category but with slightly higher errors than in the tiled and integrated categories. 
-
-This validation demonstrates that VTUF-3D performs well in terms of surface energy balances, lending weight to its suitability to assess the impacts of urban greenery on human thermal comfort. Two following validations (to be detailed in a forthcoming paper), will add additional confidence to VTUF-3D's suitability to accurately model urban areas and urban vegetation.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\section{Summary and Conclusions}
 
+This study presents the development of a new model, VTUF-3D, that is able to model vegetation and WSUD features, accounting for latent energy fluxes and their impacts on HTC. Two major modifications were made to the original TUF-3D model in the development of VTUF-3D. The first major modification added physical representations of vegetation and allow the shading effects of these features to be modelled. The second major modification added the ability to model vegetation physiological processes (and associated water cycles). These modifications allow surface energy balances to be repartitioned, accounting for latent energy fluxes, as well as the effects that vegetation shading will have on these energy balances.
 
+This analysis of VTUF-3D performance when comparing predicted results to flux tower observations and in comparison to error rates of other urban models has shown significant improvement over the unimproved (non-vegetated) TUF-3D model. Furthermore, these comparisons to observations show the model is able to capture well the temporal and amplitude variations of fluxes observed by flux towers. In a comparison of VTUF-3D modelled results to other types of urban land surface schemes, VTUF-3D performs well within the range of those other models, even though most of those models are local scaled and not being run at a micro-climate scale. Error analysis puts VTUF-3D's performance in all fluxes, except $Q_{E}$, as slightly better than all categories of these models. With the $Q_{E}$ flux, VTUF-3D performs with lower error rates than the models in the no vegetation category but with slightly higher errors than in the tiled and integrated categories. This validation demonstrates that VTUF-3D performs well in terms of surface energy balances, lending weight to its suitability to assess the impacts of urban greenery on human thermal comfort. Two further validations focussing on urban canopy layer air temperature and the Universal Thermal Climate Index (to be detailed in a forthcoming paper), will add additional confidence to VTUF-3D's suitability to accurately model urban areas and urban vegetation.
 
-
-
-
-
-
-
-
-
-\section{Conclusions} \label{sec:DesignConc} 
-
-These modifications to TUF-3D have created a new model, VTUF-3D, able to model vegetation, account for latent energy fluxes, and shown suitable to model WSUD features and their HTC impacts. Two major modifications were made to create VTUF-3D. The first added physical representations of vegetation and allow the shading effects of these features to be modelled. The second added the ability to model vegetation physiological processes (and associated water cycles). These modifications allow surface energy balances to be repartitioned, accounting for latent energy fluxes, as well as the effects that vegetation shading will have on these energy balances. 
-
-A templated scalable configuration system, used to represent arbitrary types of vegetation (or other WSUD features), allows any variety and mix of vegetation to be added to a modelled domain. Also, differential shading functionality allows impacts of urban geometry and inner tree shading on vegetation anywhere in an urban canyon to be properly modelled. Finally, the addition of mean radiant temperature and UTCI output for all surfaces allows detailed analysis of the vegetations impact on these important parameters on HTC in these areas.
+VTUF-3D is a unique model involving an innovative tiling approach that accounts for the detailed physiological processes of vegetation. The model incorporates a templated scalable configuration system, used to represent specific types of vegetation, allowing any variety and mix of vegetation to be added to a modelled domain. Also, differential shading functionality allows impacts of urban geometry and inter-tree shading on vegetation anywhere in an urban canyon to be properly modelled. Finally, the addition of mean radiant temperature and UTCI output for all surfaces allows detailed analysis of the impact of vegetation on these important parameters influencing HTC in these areas.
 
 An extensive validation process has shown that VTUF-3D is able to accurately model urban areas (including urban vegetation). Now, with the completion and validation of the VTUF-3D v1.0 model, there is a suitable tool to model and study in detail the impacts of urban greening on HTC and recommendations and guidelines on how to best use urban greenery can be developed. Questions can be answered as to the optimal arrangement of canopy cover to give the maximum benefits. Performance of future scenarios can also help inform responses to future challenges, both in terms of urban redesign and planning for emergency responses.
 
-With the VTUF-3D's micro-climate resolution, urban areas can be studied metre by metre and proper mitigation strategies designed for every section of the urban canyon, allowing effort to be focused on areas with the greatest need.  It is sufficiently scaled to resolve human level interactions with their surroundings and provide variables to calculate HTC (such as $T_{mrt}$). The built in output of $T_{mrt}$ and UTCI allows examination of these values without requiring addition steps. Finally, with the ability to insert any type of vegetation (or WSUD feature) using physiological and physical vegetation templates, VTUF-3D is applicable to an unlimited number of scenarios and modelling questions. This new model will allow research into a wide variety of urban morphologies, quantifying the benefits of a wide variety of urban arrangements and allow planning for future changes and challenges in climate and urban design.
+With VTUF-3D's micro-climate resolution, urban areas can be studied metre by metre and proper mitigation strategies designed for every section of the urban canyon, allowing effort to be focused on areas with the greatest need. VTUF-3D is sufficiently scaled to resolve human level interactions with their surroundings and provide variables to calculate HTC (such as T$_{mrt}$). The built in output of T$_{mrt}$ and UTCI allows examination of these values without requiring addition steps. Finally, with the ability to insert any type of vegetation using physiological and physical vegetation templates, VTUF-3D is applicable to an unlimited number of scenarios and modelling questions. This new model will allow research into a wide variety of urban morphologies, quantifying the benefits of a wide variety of urban arrangements and allow planning for future changes and challenges in climate and urban design.
+
+%This analysis of VTUF-3D performance when comparing predicted results to flux tower observations and in comparison to error rates of other urban models has shown significant improvement over the unimproved (non-vegetated) TUF-3D model. Furthermore, these comparisons to observations show the model is able to capture well the temporal and amplitude variations of fluxes observed by flux towers. 
+%
+%In a comparison of VTUF-3D modelled results to other urban models, VTUF-3D performs well within the range of those other models, even though most of those models are local scaled and not being run at a micro-climate scale. Error analysis puts VTUF-3D's performance in all fluxes except $Q^{*}$ slightly better than the all categories of these models. With the $Q^{*}$ flux, VTUF-3D performs with lower errors than the models in the no vegetation category but with slightly higher errors than in the tiled and integrated categories. 
+%
+%This validation demonstrates that VTUF-3D performs well in terms of surface energy balances, lending weight to its suitability to assess the impacts of urban greenery on human thermal comfort. Two following validations (to be detailed in a forthcoming paper), will add additional confidence to VTUF-3D's suitability to accurately model urban areas and urban vegetation.
+%
+%
+%\section{Conclusions} \label{sec:DesignConc} 
+%
+%These modifications to TUF-3D have created a new model, VTUF-3D, able to model vegetation, account for latent energy fluxes, and shown suitable to model WSUD features and their HTC impacts. Two major modifications were made to create VTUF-3D. The first added physical representations of vegetation and allow the shading effects of these features to be modelled. The second added the ability to model vegetation physiological processes (and associated water cycles). These modifications allow surface energy balances to be repartitioned, accounting for latent energy fluxes, as well as the effects that vegetation shading will have on these energy balances. 
+%
+%A templated scalable configuration system, used to represent arbitrary types of vegetation (or other WSUD features), allows any variety and mix of vegetation to be added to a modelled domain. Also, differential shading functionality allows impacts of urban geometry and inner tree shading on vegetation anywhere in an urban canyon to be properly modelled. Finally, the addition of mean radiant temperature and UTCI output for all surfaces allows detailed analysis of the vegetations impact on these important parameters on HTC in these areas.
+%
+%An extensive validation process has shown that VTUF-3D is able to accurately model urban areas (including urban vegetation). Now, with the completion and validation of the VTUF-3D v1.0 model, there is a suitable tool to model and study in detail the impacts of urban greening on HTC and recommendations and guidelines on how to best use urban greenery can be developed. Questions can be answered as to the optimal arrangement of canopy cover to give the maximum benefits. Performance of future scenarios can also help inform responses to future challenges, both in terms of urban redesign and planning for emergency responses.
+%
+%With the VTUF-3D's micro-climate resolution, urban areas can be studied metre by metre and proper mitigation strategies designed for every section of the urban canyon, allowing effort to be focused on areas with the greatest need.  It is sufficiently scaled to resolve human level interactions with their surroundings and provide variables to calculate HTC (such as $T_{mrt}$). The built in output of $T_{mrt}$ and UTCI allows examination of these values without requiring addition steps. Finally, with the ability to insert any type of vegetation (or WSUD feature) using physiological and physical vegetation templates, VTUF-3D is applicable to an unlimited number of scenarios and modelling questions. This new model will allow research into a wide variety of urban morphologies, quantifying the benefits of a wide variety of urban arrangements and allow planning for future changes and challenges in climate and urban design.
 
 
 
@@ -838,6 +837,26 @@ With the VTUF-3D's micro-climate resolution, urban areas can be studied metre by
 Development of VTUF-3D was conducted in FORTRAN 2003 \citep{GNU2016a} in Netbeans 8.0.2 \citep{Netbeans2016} and compiled with gfortran 4.8.4 \citep{GNU2016} on Ubuntu 14.04, however, the code should compile on any platform with FORTRAN 2003 support. The original source code for TUF-3D was obtained from the author \citep{Krayenhoff2007}, while source code for MAESPA was obtained from the MAESPA repository \citep{Duursma2016}. The development process merged these code bases and added the additional functionality described in this paper. The VTUF-3D source code is available at \cite{Nice2016c}.
 
 Model configuration process was developed in Java using the JRE 1.7.0 \citep{Oracle2016} in Eclipse 4.5.2 \citep{Eclipse2016}. Data analysis and graphing scripts were generated in R \citep{R2013} and Python \citep{Python2016} using the Matplotlib library \citep{Hunter2007}. 
+
+
+\section{References}\label{sec:ref}
+%% If you have bibdatabase file and want bibtex to generate the
+%% bibitems, please use
+%%
+  \bibliographystyle{elsarticle-harv} 
+  \bibliography{library}
+
+%% else use the following coding to input the bibitems directly in the
+%% TeX file.
+
+\begin{thebibliography}{00}
+
+%% \bibitem[Author(year)]{label}
+%% Text of bibliographic item
+
+\bibitem[ ()]{}
+
+\end{thebibliography}
 
 
 %% The Appendices part is started with the command \appendix;
@@ -880,7 +899,7 @@ crown height (m) & 3.75 & \cite{Coutts2014a}\\ \hline
 trunk height (m) & 1.25 & \cite{Coutts2014a}\\ \hline
 leaf area index (m$^{2}$ m$^{-2}$)&2.48 &\cite{Mariscal2000}\\ \hline
 crown shape & round &\\ \hline
-$z_{Ht}$ (m)&4.0&Forcing data height \\ \hline
+$z_{Ht}$ (m)&40.0&Forcing data height \\ \hline
 $z_{PD}$ (m) &2.5& 2/3 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
 $z_{0,Ht}$ (m) &0.375& 1/10 of crown height `rule of thumb' \citep{Grimmond1999} \\ \hline
 \end{tabular} 
@@ -947,10 +966,6 @@ $z_{0,Ht}$ (m) & 0.02 & 1/10 of crown height `rule of thumb' \citep{Grimmond1999
 
 \input{MaespaGrassParametersTable}
 
-%
-%%%%%%%%%%end taking out parameterizations
-
-
 
 
 
@@ -965,26 +980,40 @@ $z_{0,Ht}$ (m) & 0.02 & 1/10 of crown height `rule of thumb' \citep{Grimmond1999
 %The work described in this paper was developed during a PhD. project at Monash University. Funding for this was obtailed through the City of Melbourne, Monash University, and the CRC for Water Sensitive Cities.  
 %\end{acknowledgements}
 
-%% \section{}
-%% \label{}
-
-%% If you have bibdatabase file and want bibtex to generate the
-%% bibitems, please use
+%%%% \section{}
+%%%% \label{}
+%%\section{References}\label{sec:ref}
+%%%% If you have bibdatabase file and want bibtex to generate the
+%%%% bibitems, please use
+%%%%
+%%  \bibliographystyle{elsarticle-harv} 
+%%  \bibliography{library}
 %%
-  \bibliographystyle{elsarticle-harv} 
-  \bibliography{library}
+%%%% else use the following coding to input the bibitems directly in the
+%%%% TeX file.
+%%
+%%\begin{thebibliography}{00}
+%%
+%%%% \bibitem[Author(year)]{label}
+%%%% Text of bibliographic item
+%%
+%%\bibitem[ ()]{}
+%%
+%%\end{thebibliography}
+%%
+%%
+%%
+%%
+%%
 
-%% else use the following coding to input the bibitems directly in the
-%% TeX file.
 
-\begin{thebibliography}{00}
 
-%% \bibitem[Author(year)]{label}
-%% Text of bibliographic item
 
-\bibitem[ ()]{}
 
-\end{thebibliography}
+
+
+
+
 \end{document}
 
 \endinput
