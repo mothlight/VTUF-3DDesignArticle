@@ -57,7 +57,6 @@
 \renewcommand*\nompostamble{\end{multicols}}
 
 
-
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
 %% for the whole article with \linenumbers.
@@ -517,98 +516,66 @@ Each surface keeps track of the level of illumination, the shade coefficient for
 
 \subsubsection{Integrating vegetation shading and modified ray tracing logic in VTUF-3D}\label{sec:Representationofvegetation}
 
-After model improvements to VTUF-3D were made, a similar parallel logic was used to represent the vegetation in the domain. These vegetation elements are ignored in the initialising ray-tracing (Figure \ref{fig:initray}a). As this data is used to determine which surfaces will never be visible to each other, vegetation, depending on its density, may allow some level of transmission and must be considered on a case by case basis during the simulation run.
+After model improvements to VTUF-3D were made, a similar parallel logic was used to represent the vegetation in the domain. These vegetation elements are ignored in the initialising ray-tracing (Figure \ref{fig:initray}a). This initial ray tracing is performed to optimise the modelling, to exclude any two surfaces which will never be visible to each other. However, depending on the density of the vegetation, a particular ray trace might not be completely obscured by vegetation so these cases will have to be evaluated during the simulation run.
 
 At each time step during the simulation, VTUF-3D now runs a modified shading routine (Figure \ref{fig:modshading}c). During the model iteration through each surface in the domain, ray-traces towards the sun are done as described previously. However, each step of the ray trace checks to see if vegetation has been encountered. If vegetation is encountered, a vegetation encountered flag is set. Then the ray trace continues and concludes when it either passes out of the domain or is blocked by a building. 
 
-To resolve the sunlit factor for surfaces that encountered vegetation during the ray trace, reverse ray tracing is done for those beams (Figure \ref{fig:modshadingreverse}d). For surfaces 5 and 6, ray tracing is done from the top of the domain back along the radiation path. When the ray encounters vegetation (surfaces 5 and 6), VTUF-3D looks up the tree associated with the ground surface below and loads the offline calculations of the amount of radiation reflected, absorbed, and transmitted through the vegetation (further described in Section \ref{sec:MAETrans}). The ray tracing continues, allocating the remaining radiation either to further intercepting vegetation or ultimately to the ground surface. Through this reverse ray tracing process, the problem of zero to many surface interceptions is solved by allocating radiation as it is transmitted from the sun and transmits through the zero to many objects it encounters along its path. 
+To resolve the sunlit factor for surfaces that encountered vegetation during the ray trace, reverse ray tracing is done for those beams (Figure \ref{fig:modshadingreverse}d). For surfaces 5 and 6 in Figure \ref{fig:modshadingreverse}d, ray tracing is done from the top of the domain back along the radiation path. When the ray encounters vegetation (surfaces 5 and 6), VTUF-3D looks up the tree associated with the ground surface below and loads the offline calculations of the amount of radiation reflected, absorbed, and transmitted through the vegetation. The ray tracing continues, allocating the remaining radiation either to further intercepting vegetation or ultimately to the ground surface. Through this reverse ray tracing process, the problem of zero to many surface interceptions is solved by allocating radiation as it is transmitted from the sun and transmits through the zero to many objects it encounters along its path. 
 
-\subsubsection{MAESPA vegetation transmission and energy balance functionality overview}\label{sec:MAETrans}
+%\subsubsection{MAESPA vegetation transmission and energy balance functionality overview}\label{sec:MAETrans}
 
-MAESPA, as originally designed, allows modelling of a stand of trees or of a single grid square containing a single tree. VTUF-3D uses this functionality from MAESPA in two different ways. The first is MAESPA's calculations of radiation movement through the vegetation canopy. Each tree in the VTUF-3D modelling domain is individually modelled by MAESPA before the main modelling run and then these data are extracted by VTUF-3D and used throughout the simulation. 
-
-
-Through these shading modifications, VTUF-3D stores states of and represents vegetation through placeholder simple block structures in VTUF-3D (Figure \ref{fig:TUFWithMaespaVegRadiation}), but calculates the underlying processes using their true shapes and types through the MAESPA representation. Calculated transmission values are used to distribute radiation to the appropriate surfaces during the reverse ray tracing process to determine how much radiation is scattered by the vegetation, radiation absorbed by the vegetation, while the remaining amount of radiation is then distributed to subsequent vegetation, and ultimately to the ground surface at the end of the ray. 
-
-The second integration of MAESPA is used in the surface energy balances. Flux amounts (pre-calculated offline) for each vegetation element for each time step are loaded at the beginning of the simulation and used to repartition the energy fluxes for those surfaces with vegetation on them, using the appropriate values for either sunlit or shaded vegetation. 
-
-
-\subsubsection{VTUF-3D use of MAESPA differential shading values}\label{sec:4diffshading}
-
-In order to account for intra-tree shading or shading by buildings, each tree in the domain is modelled twice, using varied amounts of incoming shortwave. The proper data variation for each is chosen during the model run. The incoming shortwave is varied in two different ways. The first uses 100\% values. The second reduces incoming shortwave to diffuse values only. Proper forcing data will need to be provided by the user to supply these values. As shortwave radiation levels vary in locations in an urban canyon across the diurnal cycle, use of these differential values captures the differing vegetation responses, such as varying levels of photosynthesis due to lower levels of PAR, changes in surface temperatures, and varying vegetation evapotranspiration due to differences in stomatal conductance and vapour pressure deficits.
+%MAESPA, as originally designed, allows modelling of a stand of trees or of a single grid square containing a single tree. VTUF-3D uses this functionality from MAESPA in two different ways. The first is MAESPA's calculations of radiation movement through the vegetation canopy. Each tree in the VTUF-3D modelling domain is individually modelled by MAESPA before the main modelling run and then these data are extracted by VTUF-3D and used throughout the simulation. 
+%
+%
+%Through these shading modifications, VTUF-3D stores states of and represents vegetation through placeholder simple block structures in VTUF-3D (Figure \ref{fig:TUFWithMaespaVegRadiation}), but calculates the underlying processes using their true shapes and types through the MAESPA representation. Calculated transmission values are used to distribute radiation to the appropriate surfaces during the reverse ray tracing process to determine how much radiation is scattered by the vegetation, radiation absorbed by the vegetation, while the remaining amount of radiation is then distributed to subsequent vegetation, and ultimately to the ground surface at the end of the ray. 
+%
+%The second integration of MAESPA is used in the surface energy balances. Flux amounts (pre-calculated offline) for each vegetation element for each time step are loaded at the beginning of the simulation and used to repartition the energy fluxes for those surfaces with vegetation on them, using the appropriate values for either sunlit or shaded vegetation. 
 
 
+%\subsubsection{VTUF-3D use of MAESPA differential shading values}\label{sec:4diffshading}
 
-\subsubsection{MAESPA configurations creation}\label{section:MaespaTreeConfig}
+In order to account for inter-tree shading or shading by buildings, each tree in the domain is modelled twice, using varied amounts of incoming shortwave. The first uses 100\% total incoming solar radiation for when the tree is fully exposed. The second uses only the diffuse component of incoming solar radiation values only for trees when shaded by obstructions. Forcing data needs to be provided by the user (as well as flagging the diffuse variation values as 0\% direct beam so MAESPA will not attempt to partition the amounts into direct/diffuse) and the proper data variation for each tree is chosen during the model run. As shortwave radiation levels vary in locations in an urban canyon across the diurnal cycle, the use of these differential values captures the differing vegetation responses. This includes varying levels of photosynthesis due to lower levels of PAR, changes in surface temperatures, and varying vegetation evapotranspiration due to differences in stomatal conductance and vapour pressure deficits.
 
+\section{Model set up and validation}
+\subsection{Model validation}
 
 
 
-As all the vegetation parameterisations in VTUF-3D are pluggable, individual elements are added to a domain using a specific set of configuration files with many of the physical properties scaled from a base template.  Including additional vegetation types (trees, shrubs, and ground cover) into VTUF-3D can be added by populating templates with parameter values based on observations or literature values. Currently there are complete parameterisations for two tree species, \textit{Olea europaea} and \textit{Lophostemon Confertus}, as well as turf grass, tall fescue (\textit{Festuca arundinacea}). An example is shown in \ref{sec:maespavegpara}.  
 
 
-\section{Results}
-\subsection{Model evaluation}
-Validations of VTUF-3D (Vegetated Temperatures Of Urban Facets) need to be performed to ensure that this new model is making accurate predictions. As an energy balance model, modelled output comparisons to observations of energy fluxes and temperatures are considered fundamental validations \citep{Masson2002a}. With the addition of vegetation modelling, it is important that those aspects are also properly validated. 
-
-The VTUF-3D v1.0 model has been validated using an extensive validation process to ensure that a number of different aspects of the model are functioning properly and is suitable for the task of assessing WSUD impacts on HTC. The validation used three different observational datasets. A validation against flux tower observations \citep{Coutts2007}, is detailed in the next section and VTUF-3D is found to show good performance in partitioning fluxes. In addition, it will be shown that VTUF-3D's performance is above the mean and close to maximum performance of other urban models, as analysied by \cite{Best2012}. 
-
-Two additional validations were performed and will be discussed in a forthcoming paper. In these, a validation showed VTUF-3D's ability to accurately model spatial and temporal patterns of $T_{mrt}$ and $UTCI$ across two differing urban canyons, using observations from George St. and Gipps St. in the City of Melbourne \citep{Coutts2015,White2012}. Finally, a last validation tested VTUF-3D's ability to reproduce the temporal patterns of vegetation physiological responses seen in the observations of street tree transpiration due to urban canyon geometry effects. These observations were based on a  tree study campaign recorded at Smith St. in Melbourne \citep{Gebert2012,Coutts2014a} and it was demonstrated that VTUF-3D was able to successfully capture these patterns.
-
-\subsection{Model validation using Preston flux observations}\label{sec:PrestonValidations}
 
 
-To validate VTUF-3D's accuracy in partitioning fluxes, a validation was performed based on flux tower observations recorded in Preston. Preston is a homogeneous, medium density suburb in the northern part of Melbourne, Australia. A 40 meter flux tower recorded observations during 2003 and 2004 \citep{Coutts2007}, providing observed values of $Q^{*}$, $Q_{H}$, $Q_{E}$, air temperature, humidity, wind speed and direction. $Q_{G}$ was calculated as a residual value. Estimates of $Q_{F}$ made using an inventory approach, though $Q_{F}$ is included implicitly in the observations and contributes to the observed sensible heat fluxes. 
+%The VTUF-3D v1.0 model has been validated using an extensive validation process to ensure that a number of different aspects of the model are functioning properly and is suitable for the task of assessing WSUD impacts on HTC. The validation used three different observational datasets. A validation against flux tower observations \citep{Coutts2007}, is detailed in the next section and VTUF-3D is found to show good performance in partitioning fluxes. In addition, it will be shown that VTUF-3D's performance is above the mean and close to maximum performance of other urban models, as analysied by \cite{Best2012}. 
+%
+%Two additional validations were performed and will be discussed in a forthcoming paper. In these, a validation showed VTUF-3D's ability to accurately model spatial and temporal patterns of $T_{mrt}$ and $UTCI$ across two differing urban canyons, using observations from George St. and Gipps St. in the City of Melbourne \citep{Coutts2015,White2012}. Finally, a last validation tested VTUF-3D's ability to reproduce the temporal patterns of vegetation physiological responses seen in the observations of street tree transpiration due to urban canyon geometry effects. These observations were based on a  tree study campaign recorded at Smith St. in Melbourne \citep{Gebert2012,Coutts2014a} and it was demonstrated that VTUF-3D was able to successfully capture these patterns.
 
+%\subsection{Model validation using Preston flux observations}\label{sec:PrestonValidations}
 \nomenclature{$Q_{F}$}{anthropogenic heat (W m$^{-2}$)}
 
-The use of this data set allows validation of surface energy balances against modelled predictions. This data set was also used as the forcing and comparison data set for Phase 2 and 4 of the International Urban Energy Balance Models Comparison Project \citep{Grimmond2011,Best2012}. Phase 2 of this comparison project evaluated the performance of 32 urban land surface modelling schemes, forced by and comparing to these observations, using a consistent methodology. Phase 4 re-evaluated many of these modelling schemes for their performance across a variety of seasonal cycles.
+Validations of VTUF-3D need to be performed to ensure that this new model is making accurate predictions. As an energy balance model, modelled output comparisons to observations of energy fluxes and temperatures are considered fundamental validations \citep{Masson2002a}. With the addition of vegetation modelling, it is important that those aspects are also properly validated. To validate VTUF-3D's accuracy in partitioning fluxes, a validation was performed based on flux tower observations recorded in the suburb of Preston, in northern Melbourne, Australia \citep{Coutts2007}. Preston is a homogeneous, low to medium density area and characterised as LCZ6B \citep{Stewart2012b}. A 40 meter flux tower recorded observations during 2003 and 2004 \citep{Coutts2007}, providing observed values of $Q^{*}$, $Q_{H}$, $Q_{E}$, air temperature, humidity, wind speed and direction. $Q_{G}$ was calculated as a residual of the surface energy balance. Estimates of the anthropogenic heat flux ($Q_{F}$) were made using an inventory approach, though $Q_{F}$ is included implicitly in the observations and contributes to the observed sensible heat fluxes. The use of this data set allows validation of surface energy balances against modelled predictions. This data set was also used as the forcing and comparison data set for Phase 2 and 4 of the International Urban Energy Balance Models Comparison Project \citep{Grimmond2011,Best2012}. Phase 2 of this comparison project evaluated the performance of 32 urban land surface modelling schemes, forced by and comparing to these observations, using a consistent methodology. Phase 4 re-evaluated many of these modelling schemes for their performance across a variety of seasonal cycles.
 
-A modelled domain (500x500m with a 5m grid resolution) was chosen to be representative of the overall area observed by flux tower. The measurement height for the observations ensured that the measured fluxes well represented the local scale (10 to 1000 meters) of the area \citep{Coutts2007}. Additionally, the site selection ensured a homogeneous nature of the overall flux coverage area \citep{Schmid1994}. Because of this, the micro-scale modelled domain will be representative of the observed fluxes observed at a local scale. 
+\subsection{Model set up}
 
-%\begin{figure}[!htbp]
-%\includegraphics[trim = 0mm 0mm 00mm 0mm, clip, scale=0.80,width=\textwidth]{/home/kerryn/git/Images/PrestonOverall1.png}
-%\caption{Preston suburb and modelled area. Adapted from \cite{GooglePreston2015}.\label{fig:PrestonModArea}} 
-%\end{figure}
+A modelled domain (100x100m with a 5m grid resolution) was an area of interest (AOI), chosen to be representative of the overall land cover influencing the fluxes at the tower (Figure \ref{fig:PrestonModArea}). Aerial imagery from 2015 \citep{GooglePreston2015} was used as an initial basis for the modelling domain. The measurement height for the observations ensured that the measured fluxes well represented the local scale (10 to 1000 meters) of the area \citep{Coutts2007}. Additionally, the site selection ensured a homogeneous nature of the overall flux coverage area \citep{Schmid1994}. Because of this, the micro-scale modelled domain is representative of the observed fluxes observed at a local scale. This is confirmed by the land surface classification of the site. \cite{Coutts2007} undertook a land surface classifications to support interpretation of the 2003-04 flux data, from aerial imagery (from 2002) within a 500 m radius of the observation tower. The selected AOI (Figure \ref{fig:PrestonModArea}) is in good agreement with the 500 m radius classification of \cite{Coutts2007} with respect to the pervious/impervious fractions. Breakdowns of both classifications, and the 100m x 100m domain used here are shown in Table \ref{tab:expertValues}. Overall, the modelled domain selection is very similar to the broader area, is representative of the local scale and will allow an appropriate comparison between the observed and modelled results. In addition to the land cover fractions, other properties of the observation site are listed in Table \ref{tab:prvalpara}.
 
-\cite{Coutts2007} provides expert and manual classifications (done at the time of the observations, 2003-2004) from aerial imagery (from 2002) within a 500m radius of the observation tower. The selected modelling area is in good agreement with the 500m classification of \cite{Coutts2007} with respect to the pervious/impervious fractions. An analysis by \cite{Nury2015} of the Darebin Council area (55.6 km$^{2}$) (which includes Preston) using LIDAR data from 2008 is also included because it provides a more recent set of land surface data for the 500m radius area. Breakdowns of both classifications are shown in Table \ref{tab:expertValues}.
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=1.00]{images/PrestonModelledArea.png} 
+\caption{Observed Preston suburb showing 500m effective radius of flux tower observations. Black box annotates model domain area of interest (AOI). Adapted from \cite{GooglePreston2015}.\label{fig:PrestonModArea} / Digitisation of AOI, Preston suburban street, Oakhill Ave. Building heights in black, vegetation heights in green (in 5m units). Adapted from \cite{Nearmap2015}.\label{fig:PrestonDigitization}}      
+\end{figure}
 
 \begin{table}[!htbp]
 \caption
-{Preston land cover breakdowns: using expert and manual classification methods and average of both methods in 500m radius from observation tower \citep{Coutts2007}, Darebin Council land cover fractions \citep{Nury2015}, modelled Preston 5m resolution validation domain land cover fractions (all in percentages). \label{tab:expertValues}} 
-  \begin{tabular}{ |c |c| c | c |c |c |c|p{1.65cm}|p{1.65cm}| } 
-	\hline \textbf{Source}   & \textbf{Buildings}&	\textbf{Road}&\textbf{Concrete}	&\textbf{Trees}&\textbf{Grass}&\textbf{Water}&\textbf{Total Impervious}&\textbf{Total Vegetation} \\ \hline
- \textbf{Expert}&	44.0&	13.0&	3.0&	29.0&	11.0	&0.0	&	60.0&	40.0 \\ \hline 
- && \multicolumn{2}{|c|}{16.0} 	&&&&&\\ \hline  
- \textbf{Manual}&	45.0	&13.0	&6.0&	16.0&	19.0&	1.0&		64.0&	36.0 \\ \hline
- && \multicolumn{2}{|c|}{19.0} 	&&&&&\\ \hline 
- \textbf{Average} &	44.5&	13.0&	4.5&	22.5&	15.0&	0.5&		62.0&	38.0 \\ \hline
- && \multicolumn{2}{|c|}{17.5} 	&&&&&\\ \hline  
-\textbf{\cite{Nury2015}}& 32.0&	20.6&	13.9&	10.1&	23.4&	0&		66.5&	33.5 \\ \hline
- & & \multicolumn{2}{|c|}{34.5} 	&&&&&\\ \hline	
-\textbf{Modelled} & 45.2	& \multicolumn{2}{|c|}{19.3} & 16.0	& 19.5 &0& 64.5 &35.5 \\ \hline
-  \end{tabular} 
- \end{table}  
-
-Aerial imagery from 2015 \citep{GooglePreston2015} was used as an initial basis for the modelling domain. Some reduction in vegetation cover is seen between the 2004 observation site classification and the 2008 Darebin Council area classification. This introduces a small amount of uncertainly in the exact make-up of the modelling domain and could explain some of the low predictions of $Q_{E}$ seen later in this validation. While this dataset is at a different scale and from a later time period, it does show good agreement with the total impervious/pervious fraction of the 500m classification. Overall, the modelled domain selection is very similar to the broader area, is representative of the local scale and will allow an appropriate comparison between the observed and modelled results. 
-
-%\begin{figure}[!htbp]
-%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{/home/kerryn/Documents/Work/PrestonData/Preston-5m_Heights.png}     
-%\caption[Digitisation of modelled Preston suburban street]{Digitisation of Preston suburban street, Oakhill Ave. (\textbf{1}=building heights, \textbf{\textcolor{green}{1}}=vegetation heights (in 5m units)). Adapted from \cite{Nearmap2015}.\label{fig:PrestonDigitization} }     
-%\end{figure}    
-
-
-
-%\begin{figure}[!htbp]a)
-%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.20]{/home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/PrestonBase8/CentralBuildingHeights.png} ~b) \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.20]{/home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/PrestonBase8/CentralVegHeights.png}
-%\caption{a) Preston validation domain configured building heights (0, 5, 10m) and locations.\label{fig:PrestonBldHt} b) Preston validation domain configured vegetation heights (0, 5, 10m) and locations.\label{fig:PrestonVegHt}}      
-%\end{figure}
-
-
-
-
-The urban form of this area, the Local Climate Zone (LCZ) \citep{Stewart2012b}, would be characterised as LCZ 6 (open low-rise).  Other properties of the observation site are listed in Table \ref{tab:prvalpara}.
-
+{Preston land cover classification of a 500m radius from the observation tower from \cite{Coutts2007} and \cite{Nury2015}, and the classification of the model domain area of interest (AOI) (all in percentages). \label{tab:expertValues}} 
+\begin{tabular}{ |c |c| c | c |c |c |c|p{1.65cm}|p{1.65cm}| } 
+\hline \textbf{Source} & \textbf{Blg.}&	\textbf{Imp.}&\textbf{Tree}&\textbf{Grass}	&\textbf{Water}&\textbf{Tot. Imp.}&\textbf{Tot. Per.} \\ \hline
+\textbf{500m radius} & & & & & &	&  \\ \hline 
+\cite{Coutts2007} &44.5 &17.5&22.5 &15.0 &0.5 &62.0 &38.0	  \\ \hline 
+\cite{Nury2015} &32.0 &34.5 &10.1 &23.4 &0 &66.5 &33.5  \\ \hline 
+ & & & & & &	&  \\ \hline 
+AOI (100x100m) &45.2 &19.3 &16.0 &19.5 &0 &64.5	&35.5  \\ \hline 
+\end{tabular} 
+\end{table}  
+ 
 \begin{table}[!htbp]
 \caption{Preston validation site properties \citep{Coutts2007}. \label{tab:prvalpara}}     
 \begin{tabular}{| l | l |}
@@ -624,9 +591,10 @@ $W:P$, mean wall-to-plan ratio &0.4  \\ \hline
 \end{tabular}
 \end{table}
 
-%The modelled land cover fractions of vegetation consist of 19.5\% grass and 16.0\% trees, matching closely to published land cover classification values for data set. Modelled building densities (Figure \ref{fig:PrestonBldHt}), consisting of 45.2\% buildings and 19.3\% impervious surfaces, also match closely to published land cover classification data set values. All values are summarised in Table \ref{tab:expertValues}.
+The 2015 imagery used here for the model domain was 13 years after the 2002 imagery used in \cite{Coutts2007}. An analysis by \cite{Nury2015} of the Darebin Council area (55.6 km$^{2}$) (which includes Preston) was available, developed using aerial imagery from 2009 and LIDAR data from 2008. This was compared because the land surface classification was much improved in terms of accuracy (due to higher quality and higher resolution imagery) than that of \cite{Coutts2007} and provided a more recent set of land surface data (Table \ref{tab:expertValues}). Some differences in the classification were seen, with the Nury (2015) classification showing a lower building fraction and a higher impervious surfaces. Further, some reduction in vegetation cover is seen between the \cite{Coutts2007} classification and the \cite{Nury2015} classification. This introduces a small amount of uncertainly in the exact make-up of the modelling domain and could explain some of the low predictions of Q$_{E}$ seen later in this validation. While this dataset is at a different scale and from a later time period, it does show good agreement with the total impervious/pervious fraction of the 500m classification.
 
-Model parameters were set to the values given in Table \ref{tab:modprvalpara} and domain parameter values in Table \ref{tab:expertValues}. Most of these values are TUF-3D default values, from \cite{Krayenhoff2007}. Vegetation settings for the two tree types (a 25\%/75\% mix of olive (\textit{Olea europaea}) and brushbox (\textit{Lophostemon Confertus}) trees) as well as grass were set to the values given in the model design vegetation parametrisation section (Section \ref{section:MaespaTreeConfig}). A current limitation of the model is that the available vegetation parametrisations are limited to these three vegetation types. The species mix was chosen to best account for density of canopy cover in the aerial imagery but given this limitation, will not completely reflect the observed species mix and might create some modelling errors from the observed fluxes. However, the two available species are representative of commonly planted trees in Melbourne. A street tree inventory by \cite{Frank2006} finds that brushbox, a native evergreen, is the most common street tree, representing 6.9\% of street trees in Melbourne. Olive trees are considered suitable for Melbourne's climate conditions (drought tolerant evergreen) and a recommended species for council street tree planting \citep{PortPhillip2010}.
+
+Model parameters were set to the values given in Table \ref{tab:modprvalpara} and domain parameter values in Table \ref{tab:expertValues}. Most of these values are TUF-3D default values, from \cite{Krayenhoff2007}. The modelled domain is a digitisation of the AOI, Oakhill Ave. in Preston (Figure \ref{fig:PrestonModArea}) with building locations and heights as shown in Figure \ref{fig:PrestonBldHt}.
 
 
 \begin{table}[!htbp]
@@ -646,9 +614,48 @@ Constant building internal floor temperature (\SI{}{\degreeCelsius})  & 15.0  & 
 \end{tabular}
 \end{table}
 
-The validation simulation (which is named Pr04Val) was run for 30 days between the dates 10 February 2004 and 10 March 2004, forced by the observations, from \cite{Coutts2007} for those days. Values used from the observations include $K\downarrow$, $L\downarrow$, air temperature, wind speed, wind direction, and air pressure. Forcing data for the vegetation components use shortwave values of mean global and mean diffuse observations taken from one minute solar observations (station 086282, Melbourne Airport) \citep{BOM2016}. For full radiation vegetation runs, the Mean\_global\_irradiance\_over\_1\_minute variable from the observations is used. For diffuse runs, the Mean\_diffuse\_irradiance\_over\_1\_minute variable is used. In addition, the MAESPA FBEAM variable (fraction of incident PAR which is direct-beam) is set to 0.0 in the forcing data for diffuse runs.
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.20]{images/CentralBuildingHeights.png} 
+\caption{Preston validation domain configured building heights (0, 5, 10m) and locations for modelling scenario Pr04Val.\label{fig:PrestonBldHt}}      
+\end{figure}
 
-The validation period contained a range of conditions. The period especially features a number of hot days (over \SI{30}{\degreeCelsius}). As one of the major applications of VTUF-3D will be examining high temperature moderation, validation over a period containing these hot days is important. The observation period also contains a number of days with precipitation. With the current VTUF-3D design, precipitation will only be received in grid squares which contain vegetation and pervious surfaces. The expected impact of this is that predictions of $Q_{E}$ will be understated for days which contain precipitation. Accounting for rainfall on impervious surfaces is a current limitation of VTUF-3D (to be addressed in later versions of VTUF-3D) and caution should be used in modelling periods which contain significant rainfall. In the intended primary use of VTUF-3D, which focuses on temperature moderation in the hottest periods of the year (which contain little rainfall), this should be less of an issue. Also, in most urban areas, precipitation on impervious surfaces will be rapidly removed as stormwater.
+%\begin{figure}[!htbp]
+%\includegraphics[trim = 0mm 0mm 00mm 0mm, clip, scale=0.80,width=\textwidth]{/home/kerryn/git/Images/PrestonOverall1.png}
+%\caption{Preston suburb and modelled area. Adapted from \cite{GooglePreston2015}.\label{fig:PrestonModArea}} 
+%\end{figure}
+
+%\cite{Coutts2007} provides expert and manual classifications (done at the time of the observations, 2003-2004) from aerial imagery (from 2002) within a 500m radius of the observation tower. The selected modelling area is in good agreement with the 500m classification of \cite{Coutts2007} with respect to the pervious/impervious fractions. An analysis by \cite{Nury2015} of the Darebin Council area (55.6 km$^{2}$) (which includes Preston) using LIDAR data from 2008 is also included because it provides a more recent set of land surface data for the 500m radius area. Breakdowns of both classifications are shown in Table \ref{tab:expertValues}.
+%
+%Some reduction in vegetation cover is seen between the 2004 observation site classification and the 2008 Darebin Council area classification. This introduces a small amount of uncertainly in the exact make-up of the modelling domain and could explain some of the low predictions of $Q_{E}$ seen later in this validation. While this dataset is at a different scale and from a later time period, it does show good agreement with the total impervious/pervious fraction of the 500m classification. Overall, the modelled domain selection is very similar to the broader area, is representative of the local scale and will allow an appropriate comparison between the observed and modelled results. 
+
+%\begin{figure}[!htbp]
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{/home/kerryn/Documents/Work/PrestonData/Preston-5m_Heights.png}     
+%\caption[Digitisation of modelled Preston suburban street]{Digitisation of Preston suburban street, Oakhill Ave. (\textbf{1}=building heights, \textbf{\textcolor{green}{1}}=vegetation heights (in 5m units)). Adapted from \cite{Nearmap2015}.\label{fig:PrestonDigitization} }     
+%\end{figure}    
+
+
+
+% Other properties of the observation site are listed in Table \ref{tab:prvalpara}.
+
+%The modelled land cover fractions of vegetation consist of 19.5\% grass and 16.0\% trees, matching closely to published land cover classification values for data set. Modelled building densities (Figure \ref{fig:PrestonBldHt}), consisting of 45.2\% buildings and 19.3\% impervious surfaces, also match closely to published land cover classification data set values. All values are summarised in Table \ref{tab:expertValues}.
+
+
+
+%\subsubsection{MAESPA configurations creation} \label{section:MaespaTreeConfig}
+
+
+As all the vegetation parameterisations in VTUF-3D are pluggable, individual elements are added to a domain using a specific set of configuration files with many of the physical properties scaled from a base template.  Including additional vegetation types (trees, shrubs, and ground cover) into VTUF-3D can be added by populating templates with parameter values based on observations or literature values. Two tree types were employed here, namely \textit{Olea europaea} (Olive) and \textit{Lophostemon Confertus} (Queensland brushbox), as well as turf grass, tall fescue \textit{Festuca arundinacea} (tall fescue). The detailed parameterisations for these vegetation types are shown in \ref{sec:maespavegpara}. A mix of 25\%/75\% \textit{Olea europaea} and \textit{Lophostemon Confertus}) trees were used in the model. Identifying and parametrising every tree species in the domain can be time consuming, so our parametrisations were limited here to these species. The species mix was chosen to best account for density of canopy cover in the aerial imagery but given this limitation, will not completely reflect the observed species mix and might create some modelling errors from the observed fluxes. However, the two available species are representative of commonly planted trees in Melbourne. A street tree inventory by \cite{Frank2006} finds that brushbox, a native evergreen, is the most common street tree, representing 6.9\% of street trees in Melbourne. Olive trees are considered suitable for Melbourne's climate conditions (drought tolerant evergreen) and a recommended species for council street tree planting \citep{PortPhillip2010}.
+
+
+
+ %Vegetation settings for the two tree types (a 25\%/75\% mix of olive (\textit{Olea europaea}) and brushbox (\textit{Lophostemon Confertus}) trees) as well as grass were set to the values given in the model design vegetation parametrisation section (Appendix \ref{sec:maespavegpara}). A current limitation of the model is that the available vegetation parametrisations are limited to these three vegetation types. 
+
+
+
+
+The validation simulation (which is named Pr04Val) was run for 30 days, from 10 February 2004 to 10 March 2004, forced by the observations, from \cite{Coutts2007} for those days. Meteorological forcing included $K\downarrow$, $L\downarrow$, air temperature, wind speed, wind direction, and air pressure at a height of 40m. Forcing data for the vegetation components use shortwave values of mean global and mean diffuse observations taken from one minute solar observations (station 086282, Melbourne Airport) \citep{BOM2016}. For full radiation vegetation runs, the mean global irradiance was used while for diffuse runs, the mean diffuse irradiance was used. In addition, the MAESPA FBEAM variable (fraction of incident PAR which is direct-beam) is set to 0.0 in the forcing data for diffuse runs.
+
+The validation period contained a range of conditions. The period especially features a number of hot days (over \SI{30}{\degreeCelsius}). As one of the major applications of VTUF-3D will be examining high temperature moderation of increasing tree cover, validation over a period containing these hot days is important. The observation period also contains a number of days with precipitation. In the current VTUF-3D design, precipitation will only be received in grid squares which contain vegetation and pervious surfaces. The expected impact of this is that predictions of $Q_{E}$ will be understated for days which contain precipitation. Accounting for rainfall on impervious surfaces is a current limitation of VTUF-3D (to be addressed in later versions of VTUF-3D) and caution should be used in modelling periods which contain significant rainfall. In the intended primary use of VTUF-3D, which focuses on temperature moderation in the hottest periods of the year (which contain little rainfall), this should be less of an issue. Also, in most urban areas, precipitation on impervious surfaces will be rapidly removed as stormwater.
 
 %\begin{figure}[!htbp]a)
 %{\includegraphics[width=7cm]{/home/kerryn/Documents/Work/Data/PrestonData/PrestonTempFeb2004} }
@@ -661,9 +668,20 @@ The validation period contained a range of conditions. The period especially fea
 
 
 
-\subsubsection{Preston observations validation scenario}\label{sec:prvalresults}
+\subsection{Validation approach}\label{sec:prvalresults}
 
-During this validation, a number of different scenarios (described in Table \ref{tab:simscompared}) are considered and compared. The validation scenario (named Pr04Val) represents the closest approximation of a domain (at a micro-scale) which could be constructed to match the local scaled flux observations. 
+During this validation, a number of different scenarios (described in Table \ref{tab:simscompared}) are considered and compared. The validation scenario (named Pr04Val) compares the modelled results for the 30 day run with the observed fluxes ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$) for the domain that aligns well with the land surface classification for the wider local scale area (Table \ref{tab:expertValues}). In addition, the VTUF-3D model was run with a no vegetation scenario, undertaken to demonstrate the significant improvement of the model. This scenario (named Pr04NoVeg), will represent an unimproved TUF-3D without vegetation modelling capability, as the lack of vegetation will not trigger any of the new logic and improvements added to the model. This will allow an analysis of level of improvement of VTUF-3D modelling over the previous TUF-3D model. As discussed earlier in this section, the Intercomparison project \citep{Grimmond2011} found that models without vegetation were among the poorest performers. Finally, as the observations used in this validation are the same as in Phase 4 of the Intercomparison project \citep{Best2012}, using the \cite{Coutts2007} Preston dataset, the performance of the VTUF-3D model can also be placed within this evaluation of urban land surface modelling schemes.
+
+
+[Explain what ]. Intercomparison Phase 4 error analysis provides RMSE values for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$ for three classifications of urban models. These three categories are of models that do not consider vegetation, those that model vegetation using tiles[May need to elaborate a bit.], and models that integrate vegetation [Again, elaborate for reader.]into the urban area (referred to as classifications IntercomparisonNoVeg, IntercomparisonTiled, and IntercomparisonIntegrated, described in Table \ref{tab:simscompared}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+During this validation, a number of different scenarios (described in Table \ref{tab:simscompared}) are considered and compared. The validation scenario (named Pr04Val) compares the mo the closest approximation of a domain (at a micro-scale) which could be constructed to match the local scaled flux observations. 
+
+The first result is given in Figure \ref{fig:Preston6error}. Modelled results for the 30 day run are compared to the observed fluxes ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$). Error analysis of d index of agreement for the Pr04Val validation (Figure \ref{fig:Preston6error}) shows d values of 0.964, 0.652, 0.998, and 0.957 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. Error analysis of $RMSE$ (W m$^{-2}$) shows values of 40.2, 33.1, 19.0,and 52.5. 
 
 \begin{center}
 \begin{table}[!htbp]
@@ -679,7 +697,7 @@ IntercomparisonIntegrated & \cite{Best2012} intercomparison performance mean of 
 \end{table}
 \end{center}  
 
-The first result is given in Figure \ref{fig:Preston6error}. Modelled results for the 30 day run are compared to the observed fluxes ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$). Error analysis of d index of agreement for the Pr04Val validation (Figure \ref{fig:Preston6error}) shows d values of 0.964, 0.652, 0.998, and 0.957 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. Error analysis of $RMSE$ (W m$^{-2}$) shows values of 40.2, 33.1, 19.0,and 52.5. 
+
 
 \begin{figure}[!htbp]
 \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/Pr04Val-ErrorPlots.png}
@@ -850,7 +868,7 @@ Model configuration process was developed in Java using the JRE 1.7.0 \citep{Ora
 %\end{tabular} 
 %\end{table}
 %
-\subsubsection{MAESPA olive tree (\textit{Olea europaea}) parameterisation}
+\subsection{MAESPA olive tree (\textit{Olea europaea}) parameterisation}
 The first complete parameterisation for VTUF-3D is the olive tree (\textit{Olea europaea}). It has been selected because it is a species commonly found in gardens in Melbourne, considered suitable for Melbourne's climate conditions (drought tolerant evergreen), and a recommended species for council street tree planting \citep{PortPhillip2010}. In addition, observations of parameters are available from \cite{Coutts2014a}. The physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:olivescaled}. 
 
 \begin{center}
@@ -878,59 +896,59 @@ $z_{0,Ht}$ (m) &0.375& 1/10 of crown height `rule of thumb' \citep{Grimmond1999}
 %The specific physiological parameters for this species are given in Table \ref{tab:oliveparam} and are used to generate the appropriate $trees.dat$, $str.dat$ and $phy.dat$ for each olive tree in the domain.  Parameter values were taken from the \cite{Coutts2014a} observations and supplemented with values from the literature.
 %
 %
-%\subsubsection{MAESPA brushbox tree (\textit{Lophostemon Confertus}) parameterisation}
-%The second complete parameterisation for VTUF-3D is the  brushbox tree (\textit{Lophostemon Confertus}). This tree is chosen because it is the most common street tree in Melbourne \citep{Frank2006}, where all of the validation observations data sets are based. This tree has also been the basis of a number of research projects in Melbourne, providing a parameterisation through \cite{Coutts2016} and \cite{Coutts2015ICUC}.
+\subsection{MAESPA brushbox tree (\textit{Lophostemon Confertus}) parameterisation}
+The second complete parameterisation for VTUF-3D is the  brushbox tree (\textit{Lophostemon Confertus}). This tree is chosen because it is the most common street tree in Melbourne \citep{Frank2006}, where all of the validation observations data sets are based. This tree has also been the basis of a number of research projects in Melbourne, providing a parameterisation through \cite{Coutts2016} and \cite{Coutts2015ICUC}.
 %
 %
 %The physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:brushscaled}. The configuration scripts will re-scale these parameters for a given modelling domain grid size. The specific physiological parameters for this species are given in Table \ref{tab:brushparam} and are used to generate the appropriate $trees.dat$, $str.dat$ and $phy.dat$ for each brushbox tree in the domain.
 %
-%\begin{center}
-%\begin{table}[!htbp]
-%\caption{MAESPA brushbox tree (\textit{Lophostemon Confertus}) parameterisation, tree dimensions for an example 5x5m grid (to be rescaled for taller/shorter modelled trees).\label{tab:brushscaled}} 
-%\begin{tabular}{ |  l | l | l |}
-%\hline \textbf{Parameter} & \textbf{Value}& \textbf{Source}   \\ 
-%\hline
-% crown radius (m) & 2.5 &\cite{Coutts2016}\\ \hline
-%   crown height (m) & 3.75&\cite{Coutts2016} \\ \hline
-% trunk height (m) & 1.25&\cite{Coutts2016} \\ \hline
-%  leaf area index (m$^{2}$ m$^{-2}$)&2.0&\cite{Wright2000} \\ \hline
-% crown shape & round &\\ \hline
-%$z_{Ht}$ (m)&4.0&Forcing data height \\ \hline
-%$z_{PD}$ (m) &2.5 & 2/3 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
-%$z_{0,Ht}$ (m) &0.375 & 1/10 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
-%\end{tabular} 
-%\end{table}
-%\end{center}
-%
-%\input{MaespaBrushboxTreeParametersTable}
-%
-%\subsubsection{MAESPA grass parameterisation}
-%The third complete parameterisation for VTUF-3D is for grass, tall fescue (\textit{Festuca arundinacea}), a common turf grass. This is an important parameterisation for modelling urban environments as a significant portion of urban surfaces are grass. As will be seen in the VTUF-3D validation (forthcoming paper), estimates of observed grass cover, for example in a validation based on observations from Preston in Melbourne \citep{Coutts2007,Nury2015}, range from 11\% to 23\%. 
-%
-%This parameterisation is an adaptation of the normal MAESPA tree parameterisations. In it, the vegetation is modelled as a box shaped canopy with a crown height of 0.2 meters. This and the rest of the physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:grassscaled}, with parameter values taken from the literature.
-%
-%\begin{center}
-%\begin{table}[!htbp]
-%\caption{MAESPA grass, tall fescue (\textit{Festuca arundinacea}), layer as a box tree on the ground covering the plot area. \label{tab:grassscaled}}
-%%\scalebox{0.9}{
-%\begin{tabular}{ |  l | l | l |}
-%\hline \textbf{Parameter} & \textbf{Value} & \textbf{Source} \\  \hline
-%crown radius (m) & 2.5& Radius of 5x5m grid \\ \hline
-%crown height (m) & 0.2& \cite{Simmons2011} \\ \hline
-%trunk height (m) & 0.01& \\ \hline
-%stem diameter (m) & 0.2 &\\ \hline
-%leaf area index (m$^{2}$ m$^{-2}$)& 7.13 & ave. from \cite{Bijoor2014} \\ \hline
-%crown shape & box& \\ \hline
-%$z_{Ht}$ (m)&4.0&Forcing data height \\ \hline
-%$z_{PD}$ (m) &0.066 & 2/3 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
-%$z_{0,Ht}$ (m) & 0.02 & 1/10 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
-%\end{tabular} 
-%%}
-%\end{table}
-%\end{center}
-%
-%\input{MaespaGrassParametersTable}
-%
+\begin{center}
+\begin{table}[!htbp]
+\caption{MAESPA brushbox tree (\textit{Lophostemon Confertus}) parameterisation, tree dimensions for an example 5x5m grid (to be rescaled for taller/shorter modelled trees).\label{tab:brushscaled}} 
+\begin{tabular}{ |  l | l | l |}
+\hline \textbf{Parameter} & \textbf{Value}& \textbf{Source}   \\ 
+\hline
+ crown radius (m) & 2.5 &\cite{Coutts2016}\\ \hline
+   crown height (m) & 3.75&\cite{Coutts2016} \\ \hline
+ trunk height (m) & 1.25&\cite{Coutts2016} \\ \hline
+  leaf area index (m$^{2}$ m$^{-2}$)&2.0&\cite{Wright2000} \\ \hline
+ crown shape & round &\\ \hline
+$z_{Ht}$ (m)&4.0&Forcing data height \\ \hline
+$z_{PD}$ (m) &2.5 & 2/3 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
+$z_{0,Ht}$ (m) &0.375 & 1/10 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
+\end{tabular} 
+\end{table}
+\end{center}
+
+\input{MaespaBrushboxTreeParametersTable}
+
+\subsection{MAESPA grass parameterisation}
+The third complete parameterisation for VTUF-3D is for grass, tall fescue (\textit{Festuca arundinacea}), a common turf grass. This is an important parameterisation for modelling urban environments as a significant portion of urban surfaces are grass. As will be seen in the VTUF-3D validation (forthcoming paper), estimates of observed grass cover, for example in a validation based on observations from Preston in Melbourne \citep{Coutts2007,Nury2015}, range from 11\% to 23\%. 
+
+This parameterisation is an adaptation of the normal MAESPA tree parameterisations. In it, the vegetation is modelled as a box shaped canopy with a crown height of 0.2 meters. This and the rest of the physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:grassscaled}, with parameter values taken from the literature.
+
+\begin{center}
+\begin{table}[!htbp]
+\caption{MAESPA grass, tall fescue (\textit{Festuca arundinacea}), layer as a box tree on the ground covering the plot area. \label{tab:grassscaled}}
+%\scalebox{0.9}{
+\begin{tabular}{ |  l | l | l |}
+\hline \textbf{Parameter} & \textbf{Value} & \textbf{Source} \\  \hline
+crown radius (m) & 2.5& Radius of 5x5m grid \\ \hline
+crown height (m) & 0.2& \cite{Simmons2011} \\ \hline
+trunk height (m) & 0.01& \\ \hline
+stem diameter (m) & 0.2 &\\ \hline
+leaf area index (m$^{2}$ m$^{-2}$)& 7.13 & ave. from \cite{Bijoor2014} \\ \hline
+crown shape & box& \\ \hline
+$z_{Ht}$ (m)&4.0&Forcing data height \\ \hline
+$z_{PD}$ (m) &0.066 & 2/3 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
+$z_{0,Ht}$ (m) & 0.02 & 1/10 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
+\end{tabular} 
+%}
+\end{table}
+\end{center}
+
+\input{MaespaGrassParametersTable}
+
 %
 %%%%%%%%%%end taking out parameterizations
 

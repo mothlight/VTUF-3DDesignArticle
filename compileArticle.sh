@@ -2,6 +2,7 @@ cp -u ../Bibtex/PhDMendeley.bib/library.bib .
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-ErrorPlots.png images/Pr04Val-ErrorPlots.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-EnergyBalanceOverallAve4Plots_.png images/Pr04Val-EnergyBalanceOverallAve4Plots_.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04NoVeg-ErrorPlots.png images/Pr04NoVeg-ErrorPlots.png
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/PrestonBase8/CentralBuildingHeights.png images/CentralBuildingHeights.png
 
 
 #cd /home/kerryn/git/PhDProposal/PhDProposal
