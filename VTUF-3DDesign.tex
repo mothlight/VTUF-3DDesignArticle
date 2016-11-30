@@ -699,86 +699,64 @@ Model configuration process was developed in Java using the JRE 1.7.0 \citep{Ora
 %\end{tabular} 
 %\end{table}
 %
-\subsection{MAESPA olive tree (\textit{Olea europaea}) parameterisation}
-The first complete parameterisation for VTUF-3D is the olive tree (\textit{Olea europaea}). It has been selected because it is a species commonly found in gardens in Melbourne, considered suitable for Melbourne's climate conditions (drought tolerant evergreen), and a recommended species for council street tree planting \citep{PortPhillip2010}. In addition, observations of parameters are available from \cite{Coutts2014a}. The physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:olivescaled}. 
+%\subsection{MAESPA olive tree (\textit{Olea europaea}) parameterisation}
+The first complete parameterisation for VTUF-3D is the olive tree (\textit{Olea europaea}). It has been selected because it is a species commonly found in gardens in Melbourne, considered suitable for Melbourne's climate conditions (drought tolerant evergreen), and a recommended species for council street tree planting \citep{PortPhillip2010}. In addition, observations of parameters are available from \cite{Coutts2014a}. The physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:olivescaled}. Physiology parameter values are shown in Table \ref{tab:oliveparam}. The second complete parameterisation for VTUF-3D is the  brushbox tree (\textit{Lophostemon Confertus}). This tree is chosen because it is the most common street tree in Melbourne \citep{Frank2006}, where all of the validation observations data sets are based. This tree has also been the basis of a number of research projects in Melbourne, providing a parameterisation through \cite{Coutts2016} and \cite{Coutts2015ICUC}. The third complete parameterisation for VTUF-3D is for grass, tall fescue (\textit{Festuca arundinacea}), a common turf grass. This is an important parameterisation for modelling urban environments as a significant portion of urban surfaces are grass. As will be seen in the VTUF-3D validation (forthcoming paper), estimates of observed grass cover, for example in a validation based on observations from Preston in Melbourne \citep{Coutts2007,Nury2015}, range from 11\% to 23\%. 
+
+This parameterisation is an adaptation of the normal MAESPA tree parameterisations. In it, the vegetation is modelled as a box shaped canopy with a crown height of 0.2 meters. This and the rest of the physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:olivescaled}, with physiology parameter values (Table \ref{tab:oliveparam}) taken from the literature.
 
 \begin{center}
 \begin{table}[!htbp]
-\caption{MAESPA olive tree (\textit{Olea europaea}) parameterisation, tree dimensions for an example 5x5m grid (to be rescaled for taller/shorter modelled trees).\label{tab:olivescaled}}
-\begin{tabular}{ |  l | l | l | l |}
-\hline \textbf{Parameter} & \textbf{Value} & \textbf{Source} \\ 
+\caption{MAESPA parameterisations of structural characteristics for \textit{Olea europaea}, \textit{Lophostemon Confertus}, and \textit{Festuca arundinacea}, tree dimensions for an example 5x5m grid (that are rescaled for taller/shorter modelled trees).\label{tab:olivescaled}}
+\begin{tabular}{ |  p{2.5cm} | p{1.1cm} | p{2.5cm} | p{1.1cm} | p{2.5cm} | p{1.1cm} | p{2.5cm} | }
+
+\hline & \multicolumn{2}{|c|}{\textit{Olea europaea}} & \multicolumn{2}{|c|}{\textit{Lophostemon Confertus}} &\multicolumn{2}{|c|}{\textit{Festuca arundinacea}}   \\ \hline
+
+\hline \textbf{Parameter} & \textbf{Value} & \textbf{Source} & \textbf{Value} & \textbf{Source}& \textbf{Value} & \textbf{Source} \\ 
 \hline
-crown radius (m) & 2.5 & \cite{Coutts2014a}\\ \hline
-crown height (m) & 3.75 & \cite{Coutts2014a}\\ \hline
-trunk height (m) & 1.25 & \cite{Coutts2014a}\\ \hline
-leaf area index (m$^{2}$ m$^{-2}$)&2.48 &\cite{Mariscal2000}\\ \hline
-crown shape & round &\\ \hline
-$z_{Ht}$ (m)&40.0&Forcing data height \\ \hline
-$z_{PD}$ (m) &2.5& 2/3 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
-$z_{0,Ht}$ (m) &0.375& 1/10 of crown height `rule of thumb' \citep{Grimmond1999} \\ \hline
+crown radius (m) & 2.5 & \cite{Coutts2014a}  & 2.5 &\cite{Coutts2016} & 2.5& Radius of 5x5m grid  \\ \hline
+crown height (m) & 3.75 & \cite{Coutts2014a}  & 3.75&\cite{Coutts2016} & 0.2& \cite{Simmons2011}  \\ \hline
+trunk height (m) & 1.25 & \cite{Coutts2014a}  & 1.25&\cite{Coutts2016} & 0.01&  \\ \hline
+leaf area index (m$^{2}$ m$^{-2}$)&2.48 &\cite{Mariscal2000}  &2.0&\cite{Wright2000} &  7.13 & ave. from \cite{Bijoor2014} \\ \hline
+crown shape & round &  & round & & box&  \\ \hline
+$z_{Ht}$ (m)&40.0&Forcing data height   &4.0&Forcing data height &4.0&Forcing data height \\ \hline
+$z_{PD}$ (m) &2.5& 2/3 of crown height \citep{Grimmond1999}  &2.5 & 2/3 of crown height \citep{Grimmond1999} &0.066 & 2/3 of crown height \citep{Grimmond1999} \\ \hline
+$z_{0,Ht}$ (m) &0.375& 1/10 of crown height \citep{Grimmond1999}  &0.375 & 1/10 of crown height \citep{Grimmond1999}  & 0.02 & 1/10 of crown height \citep{Grimmond1999}  \\ \hline
 \end{tabular} 
 \end{table}
 \end{center}
 
-\input{MaespaOliveTreeParametersTable}
-%
-%The configuration scripts will re-scale these parameters for a given modelling domain grid size. The $z_{Ht}$ value, measurement height of wind speed (m), is taken from the measurement height of forcing data. The $z_{PD}$ value, zero-plane displacement height (m), uses a `rule of thumb' and is calculated as 2/3 of the tree crown height.  The $z_{0,Ht}$ value, roughness length (m), uses a `rule of thumb' and is calculated as 1/10 of the tree crown height.
-%
-%The specific physiological parameters for this species are given in Table \ref{tab:oliveparam} and are used to generate the appropriate $trees.dat$, $str.dat$ and $phy.dat$ for each olive tree in the domain.  Parameter values were taken from the \cite{Coutts2014a} observations and supplemented with values from the literature.
-%
-%
-\subsection{MAESPA brushbox tree (\textit{Lophostemon Confertus}) parameterisation}
-The second complete parameterisation for VTUF-3D is the  brushbox tree (\textit{Lophostemon Confertus}). This tree is chosen because it is the most common street tree in Melbourne \citep{Frank2006}, where all of the validation observations data sets are based. This tree has also been the basis of a number of research projects in Melbourne, providing a parameterisation through \cite{Coutts2016} and \cite{Coutts2015ICUC}.
-%
-%
-%The physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:brushscaled}. The configuration scripts will re-scale these parameters for a given modelling domain grid size. The specific physiological parameters for this species are given in Table \ref{tab:brushparam} and are used to generate the appropriate $trees.dat$, $str.dat$ and $phy.dat$ for each brushbox tree in the domain.
-%
+
 \begin{center}
 \begin{table}[!htbp]
-\caption{MAESPA brushbox tree (\textit{Lophostemon Confertus}) parameterisation, tree dimensions for an example 5x5m grid (to be rescaled for taller/shorter modelled trees).\label{tab:brushscaled}} 
-\begin{tabular}{ |  l | l | l |}
-\hline \textbf{Parameter} & \textbf{Value}& \textbf{Source}   \\ 
+\caption{MAESPA parameterisations of species physiology for \textit{Olea europaea}, \textit{Lophostemon Confertus}, and \textit{Festuca arundinacea}, with parameter values taken from cited literature sources. \label{tab:oliveparam}}
+
+\scalebox{1.00}{
+\begin{tabular}{ |  p{3.5cm} | p{1.1cm} | p{2.5cm} | p{1.1cm} | p{2.5cm} | p{1.1cm} | p{2.5cm} | }
+\hline & \multicolumn{2}{|c|}{\textit{Olea europaea}} & \multicolumn{2}{|c|}{\textit{Lophostemon Confertus}} &\multicolumn{2}{|c|}{\textit{Festuca arundinacea}}   \\ 
+\hline \textbf{Parameter} & \textbf{Value(s)} & \textbf{Source}& \textbf{Value(s)} & \textbf{Source}& \textbf{Value(s)} & \textbf{Source} \\ 
 \hline
- crown radius (m) & 2.5 &\cite{Coutts2016}\\ \hline
-   crown height (m) & 3.75&\cite{Coutts2016} \\ \hline
- trunk height (m) & 1.25&\cite{Coutts2016} \\ \hline
-  leaf area index (m$^{2}$ m$^{-2}$)&2.0&\cite{Wright2000} \\ \hline
- crown shape & round &\\ \hline
-$z_{Ht}$ (m)&4.0&Forcing data height \\ \hline
-$z_{PD}$ (m) &2.5 & 2/3 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
-$z_{0,Ht}$ (m) &0.375 & 1/10 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
+Soil reflectance (\%PAR, \%NIR, and \%IR)  & 0.10, 0.05, 0.05 & \cite{Levinson2007,Oke1987z} & 0.04, 0.35, 0.05 & \cite{Fung-yan1999}&0.10, 0.05, 0.05&  Observed, \cite{Levinson2007}, \cite{Oke1987z}  \\ \hline
+Leaf transmittance (\%PAR, \%NIR, and \%IR)  & 0.01, 0.28, 0.01 & \cite{Baldini1997} &&& 0.05, 0.45, 0.01 & C3 grasses, from \cite{Katjacnik2014}\\ \hline
+Leaf reflectance (\%PAR, \%NIR, and \%IR)  & 0.08, 0.42, 0.05 & \cite{Baldini1997} &&& 0.05, 0.65, 0.08  & C3 grasses, from \cite{Katjacnik2014} \\ \hline
+Minimum stomatal conductance g0 (mol m$^{-2}$s$^{-1}$) & 0.03 & \cite{Coutts2014a} & 0.01 & \cite{Coutts2016}& 0.0 &  \cite{DeKauwe2015}\\ \hline
+Slope parameter g1  & 2.615 &\cite{Coutts2014a} &3.33&\cite{Coutts2016}&5.25& C3 grasses, from \cite{DeKauwe2015}\\ \hline
+\# of sides of the leaf with Stomata & 1&\cite{Fernandez1997}  & 1&\cite{Beardsell1987}& 2& \cite{Green1990}\\ \hline
+Width of leaf (m)& 0.0102& &  0.05&\cite{Coutts2016}& 0.006& \cite{RademacherI2001}\\ \hline
+CO$_{2}$ compensation point ($\mu$mol m$^{-2}$s$^{-1}$)& 55& \cite{Coutts2014a}  & 53.06&\cite{Coutts2016}& 57& \cite{Brown1980} at 25 degrees\\ \hline
+Max rate electron transport (Jmax) ($\mu$mol m$^{-2}$s$^{-1}$)& 112.4& \cite{Coutts2014a}  &105.76& \cite{Coutts2016}&80.95& Tall Fescue from \cite{Yu2012a}\\ \hline
+Max rate rubisco activity (VCmax) ($\mu$mol m$^{-2}$s$^{-1}$)& 81.18& \cite{Coutts2014a}  & 81.6&\cite{Coutts2016}& 36.14& Tall Fescue from \cite{Yu2012a}\\ \hline
+Curvature of the light response curve &0.62& \cite{Coutts2014a}   &0.61 &\cite{Coutts2016}&0.7 &\cite{Gilmanov2007}\\ \hline
+Activation energy of Jmax (KJ mol$^{-1}$)& 35350& \cite{Diaz-Espejo2006}  & 35350& \cite{Bernacchi2001}& 65300& \cite{Bernacchi2001}\\ \hline
+Deactivation energy of Jmax (J mol$^{-1}$)& 200000 &\cite{Medlyn2005a}  & 200000& \cite{Medlyn2005a}& 200000& \cite{Medlyn2005a}\\ \hline
+Entropy term (KJ mol$^{-1}$)& 644.4338& \cite{Medlyn2005a}   & 644.4338& \cite{Medlyn2005a}& 644.4338& \cite{Medlyn2005a}\\ \hline
+Quantum yield of electron transport (mol electrons mol$^{-1}$)& 0.19& \cite{Sierra2012}  &0.06&\cite{Coutts2016}&0.05& \cite{Monson1982}\\ \hline
+Dark respiration ($\mu$mol m$^{-2}$s$^{-1}$)& 0.94& \cite{Coutts2014a}  &1.29 &\cite{Coutts2016}&0.6  & Estimated for Tall Fescue from \cite{Yu2012a}\\ \hline
+Specific leaf area (mm$^{2}$kg$^{-1}$)&5.1 &\cite{Mariscal2000}  &25.3 &\cite{Wright2000}&23.16 &Average from Table 1 in \cite{Bijoor2014} for 3 turfgrasses.\\ \hline
 \end{tabular} 
+}
 \end{table}
 \end{center}
 
-\input{MaespaBrushboxTreeParametersTable}
-
-\subsection{MAESPA grass parameterisation}
-The third complete parameterisation for VTUF-3D is for grass, tall fescue (\textit{Festuca arundinacea}), a common turf grass. This is an important parameterisation for modelling urban environments as a significant portion of urban surfaces are grass. As will be seen in the VTUF-3D validation (forthcoming paper), estimates of observed grass cover, for example in a validation based on observations from Preston in Melbourne \citep{Coutts2007,Nury2015}, range from 11\% to 23\%. 
-
-This parameterisation is an adaptation of the normal MAESPA tree parameterisations. In it, the vegetation is modelled as a box shaped canopy with a crown height of 0.2 meters. This and the rest of the physical and meteorological parameters for a 5x5 meter grid square are given in Table \ref{tab:grassscaled}, with parameter values taken from the literature.
-
-\begin{center}
-\begin{table}[!htbp]
-\caption{MAESPA grass, tall fescue (\textit{Festuca arundinacea}), layer as a box tree on the ground covering the plot area. \label{tab:grassscaled}}
-%\scalebox{0.9}{
-\begin{tabular}{ |  l | l | l |}
-\hline \textbf{Parameter} & \textbf{Value} & \textbf{Source} \\  \hline
-crown radius (m) & 2.5& Radius of 5x5m grid \\ \hline
-crown height (m) & 0.2& \cite{Simmons2011} \\ \hline
-trunk height (m) & 0.01& \\ \hline
-stem diameter (m) & 0.2 &\\ \hline
-leaf area index (m$^{2}$ m$^{-2}$)& 7.13 & ave. from \cite{Bijoor2014} \\ \hline
-crown shape & box& \\ \hline
-$z_{Ht}$ (m)&4.0&Forcing data height \\ \hline
-$z_{PD}$ (m) &0.066 & 2/3 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
-$z_{0,Ht}$ (m) & 0.02 & 1/10 of crown height `rule of thumb' \citep{Grimmond1999}\\ \hline
-\end{tabular} 
-%}
-\end{table}
-\end{center}
-
-\input{MaespaGrassParametersTable}
 
 
 
