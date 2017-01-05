@@ -6,6 +6,7 @@ cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/PrestonBase8/CentralBuil
 
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-EnergyBalanceOverallAve_.png images/Pr04Val-EnergyBalanceOverallAve_.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04NoVeg-EnergyBalanceOverallAve_.png images/Pr04NoVeg-EnergyBalanceOverallAve_.png
+cp -u /home/kerryn/Documents/Work/Data/PrestonData/PrestonWindrose.png images/PrestonWindrose.png
 
 
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-ErrorPlotsSquare.png images/Pr04Val-ErrorPlots.png
