@@ -1,0 +1,34 @@
+\documentclass[parskip]{scrartcl}
+\usepackage[margin=15mm,landscape]{geometry}
+\usepackage{tikz}
+ \usetikzlibrary{calc}
+ \usetikzlibrary{shapes.geometric}
+ \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,matrix}
+\usepackage{scalefnt}
+
+\usepackage{subfig}
+\usepackage{graphicx}
+
+\begin{document}
+
+
+\begin{figure}[!htbp]
+
+
+   \subfloat[Initial view angles ray tracing.]{\includegraphics[page=4,trim=27mm 51mm 151mm 50mm, clip, scale=0.60]{images/Maespa-TUFDomainBld.pdf}\label{fig:initray}}
+  \hspace{0.5cm}  
+   \subfloat[TUF-3D unmodified shading.]{\includegraphics[page=3,trim=27mm 53mm 151mm 92mm, clip, scale=0.60]{images/Maespa-TUFDomainBld.pdf}\label{fig:shading}}
+  \hspace{0.5cm}
+  \\
+   \subfloat[VTUF-3D modified shading.]{\includegraphics[page=5,trim=26mm 51mm 151mm 50mm, clip, scale=0.60]{images/Maespa-TUFDomainBld.pdf}\label{fig:modshading}}
+  \hspace{0.5cm}
+   \subfloat[VTUF-3D reverse ray tracing.]{\includegraphics[page=6,trim=27mm 50mm 150mm 50mm, clip, scale=0.60]{images/Maespa-TUFDomainBld.pdf}\label{fig:modshadingreverse}}
+
+
+
+ 
+
+\end{figure}
+
+
+\end{document}
