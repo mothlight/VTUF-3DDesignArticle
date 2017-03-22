@@ -619,7 +619,7 @@ Figure \ref{fig:Preston30Day4} presents the mean diurnal pattern for each compon
 
 
 
-In a comparison of the 30 day monthly hourly averages, daily observed values of $Q_{H}$ peak at 314 W m$^{-2}$ compared to modelled values of 294 W m$^{-2}$. For the other fluxes, $Q_{E}$, $Q^{*}$, and $Q_{G}$, peaking observed vs. modelled values are 93 vs. 40, 621 vs. 612, and 213 vs. 266 W m$^{-2}$ respectively. The d, index of agreement (in which 1 indicates perfect agreement and 0 no agreement), for the Pr04Val evaluation (Figure 6) shows d values of 0.964, 0.652, 0.998, and 0.957 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. Error analysis of RMSE (W m$^{-2}$) shows values of 40.2, 33.1, 19.0,and 52.5. As an extension to the TUF-3D model, the addition of vegetation and associated $Q_{E}$ fluxes to VTUF-3D have created a large improvement to the model. As will be seen in the Intercomparison results (Section \ref{sec:interresults}), as well as in the results of this intercomparison project \citep{Grimmond2011,Best2012}, land surface modelling schemes that include vegetation perform better than those that do not. In addition, schemes that integrate vegetation perform better than those who use a tiling method that treats the urban canyon and vegetation separately. Another important result from this intercomparison project was that $Q_{E}$ is the least well modelled flux across a range of urban land surface modelling schemes \citep{Grimmond2010}. Even the SUEWS model, which includes vegetation, as well as a very complete urban hydrology, tends to under-estimate $Q_{E}$ fluxes during day-time \citep{Jarvi2011}.
+In a comparison of the 30 day monthly hourly averages, daily observed values of $Q_{H}$ peak at 314 W m$^{-2}$ compared to modelled values of 294 W m$^{-2}$. For the other fluxes, $Q_{E}$, $Q^{*}$, and $Q_{G}$, peaking observed vs. modelled values are 93 vs. 40, 621 vs. 612, and 213 vs. 266 W m$^{-2}$ respectively. The d, index of agreement (in which 1 indicates perfect agreement and 0 no agreement), for the Pr04Val evaluation (Figure 6) shows d values of 0.964, 0.652, 0.998, and 0.957 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. Error analysis of RMSE (W m$^{-2}$) shows values of 40.2, 33.1, 19.0,and 52.5. Error analysis of MBE (W m$^{-2}$) shows values of -4.0, -9.5, 3.0,and -8.3. As an extension to the TUF-3D model, the addition of vegetation and associated $Q_{E}$ fluxes to VTUF-3D have created a large improvement to the model. As will be seen in the Intercomparison results (Section \ref{sec:interresults}), as well as in the results of this intercomparison project \citep{Grimmond2011,Best2012}, land surface modelling schemes that include vegetation perform better than those that do not. In addition, schemes that integrate vegetation perform better than those who use a tiling method that treats the urban canyon and vegetation separately. Another important result from this intercomparison project was that $Q_{E}$ is the least well modelled flux across a range of urban land surface modelling schemes \citep{Grimmond2010}. Even the SUEWS model, which includes vegetation, as well as a very complete urban hydrology, tends to under-estimate $Q_{E}$ fluxes during day-time \citep{Jarvi2011}.
 
 \begin{figure}[!htbp]
 \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/Pr04Val-ErrorPlots.png}
@@ -645,7 +645,7 @@ There will remain an amount of uncertainty in comparing the modelled results to 
 
 \subsection{No vegetation scenario}\label{sec:baselinenoveg}
 
-Figure \ref{fig:Prestonnoveg30day} presents a 30 day hourly average of both the Pr04Val and Pr04NoVeg scenarios with the Pr04Val showing a much closer fit for all fluxes over a diurnal cycle. Figure \ref{fig:Prestonnovegerror} presents each component of the surface energy balance for the no vegetation scenario (Pr04NoVeg). These values show an improvement over the unimproved VTUF-3D model. The unimproved model yields results of d of 0.906, 0.0, 0.989, and 0.877 and RMSE (W m$^{-2}$) of 87.0, 47.1, 51.6, 75.9 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. As an unimproved model, $Q_{H}$ is significantly over-predicted during the afternoon and under-predicted in the evenings. Flux $Q_{G}$ is under-predicted during the afternoons. Finally, $Q_{E}$ is not implemented in the model, so cannot be predicted at all. 
+Figure \ref{fig:Prestonnoveg30day} presents a 30 day hourly average of both the Pr04Val and Pr04NoVeg scenarios with the Pr04Val showing a much closer fit for all fluxes over a diurnal cycle. Figure \ref{fig:Prestonnovegerror} presents each component of the surface energy balance for the no vegetation scenario (Pr04NoVeg). These values show an improvement over the unimproved VTUF-3D model. The unimproved model yields results of d of 0.906, 0.0, 0.989, and 0.877, RMSE (W m$^{-2}$) of 87.0, 47.1, 51.6, 75.9, and MBE (W m$^{-2}$) of -6.3, 23.8, 41.1, 11.0 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. As an unimproved model, $Q_{H}$ is significantly over-predicted during the afternoon and under-predicted in the evenings. Flux $Q_{G}$ is under-predicted during the afternoons. Finally, $Q_{E}$ is not implemented in the model, so cannot be predicted at all. 
 
 
 \begin{figure}[!htbp]
@@ -674,7 +674,7 @@ A comparison of Intercomparison RMSE results vs. modelled results is shown in Ta
 
 \begin{center}
 \begin{table}[!htbp]
-\caption{RMSE VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
+\caption{RMSE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
 \begin{tabular}{  | l | l | l|l|l| } 
 \hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
 Pr04Val & 19.0&	40.2&	52.5&	33.1    \\ \hline
@@ -686,6 +686,19 @@ IntercomparisonIntegrated & 25&	45&	77&	26   \\ \hline
 \end{table}
 \end{center} 
 
+\begin{center}
+\begin{table}[!htbp]
+\caption{MBE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonmbe}} 
+\begin{tabular}{  | l | l | l|l|l| } 
+\hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
+Pr04Val & 3.0&	-4.0&	-8.3&	-9.5    \\ \hline
+Pr04NoVeg & 41.1&	-6.3&	11.0&	23.8  \\ \hline	
+IntercomparisonNoVeg & 2&	45&	-16& -32   \\ \hline
+IntercomparisonTiled & -7&	13&	-22& -1  \\ \hline
+IntercomparisonIntegrated & -5&	13&	-18& -3   \\ \hline
+  \end{tabular} 
+\end{table}
+\end{center} 
 
 
 \section{Summary and Conclusions}

@@ -9,8 +9,8 @@ cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04NoVeg-Energ
 cp -u /home/kerryn/Documents/Work/Data/PrestonData/PrestonWindrose.png images/PrestonWindrose.png
 
 
-cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-ErrorPlotsSquare.png images/Pr04Val-ErrorPlots.png
-cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04NoVeg-ErrorPlotsSquare.png images/Pr04NoVeg-ErrorPlots.png
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-ErrorPlotsSquare5.png images/Pr04Val-ErrorPlots.png
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04NoVeg-ErrorPlotsSquare5.png images/Pr04NoVeg-ErrorPlots.png
 
 #cd /home/kerryn/git/PhDProposal/PhDProposal
 ##pdflatex -file-line-error -synctex=1 -interaction=errorstopmode PhDThesis.tex
