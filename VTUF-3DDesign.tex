@@ -460,26 +460,30 @@ In order to understand the changes made to create VTUF-3D, an overview of the TU
 \begin{figure}[!htbp]
    \subfloat[Initial view angles ray tracing.]{
    %\fbox{
-   \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-3.png}\label{fig:initray}
+   \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-3.png}
+   %\label{fig:initray}
    %}
    }
   \hspace{0.5cm}  
    \subfloat[TUF-3D unmodified shading.]{
    %\fbox{
-   \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-2.png}\label{fig:shading}
+   \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-2.png}
+   %\label{fig:shading}
    %}
    }
   \hspace{0.5cm}
   \\
    \subfloat[VTUF-3D modified shading.]{
    %\fbox{
-   \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-4.png}\label{fig:modshading}
+   \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-4.png}
+   %\label{fig:modshading}
    %}
    }
   \hspace{0.5cm}
    \subfloat[VTUF-3D reverse ray tracing.]{
    %\fbox{
-   \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-5.png}\label{fig:modshadingreverse}
+   \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-5.png}
+   %\label{fig:modshadingreverse}
    %}
    }
    \caption{(a) Initial view angles ray tracing, run during model initialisation to determine which surfaces are visible to each other. Trees depicted with dashed borders to emphasise they are present in the domain but are not considered at this point in the simulation. \label{fig:initray} (b) TUF-3D unmodified shading logic in which each surface performs four ray traces (from each surface quarter) towards the sun and determines sunlit percentage based on how many rays leave the domain without meeting an obstruction. Vegetation modelling is not possible in TUF-3D, so is not depicted. \label{fig:shading} (c) VTUF-3D modified shading, timestep ray tracing, using the same process as the unmodified logic but setting a flag for any ray that encounters vegetation. \label{fig:modshading} (d) VTUF-3D modified shading, reverse ray tracing. For any rays that encounter vegetation in forward ray tracing, reverse ray traces are performed to allocate radiation to intervening encountered surfaces. \label{fig:modshadingreverse}} 
@@ -588,7 +592,7 @@ The evaluation period contained a range of conditions. The period especially fea
 
 \subsection{Evaluation approach}\label{sec:prvalresults}
 
-The evaluation scenario (named Pr04Val) compares the modelled results for the 30 day run with the observed fluxes ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$) for the domain that aligns well with the land surface classification for the wider local scale area (Table \ref{tab:expertValues}). Comparisons with the observations will be performed using the \cite{Willmott1981} d index of agreement. In addition, the VTUF-3D model was run with a no vegetation scenario, undertaken to demonstrate the significant improvement of the model. This scenario (named Pr04NoVeg), will represent an unimproved TUF-3D without vegetation modelling capability, as the lack of vegetation will not trigger any of the new logic and improvements added to the model. Finally, as the observations used in this evaluation are the same as in Phase 4 of the Intercomparison project \citep{Best2012}, using the \cite{Coutts2007} Preston dataset, the performance of the VTUF-3D model can also be placed within this evaluation of urban land surface modelling schemes. These include the 24 surface energy balance models with sufficient resolution to resolve features of and interactions in urban areas. The Intercomparison Phase 4 provide RMSE error analysis results for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$, grouped by three classifications of urban models. These three categories are of models that do not consider vegetation, those that model vegetation using tiles, and models that integrate vegetation into the urban area (referred to as classifications IntercomparisonNoVeg, IntercomparisonTiled, and IntercomparisonIntegrated, described in Table \ref{tab:simscompared}). These are approaches of increasing complexity where the tiled approach calculates vegetation and urban surfaces separately and the two only interact through their combined influence on variables such as temperatures. As most complex, the integrated approach allows interactions between and influences of on each other of the two elements within a timestep. VTUF-3D aligns most closely with a tiled vegetation approach. Table \ref{tab:simscompared} summarises all the different scenarios compared during the evaluation process.
+The evaluation scenario (named Pr04Val) compares the modelled results for the 30 day run with the observed fluxes ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$) for the domain that aligns well with the land surface classification for the wider local scale area (Table \ref{tab:expertValues}). Comparisons with the observations will be performed using the \cite{Willmott1981} d index of agreement. In addition, the VTUF-3D model was run with a no vegetation scenario, undertaken to demonstrate the significant improvement of the model. This scenario (named Pr04NoVeg), will represent an unimproved TUF-3D without vegetation modelling capability, as the lack of vegetation will not trigger any of the new logic and improvements added to the model. Finally, as the observations used in this evaluation are the same as in Phase 4 of the Intercomparison project \citep{Best2012}, using the \cite{Coutts2007} Preston dataset, the performance of the VTUF-3D model can also be placed within this evaluation of urban land surface modelling schemes. These include the 24 surface energy balance models with sufficient resolution to resolve features of and interactions in urban areas. The Intercomparison Phase 4 provides mean bias error (MBE) and root-mean-square error (RMSE) statistics for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$, grouped by three classifications of urban models. These three categories are of models that do not consider vegetation, those that model vegetation using tiles, and models that integrate vegetation into the urban area (referred to as classifications IntercomparisonNoVeg, IntercomparisonTiled, and IntercomparisonIntegrated, described in Table \ref{tab:simscompared}). These are approaches of increasing complexity where the tiled approach calculates vegetation and urban surfaces separately and the two only interact through their combined influence on variables such as temperatures. As most complex, the integrated approach allows interactions between and influences of on each other of the two elements within a timestep. VTUF-3D aligns most closely with a tiled vegetation approach. Table \ref{tab:simscompared} summarises all the different scenarios compared during the evaluation process.
 
 \begin{center}
 \begin{table}[!htbp]
@@ -605,8 +609,8 @@ IntercomparisonIntegrated & \cite{Best2012} intercomparison performance mean of 
 \end{center}
 
 
-\section{Results}
-\subsection{Evaluation of VTUF-3D}\label{sec:evalresults}
+%\section{Evaluation of VTUF-3D}
+\subsection{Evaluation results}\label{sec:evalresults}
 
 Figure \ref{fig:Preston30Day4} presents the mean diurnal pattern for each component of the surface energy balance ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$)  over the 30 day evaluation period. The observed individual fluxes were aggregated into hourly averages over the 30 days and compared with the model output. VTUF-3D was able to reproduce the important dynamics of this area as seen in the component fluxes. In the observations, the $Q_{H}$ and $Q_{G}$ fluxes dominate the urban area, with modest amounts of $Q_{E}$ fluxes, peaking under 100W m$^{-2}$ during the daytime and falling to roughly zero at night-time. This was also seen in the model, with $Q_{H}$ and $Q_{G}$ dominated the surface energy balance, while $Q_{E}$ was relatively small. VTUF-3D captures closely both the magnitude and diurnal cycle of $Q_{H}$, with a slight under-prediction during the morning and a slight over-prediction during the late mornings. VTUF-3D also captures closely the cycles of $Q^{*}$. The very small divergence between the predicted and observed values can be explained through the dual sources of values of $K\downarrow$ in the forcing data, a distance of approximately 20 km between Preston and the Melbourne Airport observation site, providing varying values as a component of the calculated $Q^{*}$ which are then compared to only the Preston observations. $Q_{G}$ shows close agreement except for a slight over-prediction during the mornings, and at mid-day, a slight under-prediction during the afternoon cooling period, and a very slight over-prediction during the evening. 
 
@@ -619,14 +623,114 @@ Figure \ref{fig:Preston30Day4} presents the mean diurnal pattern for each compon
 
 
 
-In a comparison of the 30 day monthly hourly averages, daily observed values of $Q_{H}$ peak at 314 W m$^{-2}$ compared to modelled values of 294 W m$^{-2}$. For the other fluxes, $Q_{E}$, $Q^{*}$, and $Q_{G}$, peaking observed vs. modelled values are 93 vs. 40, 621 vs. 612, and 213 vs. 266 W m$^{-2}$ respectively. The d, index of agreement (in which 1 indicates perfect agreement and 0 no agreement), for the Pr04Val evaluation (Figure 6) shows d values of 0.964, 0.652, 0.998, and 0.957 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. Error analysis of RMSE (W m$^{-2}$) shows values of 40.2, 33.1, 19.0,and 52.5. Error analysis of MBE (W m$^{-2}$) shows values of -4.0, -9.5, 3.0,and -8.3. As an extension to the TUF-3D model, the addition of vegetation and associated $Q_{E}$ fluxes to VTUF-3D have created a large improvement to the model. As will be seen in the Intercomparison results (Section \ref{sec:interresults}), as well as in the results of this intercomparison project \citep{Grimmond2011,Best2012}, land surface modelling schemes that include vegetation perform better than those that do not. In addition, schemes that integrate vegetation perform better than those who use a tiling method that treats the urban canyon and vegetation separately. Another important result from this intercomparison project was that $Q_{E}$ is the least well modelled flux across a range of urban land surface modelling schemes \citep{Grimmond2010}. Even the SUEWS model, which includes vegetation, as well as a very complete urban hydrology, tends to under-estimate $Q_{E}$ fluxes during day-time \citep{Jarvi2011}.
+In a comparison of the 30 day monthly hourly averages, daily observed values of $Q_{H}$ peak at 314 W m$^{-2}$ compared to modelled values of 294 W m$^{-2}$ for the Pr04Val scenario. For the other fluxes, $Q_{E}$, $Q^{*}$, and $Q_{G}$, peaking observed vs. modelled values are 93 vs. 40, 621 vs. 612, and 213 vs. 266 W m$^{-2}$ respectively. The d, index of agreement (in which 1 indicates perfect agreement and 0 no agreement), for the Pr04Val evaluation (Figure \ref{fig:Preston6error}) shows d values of 0.964, 0.652, 0.998, and 0.957 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. RMSE (W m$^{-2}$) values are seen of 40.2, 33.1, 19.0,and 52.5. MBE (W m$^{-2}$) values are seen of -4.0, -9.5, 3.0, and -8.3. 
 
 \begin{figure}[!htbp]
 \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/Pr04Val-ErrorPlots.png}
 \caption{Pr04Val scenario modelled vs. observations for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ fluxes for the period 10 February-10 March 2004. \label{fig:Preston6error}}   
 \end{figure}
 
-This project uses an innovative method, the first time vegetation has been tiled and incorporated into a micro-scaled surface energy balance model in this manner. This method is anticipated to bring performance improvements over the previous version of the model which did not consider vegetation. The results suggest that this is the case, shown in the the results of the Pr04NoVeg no vegetation evaluation scenario (Section \ref{sec:baselinenoveg}). In addition to the improved modelling performance, the addition of vegetation modelling has dramatically improved the applicability of VTUF-3D to a wide range of modelling problems. Indeed, without this addition, the main aim of this model, to determine the thermal comfort improvements due to urban vegetation and water would not be possible. 
+Figure \ref{fig:Prestonnoveg30day} presents a 30 day hourly average of both the Pr04Val and Pr04NoVeg scenarios with the Pr04Val showing a much closer fit for all fluxes over a diurnal cycle. Figure \ref{fig:Prestonnovegerror} presents each component of the surface energy balance for the no vegetation scenario (Pr04NoVeg). These values show an improvement over the unimproved VTUF-3D model. The unimproved model yields results of d of 0.906, 0.0, 0.989, and 0.877, RMSE (W m$^{-2}$) of 87.0, 47.1, 51.6, 75.9, and MBE (W m$^{-2}$) of -6.3, 23.8, 41.1, 11.0 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. As an unimproved model, $Q_{H}$ is significantly over-predicted during the afternoon and under-predicted in the evenings. Flux $Q_{G}$ is under-predicted during the afternoons. Finally, $Q_{E}$ is not implemented in the model, so cannot be predicted at all. 
+
+\begin{figure}[!htbp]
+{\scriptsize a)} \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.16]{images/Pr04Val-EnergyBalanceOverallAve_.png}
+{\scriptsize b)} \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.16]{images/Pr04NoVeg-EnergyBalanceOverallAve_.png}
+\caption{a) Pr04Val and b) Pr04NoVeg scenarios. 30 day hourly average VTUF-3D flux comparisons to Preston flux observations for the period 10 February-10 March 2004, with error bars observations standard deviations. \label{fig:Prestonnoveg30day}}    
+\end{figure}
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/Pr04NoVeg-ErrorPlots.png}
+\caption{Pr04NoVeg scenario modelled vs. observations for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ fluxes for the period 10 February-10 March 2004. \label{fig:Prestonnovegerror}}    
+\end{figure}
+
+As an extension to the TUF-3D model, the addition of vegetation and associated $Q_{E}$ fluxes to VTUF-3D have created a large improvement to the model. The results of the intercomparison project \citep{Grimmond2011,Best2012} showed that land surface modelling schemes that include vegetation perform better than those that do not. In addition, schemes that integrate vegetation perform better than those who use a tiling method that treats the urban canyon and vegetation separately. Another important result from this intercomparison project was that $Q_{E}$ is the least well modelled flux across a range of urban land surface modelling schemes \citep{Grimmond2010}. Even the SUEWS model, which includes vegetation, as well as a very complete urban hydrology, tends to under-estimate $Q_{E}$ fluxes during day-time \citep{Jarvi2011}.
+
+
+
+
+Using the RMSE and MBE values for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$ from Phase 4 of the Intercomparison project, the performance of the Pr04NoVeg scenario (as well as the Pr04NoVeg scenario) can be compared against the performance of 24 other urban land surface models. The RMSE and MBE values are taken from Figure 2 of \cite{Best2012}, for the Feb/Mar period, corresponding to the period for which the evaluation scenarios were run. A comparison of these Intercomparison MBE and RMSE results vs. modelled results is shown in Table \ref{fig:prestonrmse}. In the Phase 4 comparisons, for all fluxes, models with integrated vegetation had the lowest RMSE values (and \cite{Grimmond2011} found that models without vegetation were among the poorest performers). These were followed by tiled vegetation models while models without vegetation had the highest values. In comparison, the VTUF-3D Pr04Val scenario had lower RMSE values for all fluxes except $Q_{E}$ than each of the Phase 4 three model categories. For $Q_{E}$, the VTUF-3D scenario Pr04Val performed better than the no vegetation category, but with slightly higher errors than the tiled and integrated categories. In terms of absolute differences between RMSE values for the best performing Intercomparison model category, Pr04Val scenario RMSE values differed by -6, -5, -25, and 7 W m$^{-2}$ for $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$ respectively. In MBE values, VTUF-3D performed better for $Q_{H}$ and $Q_{G}$ in all categories, better than the tiled and integrated categories with $Q^{*}$, and better for $Q_{E}$ in the no vegetation category.
+
+
+%\begin{center}
+%\begin{table}[!htbp]
+%\caption{MBE and RMSE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
+%\begin{tabular}{  | l | l | l|l|l| l | l | l|l|} 
+%\hline \textbf{Scenario name} &\textbf{$Q^{*}$} RMSE& \textbf{$Q_{H}$} RMSE& \textbf{$Q_{G}$} RMSE& \textbf{$Q_{E}$} RMSE
+%&\textbf{$Q^{*}$} MBE& \textbf{$Q_{H}$} MBE& \textbf{$Q_{G}$} MBE& \textbf{$Q_{E}$} MBE  \\ \hline
+%Pr04Val & 19.0&	40.2&	52.5&	33.1    & 3.0&	-4.0&	-8.3&	-9.5    \\ \hline
+%Pr04NoVeg & 51.6&	87.0&	75.9&	47.1  & 41.1&	-6.3&	11.0&	23.8  \\ \hline	
+%IntercomparisonNoVeg & 40&	105&	85&	38  & 2&	45&	-16& -32   \\ \hline
+%IntercomparisonTiled &  27&	60&	77&	25  & -7&	13&	-22& -1  \\ \hline
+%IntercomparisonIntegrated & 25&	45&	77&	26  & -5&	13&	-18& -3   \\ \hline
+%  \end{tabular} 
+%\end{table}
+%\end{center}  
+
+
+
+ 
+ 
+ \begin{center}
+ \begin{table}[!htbp]
+ \caption{RMSE and MBE (W m$^{-2}$) statistics VTUF-3D vs. Intercomparison \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
+ \begin{tabular}{  | l | l | l|l|l| } 
+ \hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
+ Pr04Val RMSE & 19.0&	40.2&	52.5&	33.1    \\ \hline
+   Pr04Val MBE & 3.0&	-4.0&	-8.3&	-9.5    \\ \hline
+ Pr04NoVeg RMSE & 51.6&	87.0&	75.9&	47.1  \\ \hline	
+   Pr04NoVeg MBE & 41.1&	-6.3&	11.0&	23.8  \\ \hline	
+ IntercomparisonNoVeg RMSE & 40&	105&	85&	38   \\ \hline
+   IntercomparisonNoVeg MBE & 2&	45&	-16& -32   \\ \hline
+ IntercomparisonTiled RMSE &  27&	60&	77&	25  \\ \hline
+   IntercomparisonTiled MBE & -7&	13&	-22& -1  \\ \hline
+ IntercomparisonIntegrated RMSE & 25&	45&	77&	26   \\ \hline
+   IntercomparisonIntegrated MBE & -5&	13&	-18& -3   \\ \hline
+ 
+   \end{tabular} 
+ \end{table}
+ \end{center} 
+ 
+
+
+
+ 
+
+
+
+%\begin{center}
+%\begin{table}[!htbp]
+%\caption{RMSE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
+%\begin{tabular}{  | l | l | l|l|l| } 
+%\hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
+%Pr04Val & 19.0&	40.2&	52.5&	33.1    \\ \hline
+%Pr04NoVeg & 51.6&	87.0&	75.9&	47.1  \\ \hline	
+%IntercomparisonNoVeg & 40&	105&	85&	38   \\ \hline
+%IntercomparisonTiled &  27&	60&	77&	25  \\ \hline
+%IntercomparisonIntegrated & 25&	45&	77&	26   \\ \hline
+%  \end{tabular} 
+%\end{table}
+%\end{center} 
+%
+%\begin{center}
+%\begin{table}[!htbp]
+%\caption{MBE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonmbe}} 
+%\begin{tabular}{  | l | l | l|l|l| } 
+%\hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
+%Pr04Val & 3.0&	-4.0&	-8.3&	-9.5    \\ \hline
+%Pr04NoVeg & 41.1&	-6.3&	11.0&	23.8  \\ \hline	
+%IntercomparisonNoVeg & 2&	45&	-16& -32   \\ \hline
+%IntercomparisonTiled & -7&	13&	-22& -1  \\ \hline
+%IntercomparisonIntegrated & -5&	13&	-18& -3   \\ \hline
+%  \end{tabular} 
+%\end{table}
+%\end{center} 
+
+
+
+
+
+
+This project uses an innovative method, the first time vegetation has been tiled and incorporated into a micro-scaled surface energy balance model in this manner. This method was anticipated to bring performance improvements over the previous version of the model that did not consider vegetation. The results suggest that this is the case, shown in the the results of the Pr04NoVeg no vegetation evaluation scenario. In comparisons with other urban models, VTUF-3D has shown comparable performance to these other urban models (while delivering micro-scaled results). In addition to the improved modelling performance, the addition of vegetation modelling has dramatically improved the applicability of VTUF-3D to a wide range of modelling problems. Indeed, without this addition, the main aim of this model, to determine the thermal comfort improvements due to urban vegetation and water would not be possible. 
 
 Despite these improvements to the modelling tool, the fluxes of $Q_{E}$ show some divergences from the observations. This was anticipated as there are three current limitations of VTUF-3D that can account for low $Q_{E}$ levels, and need addressing in future versions of the model. The first is not accounting for precipitation on impervious surfaces. Many spikes of $Q_{E}$ fluxes are seen in the observations shortly after rainfall. \cite{Demuzere2014} found evaporation from impervious surfaces in urban areas after rainfall can contribute to an approximately 10\% increase of $Q_{E}$ over a two month period, while \cite{Wouters2013} found increases of 45 W m$^{-2}$ in $Q_{E}$ for up to 12 hours of daylight following rainfall. Until this portion of precipitation received is accounted for in the model, care should be taken when modelling periods which contain precipitation.
 
@@ -643,62 +747,6 @@ There will remain an amount of uncertainty in comparing the modelled results to 
 
 
 
-\subsection{No vegetation scenario}\label{sec:baselinenoveg}
-
-Figure \ref{fig:Prestonnoveg30day} presents a 30 day hourly average of both the Pr04Val and Pr04NoVeg scenarios with the Pr04Val showing a much closer fit for all fluxes over a diurnal cycle. Figure \ref{fig:Prestonnovegerror} presents each component of the surface energy balance for the no vegetation scenario (Pr04NoVeg). These values show an improvement over the unimproved VTUF-3D model. The unimproved model yields results of d of 0.906, 0.0, 0.989, and 0.877, RMSE (W m$^{-2}$) of 87.0, 47.1, 51.6, 75.9, and MBE (W m$^{-2}$) of -6.3, 23.8, 41.1, 11.0 for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ respectively. As an unimproved model, $Q_{H}$ is significantly over-predicted during the afternoon and under-predicted in the evenings. Flux $Q_{G}$ is under-predicted during the afternoons. Finally, $Q_{E}$ is not implemented in the model, so cannot be predicted at all. 
-
-
-\begin{figure}[!htbp]
-{\scriptsize a)} \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.16]{images/Pr04Val-EnergyBalanceOverallAve_.png}
-{\scriptsize b)} \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.16]{images/Pr04NoVeg-EnergyBalanceOverallAve_.png}
-\caption{a) Pr04Val and b) Pr04NoVeg scenarios. 30 day hourly average VTUF-3D flux comparisons to Preston flux observations for the period 10 February-10 March 2004, with error bars observations standard deviations. \label{fig:Prestonnoveg30day}}    
-\end{figure}
-
-\begin{figure}[!htbp]
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/Pr04NoVeg-ErrorPlots.png}
-\caption{Pr04NoVeg scenario modelled vs. observations for $Q_{H}$, $Q_{E}$, $Q^{*}$, and $Q_{G}$ fluxes for the period 10 February-10 March 2004. \label{fig:Prestonnovegerror}}    
-\end{figure}
-
-
-
-
-\subsubsection{Preston evaluation intercomparison results and discussion}\label{sec:interresults}
-
-Using the RMSE values for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$ from Phase 4 of the Intercomparison project, the performance of the Pr04NoVeg scenario (as well as the Pr04NoVeg scenario) can be compared against the performance of 24 other urban land surface models. The RMSE values are taken from Figure 2 of \cite{Best2012}, for the Feb/Mar period, corresponding to the period for which the evaluation scenarios were run. 
-
-A comparison of Intercomparison RMSE results vs. modelled results is shown in Table \ref{fig:prestonrmse}. In the Phase 4 comparisons, for all fluxes, models with integrated vegetation had the lowest RMSE values (and \cite{Grimmond2011} found that models without vegetation were among the poorest performers). These were followed by tiled vegetation models while models without vegetation had the highest values. In comparison, the VTUF-3D Pr04Val scenario had lower RMSE values for all fluxes except $Q_{E}$ than each of the Phase 4 three model categories. For $Q_{E}$, the VTUF-3D scenario Pr04Val performed better than the no vegetation category, but with slightly higher errors than the tiled and integrated categories. In terms of absolute differences between RMSE values for the best performing Intercomparison model category, Pr04Val scenario RMSE values differed by -6, -5, -25, and 7 W m$^{-2}$ for $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$ respectively.
-
- 
-
-
-
-\begin{center}
-\begin{table}[!htbp]
-\caption{RMSE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
-\begin{tabular}{  | l | l | l|l|l| } 
-\hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
-Pr04Val & 19.0&	40.2&	52.5&	33.1    \\ \hline
-Pr04NoVeg & 51.6&	87.0&	75.9&	47.1  \\ \hline	
-IntercomparisonNoVeg & 40&	105&	85&	38   \\ \hline
-IntercomparisonTiled &  27&	60&	77&	25  \\ \hline
-IntercomparisonIntegrated & 25&	45&	77&	26   \\ \hline
-  \end{tabular} 
-\end{table}
-\end{center} 
-
-\begin{center}
-\begin{table}[!htbp]
-\caption{MBE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonmbe}} 
-\begin{tabular}{  | l | l | l|l|l| } 
-\hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
-Pr04Val & 3.0&	-4.0&	-8.3&	-9.5    \\ \hline
-Pr04NoVeg & 41.1&	-6.3&	11.0&	23.8  \\ \hline	
-IntercomparisonNoVeg & 2&	45&	-16& -32   \\ \hline
-IntercomparisonTiled & -7&	13&	-22& -1  \\ \hline
-IntercomparisonIntegrated & -5&	13&	-18& -3   \\ \hline
-  \end{tabular} 
-\end{table}
-\end{center} 
 
 
 \section{Summary and Conclusions}
