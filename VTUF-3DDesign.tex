@@ -108,8 +108,7 @@
 
 With urban areas facing longer duration heat-waves and temperature extremes from climate change and growing urban development, adaptation strategies are needed to protect city residents. Examining the role that increased tree cover and water availability can have on human thermal comfort (HTC) is needed to help guide the development of thermally comfortable cities. To inform planning, modelling tools are needed that provide sufficient resolution to resolve urban influences on HTC and the ability to model important physiological processes of vegetation. To achieve this, a new micro-scale model, VTUF-3D (Vegetated Temperatures of Urban Facets), has been developed using an innovative approach of embedding the functionality of the MAESPA tree process model \citep{Duursma2012}, that can model individual trees, vegetation, and soil components, within the TUF-3D \citep{Krayenhoff2007} urban micro-climate model. A innovative tiling approach allows the new model to account for important vegetative physiological processes and shading effects, using configurable templates to allow representation of any type of vegetation or water sensitive design feature. This allows detailed calculations of surface temperatures ($T_{sfc}$), mean radiant temperature ($T_{mrt}$), and a HTC index, the universal thermal climate index (UTCI), across an urban canyon. This study presents an outline of VTUF-3D, along with an evaluation of the modelled surface energy balance for Preston, Australia \citep{Coutts2007}. The VTUF-3D model has shown it performs well and is suitable for use to examine critical questions relating to the role of vegetation and water in the urban environment. Using this model, it is now possible to conduct further analysis to quantify the impact each individual tree can have on temperatures in urban canyons. Further, the model can help inform the optimal arrangement and quantity of trees to maximise temperature moderation effects and be used to generate best practices guidelines for urban greening.
 
-\nomenclature{$T_{mrt}$}{mean radiant temperature (\SI{}{\degreeCelsius})}  
-\nomenclature{$UTCI$}{universal thermal climate index}
+
 \end{abstract}
 
 \begin{keyword}
@@ -138,7 +137,45 @@ micro-climate modelling, urban vegetation, VTUF-3D, human thermal comfort
 
 %% main text
 
-
+% % % %\nomenclature{$\alpha$}{shortwave albedo }
+\nomenclature{$\alpha_{sfc}$}{surface albedo (=0.15)} 
+\nomenclature{$\alpha_{g}$}{globe albedo (=0.05)} 
+\nomenclature{$\alpha _{veg}$}{shortwave albedo of vegetation}
+% % % %\nomenclature{$\epsilon$}{longwave emissivity}
+\nomenclature{$\epsilon _{veg}$}{longwave emissivity of vegetation}
+\nomenclature{$\epsilon_{a}$}{longwave emissivity of the atmosphere} 
+\nomenclature{$\epsilon_{g}$}{globe emissivity (=0.95)}  
+\nomenclature{$\sigma$}{Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$W m$^{-2}$K$^{-4}$)} 
+\nomenclature{$\theta$}{solar zenith angle} 
+\nomenclature{$A$}{surface area of a sphere of diameter D, of value 0.15m, (=$\pi 0.15^{2}$m$^{2}$)} 
+\nomenclature{$f_{dir}$}{fraction of the total horizontal solar irradiance, $S$, due to the direct beam of the sun}
+\nomenclature{$h$}{convective heat transfer coefficient (W m$^{-2}$K$^{-1}$)} 
+\nomenclature{$h_{i}$}{heat transfer coefficient (W m$^{-2}$K$^{-1}$)} 
+\nomenclature{$k$}{thermal conductivity of the fluid (i.e. air) (W m$^{-1}$ K$^{-1}$)} 
+\nomenclature{$K\downarrow_{dif}$}{domain-level incoming diffuse shortwave (W m$^{-2}$)}
+\nomenclature{$K\downarrow_{dir}$}{domain-level incoming direct shortwave (W m$^{-2}$)}
+\nomenclature{$K\downarrow$}{downward shortwave radiative flux density (W m$^{-2}$)} 
+\nomenclature{$L \downarrow_{i,sky}$}{initial incident sky-derived longwave (W m$^{-2}$)} 
+\nomenclature{$L\downarrow$}{downward longwave radiative flux density (W m$^{-2}$)}
+\nomenclature{$S$}{horizontal solar irradiance (W m$^{-2}$)} 
+\nomenclature{$T_{sfc,veg}$}{vegetation surface temperature (K)} 
+\nomenclature{$T_{sfc}$}{surface temperature (K)} 
+\nomenclature{$T_{g}$}{globe temperature (K)} 
+\nomenclature{$T_{a}$}{dry bulb air temperature (K)} 
+% % % %\nomenclature{$T_{s,1}$}{soil surface temperature (K)}
+\nomenclature{$T_{mrt}$}{mean radiant temperature (\SI{}{\degreeCelsius})}  
+% % % %\nomenclature{$T_{conv}$}{converging canyon temperature (K)} 
+\nomenclature{$T_{can}$}{canyon air temperature (K)} 
+\nomenclature{$Q^{*}_{veg}$}{calculation of vegetation net radiation flux density (W m$^{-2}$)}
+\nomenclature{$Q^{*}$}{net radiation flux density (W m$^{-2}$)} 
+\nomenclature{$Q_{E}$}{latent heat flux (W m$^{-2}$)}
+\nomenclature{$Q_{E,veg}$}{calculation of vegetation latent heat flux (W m$^{-2}$)} 
+\nomenclature{$Q_{G}$}{ground heat storage (W m$^{-2}$)}
+\nomenclature{$Q_{G,veg}$}{calculation of vegetation ground heat storage (W m$^{-2}$)} 
+\nomenclature{$Q_{H}$}{sensible heat flux (W m$^{-2}$)} 
+\nomenclature{$Q_{H,veg}$}{calculation of vegetation sensible heat flux (W m$^{-2}$)} 
+\nomenclature{$ws_{cm}$}{wind speed (cm s$^{-1}$)} 
+\nomenclature{$UTCI$}{universal thermal climate index}
 
 \section{Introduction}\label{sec:introduction}
 Urban areas are facing a growing number of challenges. Cities are now home to the majority of the world's population and trends will result in further growth \citep{UNDESA2015,WHO2016}. To accommodate increasing urban populations, cities are expanding \citep{Seto2011} and densifying \citep{Byrne2016,Ruth2016,DSE2002}, leading to loss of urban green spaces \citep{Hamin2009,Coutts2007}. In these increasingly urbanised areas, the removal of vegetation, combined with rapid stormwater removal and possibly restricted irrigation during drought conditions, can leave urban landscapes water starved. Urban development that does not consider the implications on urban climate, risks intensifying urban heating and compromising the thermal comfort of city residents. In addition, climate trends point towards increasing average and extreme temperatures \citep{Alexander2009,IPCC2013a}. This is concerning given the growing understanding of the impacts on human health of extreme temperatures \citep{Katsouyanni1993,Nicholls2008,Loughnan2010} and demographics that are shifting toward a more elderly population \citep{Cohen2003,FIFARS2016} that are particularly vulnerable to extreme heat. These factors leave those in urban areas in an increasingly dangerous position. In coming years, cities and their residents will need to adapt to these challenges.
@@ -187,31 +224,16 @@ In order to track the movement and allocation of radiation, VTUF-3D’s modellin
 
 For vegetated parts of the domain, radiative transfer is calculated by components from MAESPA. Incoming radiation, both photosynthetic radiation (PAR) and near infrared (NIR) is partitioned into direct and diffuse using \cite{Weiss1985}. Canopy structure is calculated based on \cite{Wang1990}, supporting a variety of crown shapes namely: conical, half-ellipsoidal, ellipsoidal and paraboloidal. Absorption and scattering of radiation (PAR, NIR, and thermal radiation) by the canopy is calculated using \cite{Norman1979}. Full details of these calculations are included in \cite{Duursma2012}. VTUF-3D distributes the transmitted and absorbed quantities (as detailed in Section \ref{sec:Representationofvegetation}), however scattered quantities are currently disregarded by VTUF-3D.
 
-
-
-Net radiation ($Q^{*}_{veg}$ for vegetated grid squares, otherwise $Q^{*}$ for non-vegetated grid squares) is calculated in 
+Net radiation ($Q^{*}_{veg}$ for vegetated grid squares, uses the vegetation surface temperatures (calculated by MAESPA), calculated in 
 
 \begin{equation}\label{eq:rnet}
-\begin{split}
-Q^{*}_{veg} =& K\downarrow - (\alpha _{veg} K\downarrow) + \epsilon _{veg} L\downarrow - \epsilon _{veg} \sigma  (T_{sfc,veg}) ^{4} 
-\\
-Q^{*} =& K\downarrow - (\alpha K\downarrow) + \epsilon L\downarrow - \epsilon \sigma  (T_{sfc}) ^{4} 
-\end{split}
+Q^{*}_{veg} = K\downarrow - (\alpha _{veg} K\downarrow) + \epsilon _{veg} L\downarrow - \epsilon _{veg} \sigma  (T_{sfc,veg}) ^{4} 
 \end{equation}
 
-where $K\downarrow$ is the downward shortwave radiative flux density (W m$^{-2}$), $L\downarrow$ is the downward longwave radiative flux density (W m$^{-2}$), $\alpha _{veg}$ of vegetation is set to 0.20 and $\epsilon _{veg}$ of vegetation set to 0.97 \citep[p. 12]{Oke1987z}, otherwise $\alpha$ and $\epsilon$ (of non-vegetated surfaces) are set to user configured values (model default values are 0.10 and 0.92 \citep{Krayenhoff2007}), and $\sigma$ is the Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$ W m$^{-2}$ K$^{-4}$), and $T_{sfc,veg}$ is the vegetation surface temperature (K), or $T_{sfc}$ for non-vegetated surfaces.
+where $K\downarrow$ is the downward shortwave radiative flux density (W m$^{-2}$), $L\downarrow$ is the downward longwave radiative flux density (W m$^{-2}$), $\alpha _{veg}$ of vegetation is set to 0.20 and $\epsilon _{veg}$ of vegetation set to 0.97 \citep[p. 12]{Oke1987z}, $\sigma$ is the Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$ W m$^{-2}$ K$^{-4}$), and $T_{sfc,veg}$ is the vegetation surface temperature (K).
 
-\nomenclature{$K\downarrow$}{downward shortwave radiative flux density (W m$^{-2}$)} 
-\nomenclature{$L\downarrow$}{downward longwave radiative flux density (W m$^{-2}$)}
-\nomenclature{$\alpha _{veg}$}{shortwave albedo of vegetation}
-\nomenclature{$\epsilon _{veg}$}{longwave emissivity of vegetation}
-\nomenclature{$\alpha$}{shortwave albedo }
-%\nomenclature{$\sigma$}{Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$W m$^{-2}$K$^{-4}$)} 
-\nomenclature{$T_{sfc,veg}$}{vegetation surface temperature (K)} 
 
-\nomenclature{$T_{sfc}$}{surface temperature (K)} 
-\nomenclature{$Q^{*}_{veg}$}{calculation of vegetation net radiation flux density (W m$^{-2}$)}
-\nomenclature{$Q^{*}$}{net radiation flux density (W m$^{-2}$)} 
+
 
 \subsection{Convective energy fluxes}
 
@@ -219,22 +241,11 @@ As the simulation proceeds through each timestep, an energy balance is performed
 
 \subsubsection{Latent energy fluxes}
 \label{sec:calcleaftemp}
-\nomenclature{$Q_{E}$}{latent heat flux (W m$^{-2}$)}
-\nomenclature{$Q_{E,veg}$}{calculation of vegetation latent heat flux (W m$^{-2}$)} 
-
-For latent energy fluxes ($Q_{E}$), $Q_{E,veg}$ is the value for the grid square calculated in the MAESPA tree calculations, loaded from the MAESPA data for the individual item of vegetation and accompanying soil. Physiological processes and the water balance are modelled by MAESPA supporting the soil-plant-atmosphere continuum. Stomatal conductance within the vegetation uses MAESPA components based on the widely used Ball-Berry type approach \citep{Ball1987,Duursma2012}. Options are available to use a number of variations including: the Ball-Berry model \citep{Ball1987}, the Ball-Berry-Leuning model \citep{Leuning1995}, the Ball-Berry-Opti model \citep{Medlyn2011}, or the Tuzet model \citep{Tuzet2003}. The use of this stomatal conductance approach requires more detailed parameters than the `Big Leaf' stomatal resistance scheme \citep{Bailey1981,Kowalczyk1991} which only provides a canopy-wide average. This allows precise modelling of individual species and specimens of vegetation, accounting for variations of vegetation type, canopy size, and vegetation health \citep{Duursma2012}. Each individually modelled element of vegetation can be placed precisely in a modelling domain scenario.
-
-
-Canopy transpiration and leaf temperature for a MAESPA tile is calculated using an iterative scheme based on \cite{Wang1998}. An initial assumption is made that leaf surface temperatures are equal to the air temperature. $E_{L}$, leaf level transpiration rate ($\mu$mol m$^{-2}$s$^{-1}$) is calculated to find $\Psi_{L}$, the leaf water potential ($MPa$) (i.e. solving the Tuzet variation of the Ball-Berry stomatal conductance). $g_{B}$, the boundary layer conductance (mol m$^{-2}$s$^{-1}$), and $g_{V}$, the total conductance to water vapour (mol m$^{-2}$s$^{-1}$), are calculated using \cite{Jones1992}, while photosynthesis is calculated using \cite{Farquhar1980}. Next, the Penman-Monteith equation \citep{Penman1948,Monteith1965} is applied to each grid point (to account for variations due to sunlit and shaded portions of the canopy) and summed over all the grid points to calculate transpiration. Finally, leaf temperature is found by iteratively closing the energy balance of the leaf, based on \cite{Wang1998}. If the leaf temperature has converged (within a defined range of previous leaf temperatures), the process ends, otherwise these steps repeat until convergence is reached. See \cite{Duursma2012} and \cite{Medlyn2007} for complete details.
-
-
 \label{sec:waterbalance}
-Water balance functionality is supplied by MAESPA modules. Each item of vegetation will be individually modelled using a single instance of MAESPA, supported by the built in water balance routines. Soil layers are configurable (set to 10 by default). Complete details of the following calculations (of all modules in Section \ref{sec:waterbalance}) are contained in \cite{Duursma2012}, though a broad description is as follows. Infiltration is based on a function from the BROOK90 model \citep{Federer2003} infiltrating rain falling on the soil surface through the soil layers. Root water uptake calculates $F_{R}$, the cumulative fraction of fine roots to depth z (m). Next, treating the root system as a number of resistances in parallel, $E_{i}$, the root water uptake (canopy transpiration) out of layer $i$ (mm) is calculated. In order to solve the equation simultaneously across multiple soil layers, calculations of $E_{i}$ are simplified using assumptions of \cite{Taylor1975}. Soil evaporation is only drawn through the top later and assumed to travel through a thin dry layer at the soil surface. It is based on models developed by \cite{Choudhury1988} and \cite{Williams2001}. Calculation of $E_{s}$, the rate of evaporation (mm), is based on the difference between vapour pressure differences in soil pore space and the air above. In the calculation of $G_{ws}$, the conductance of water vapour through the soil pore space (m s$^{-1}$), as the thickness of the layer of dry soil at the surface increases, more resistance to air evaporation is created. Calculation of $D_{eff}$, the effective diffusivity of the soil pore space (m$^{2}$s$^{-1}$), accounts for changes in diffusivity with changing soil temperatures. Finally, $e_{s}$, the partial water vapour pressure of the soil pore space (KPa), is calculated. 
 
-In order to account for canopy interception of precipitation, the \cite{Rutter1975} rainfall interception model is used. In this, rain can either fall through the canopy to the ground or be intercepted by the canopy in a slowly draining canopy pool. For the second option, the canopy pool is filled until reaching a maximum volume, after which any additional rainfall immediately follows the first pathway to the ground. Some amount of water is also evaporated from the canopy. Drainage of soil water is solved downward, layer by layer, in which the change of $W_{i}$, the water storage of the layer $i$ (mm), is calculated based on the soil hydraulic conductivity (m s$^{-1}$) in each layer. Hydraulics of the soil-to-leaf pathway, $k_{L}$, the total leaf-specific hydraulic conductance (mmol m$^{-2}$ s$^{-1}$ MPa$^{-1}$), is calculated using the total hydraulic resistance for all soil layers combined (MPa s m$^{2}$ mol$^{-1}$) (estimated using the single root model of \cite{Gardner1960}).
+For latent energy fluxes, $Q_{E,veg}$ is calculated for each grid square, loaded from offline MAESPA modelled data for the individual item of vegetation and accompanying soil in the domain (\cite{Duursma2012} and \cite{Medlyn2007} for complete details). MAEPSA uses a number of variations of the Ball-Berry type approach \citep{Ball1987,Duursma2012} for stomatal conductance. Canopy transpiration and leaf temperature for a MAESPA tile is calculated using an iterative scheme based on \cite{Wang1998}. The Penman-Monteith equation \citep{Penman1948,Monteith1965} is applied to each grid point (to account for variations due to sunlit and shaded portions of the canopy) and summed over all the grid points to calculate transpiration. Finally, leaf temperature is found by iteratively closing the energy balance of the leaf, based on \cite{Wang1998}. MAESPA also accounts for water balance functionality. In MAESPA, infiltration is based on a function from the BROOK90 model \citep{Federer2003}. Soil evaporation is based on models developed by \cite{Choudhury1988} and \cite{Williams2001}. Canopy interception of precipitation uses the \cite{Rutter1975} rainfall interception model. Finally, hydraulics of the soil-to-leaf pathway are estimated using the single root model of \cite{Gardner1960}.
 
-Canopy transpiration and soil evaporation are combined to give total the $Q_{E}$ for a vegetated tile. Using MAESPA outputs of storage of intercepted rain ($canopystore$), evaporation of wet canopy ($evapstore$), soil evaporation ($soilevap$), and modelled canopy transpiration ($et$) (all in mm) (variables fully documented in \cite{Duursma2016}) are converted to W m$^{-2}$ in 
-
+VTUF-3D combines MAESPA predicted canopy transpiration and soil evaporation into a total $Q_{E}$ for each vegetated tile. Using MAESPA outputs of storage of intercepted rain ($canopystore$), evaporation of wet canopy ($evapstore$), soil evaporation ($soilevap$), and modelled canopy transpiration ($et$) (all in mm) (variables fully documented in \cite{Duursma2016}) are converted to W m$^{-2}$ in 
 
 \begin{equation}\label{eq:mmtowm2} 
   Q_{E,et} = et \times A _{mm} \times m_{mol,w} \times \Delta H_{vap} \times c_{w,kj} \times Time  
@@ -242,7 +253,7 @@ Canopy transpiration and soil evaporation are combined to give total the $Q_{E}$
  
 where $et$ is evapotranspiration (mm), $A _{mm}$ is the 2-dimensional tree area (mm$^{2}$), $Time$ is the time (seconds), $\Delta H_{vap}$, the enthalpy of evaporation (=42809 J mol$^{-1}$), $c_{w,kj}$, the conversion to watts (=1W/1000KJ/sec), and $m_{mol,w}$, the molar mass of water (=18.0152g mol$^{-1}$).
 
-These values are combined to calculate $Q_{E}$ for a grid square in 
+These values are combined to calculate the $Q_{E}$ for a grid square in 
 
 
 \begin{equation}\label{eq:lefromet} 
@@ -256,65 +267,10 @@ where $Q_{E,et}$, the latent heat flux calculated from $et$ (W m$^{-2}$), $Q_{E,
 With these additions, VTUF-3D is now able to account for the evapotranspiration influence of urban vegetation. The water cycle components supplied by MAESPA modelled vegetation supplies estimates of canopy and soil evaporation and evapotranspiration. Through scaling and conversion of these estimates to units of W m$^{-2}$, the model is able to account for $Q_{E}$ in energy balance partitioning, and thus account for this influence of water and vegetation on temperature predictions in urban canyons.
 
 
-\subsubsection{Convective sensible heat fluxes and canopy layer air temperature (T$_{can}$)}\label{sec:convection} 
-Convection in TUF-3D is implemented as an adaptation of the facet-averaged approach of \cite{Masson2000}. Horizontal advective exchanges are not considered, which is considered to be a reasonable approach given the well-mixed nature of canopy layer air \citep{Krayenhoff2007}. A more accurate but computationally intensive approach could be undertaken using a computational fluid dynamics (CFD) method. However, forcing by the convection between facets is likely less important than the forcing of surface temperatures through the shaded and unshaded radiation distribution and its interactions of surface material properties \citep{Krayenhoff2007}. There is the possibility that the addition of vegetation to the model will increase the importance of interactions between neighbouring surfaces of varying temperatures and moistures. However, as will be seen in the model evaluation process (Section \ref{sec:Validation}), this simplified approach still delivers suitably accurate results without justifying more computationally intensive methods. The following convection sub-modules (of Section \ref{sec:convection}) are completely contained in TUF-3D and full details of calculations are described in \cite{Krayenhoff2007}.
+\subsubsection{Convective sensible heat fluxes and ground storage fluxes}\label{sec:convection} 
+Convection in TUF-3D (and thus in VTUF-3D) is implemented as an adaptation of the facet-averaged approach of \cite{Masson2000}. Horizontal advective exchanges are not considered, which is considered to be a reasonable approach given the well-mixed nature of canopy layer air \citep{Krayenhoff2007}. A more accurate but computationally intensive approach could be undertaken using a computational fluid dynamics (CFD) method. However, forcing by the convection between facets is likely less important than the forcing of surface temperatures through the shaded and unshaded radiation distribution and its interactions of surface material properties \citep{Krayenhoff2007}. There is the possibility that the addition of vegetation to the model will increase the importance of interactions between neighbouring surfaces of varying temperatures and moistures. However, as will be seen in the model evaluation process (Section \ref{sec:Validation}), this simplified approach still delivers suitably accurate results without justifying more computationally intensive methods. Full details of calculations are described in \cite{Krayenhoff2007}.
 
-The convective sensible heat flux density (W m$^{-2}$), $H$, from a horizontal patch $i$ is calculated in 
-\begin{equation} 
-H_{i} = h_{i} (T_{sfc,i}-T(z_{horz,i}))
-\label{eq:convh} \end{equation} 
-where $T_{sfc,i}$ is the surface temperature of patch $i$ (K),
-$h$ is the convective heat transfer coefficient (W m$^{-2}$ K$^{-1}$), 
-$T(z)$ is the air temperature at height z (K), and 
-$z_{horz,i}$ is the height of the patch centre. Convection from walls is also calculated using Equation (\ref{eq:convh}) where $h_{i}$ is calculated in 
-\begin{equation} 
-h_{i} = r_{w,i}(11.8+4.2 U_{eff}(z_{i}))-4.0
-\label{eq:convw} \end{equation} 
-where 
-$r_{w,i}$ is the wall roughness coefficient of patch $i$,
-$z_{i}$ is the depth to the bottom of layer $i$ (m), and
-$U_{eff}(z)$ is the effective wind speed at height z (m s$^{-1}$).
-
-%TODO, what is the h_i for vegetation?
-
-%\nomenclature{$h_{i}$}{heat transfer coefficient (W m$^{-2}$K$^{-1}$)} 
-%\nomenclature{$T_{sfc,i}$}{surface temperature of patch $i$ (K)} 
-%\nomenclature{$T(z)$}{air temperature at height z (K)} 
-%\nomenclature{$z_{horz,i}$}{height of patch forcing U(z) and T(z) above street level of patch $i$ (m)} 
-\nomenclature{$U(z)$}{wind speed at height z (m s$^{-1}$)}  
-\nomenclature{$T_{can}$}{canopy air temperature ($z < z_{H}$) (K)} 
-
-The wind speed profile within the roughness sub-layer (RSL) is a log profile based on \cite{Masson2000}, \cite{Kusaka2001}, and \cite{Harman2004}. An exponential profile is used for the urban canopy, based on \cite{Masson2000} and \cite{Rotach1995}, calculating $U(z)$, the wind speed at height z (m s$^{-1}$).
-
-\label{sec:tempprof}
-
-The temperature profile treats canyon temperature ($T_{can}$) as constant for $z < z_{H}$ (where z$_{H}$ is the mean building height (m) of the domain and $z$ the height (m) within a domain), allowing a single canopy-air energy budget. Calculation of $T_{can}$, the canopy air temperature ($z < z_{H}$) (K), uses the energy budget of the air volume below $z = z_{H}$ in 
-
-\begin{equation} 
-T_{can}^{m+1} = T_{can}^{m} + \Bigg[ \frac{\Delta t(H_{can}^{m+1}-H_{top}^{m+1} )}{c_{air,H}^{m+1}}   \Bigg]
-\label{eq:tcan} \end{equation} 
-
-where $m$ is the timestep index,
-$H_{can}$ is the summed canopy patch convective sensible heat fluxes per canopy plan area (W m$^{-2}$),
-$H_{top}$ is the convective sensible heat flux density between canopy air and boundary layer (W m$^{-2}$),
-$c_{air,H}$ is the average heat capacity per unit plan area of air below z$_{H}$ (J m$^{-2}$K$^{-1}$), and
-$\Delta t$ is the timestep size (s).
-
-Calculation of $H_{top}$, in which 'top' is an imaginary surface at $z = z_{H}$, is performed in 
-
-\begin{equation} 
-H_{top}^{m+1} = h_{top}^{m+1} (T_{can}^{m} - T_{a}^{m+1})
-\label{eq:htop} \end{equation} 
-where $m$ is the timestep index,
-$h_{top}$ is the convective heat transfer coefficient between canopy air and boundary layer (W m$^{-2}$K$^{-1}$), using \cite{Mascart1995} and $z_{0town}$, the roughness length for momentum (domain) (m), and
-$T_{a}$ is the air temperature at z$_{ref}$ (K).
-
-%\nomenclature{$E_{L}$}{leaf level transpiration rate ($\mu$mol m$^{-2}$s$^{-1}$)} 
-%\nomenclature{$\Psi_{L}$}{leaf water potential (MPa)} 
-%\nomenclature{$g_{B}$}{boundary layer conductance (mol m$^{-2}$s$^{-1}$)} 
-%\nomenclature{$g_{V}$}{total conductance to water vapour (mol m$^{-2}$s$^{-1}$)} 
-
-For sensible heat fluxes ($Q_{H}$), vegetation is accounted for differently by using the $T_{sfc}$ of the vegetation instead of the TUF-3D $T_{sfc}$ value in Equation (\ref{eq:qhveg}) and will yield a different result using the MAESPA vegetation $T_{sfc}$ than if the TUF-3D surface temperature had been used
+For sensible heat fluxes ($Q_{H}$), vegetation is accounted for differently by modifying the TUF-3D $Q_{H}$ calculations for grid squares with vegetation, using the $T_{sfc,veg}$ of the vegetation instead of the TUF-3D $T_{sfc}$ value in Equation (\ref{eq:qhveg})
 
 \begin{equation}\label{eq:qhveg}
  Q_{H,veg} = h_{i}  (T_{sfc,veg}-T_{can}) 
@@ -322,64 +278,22 @@ For sensible heat fluxes ($Q_{H}$), vegetation is accounted for differently by u
 
 where $h_{i}$ is a calculated heat transfer coefficient (W m$^{-2}$ K$^{-1}$) (using \cite{Mascart1995} and the effective wind speed). 
 
-\nomenclature{$Q_{H}$}{sensible heat flux (W m$^{-2}$)} 
-\nomenclature{$Q_{H,veg}$}{calculation of vegetation sensible heat flux (W m$^{-2}$)} 
-\nomenclature{$h_{i}$}{heat transfer coefficient (W m$^{-2}$K$^{-1}$)} 
-%\nomenclature{$T_{conv}$}{converging canyon temperature (K)} 
 
-\subsection{Conduction and surface temperatures}
-
-Heat conduction between the layers in each surface in VTUF-3D (based on TUF-3D) is calculated in a 1-D heat conduction equation based the scheme from the Town Energy Budget (TEB) model \citep{Masson2000}. Calculating the surface temperature (the boundary condition for the surface) using the energy balance of the surface is based on a version of \cite{Arnfield1990}. See \cite{Krayenhoff2007} for complete details.
-
-
-By contrast, ground storage fluxes ($Q_{G}$) of MAESPA grid squares are calculated as a residual of the energy balance equation (where $Q_{G}$ = $Q^{*}$ - $Q_{H}$ - $Q_{E}$). Calculation of $Q_{G}$ uses Equation (\ref{eq:qgvtuf}) for grid squares containing vegetation (calculating $Q_{G,veg}$), while non-vegetated grid squares calculate $Q_{G,street}$ in Equation (\ref{eq:qgtuf}) to calculate the street ground storage fluxes:
+Ground storage fluxes ($Q_{G}$) of vegetated grid squares diverge from the TUF-3D method for non-vegetated grid squares, and are calculated as a residual of the energy balance equation (where $Q_{G}$ = $Q^{*}$ - $Q_{H}$ - $Q_{E}$). Thus $Q_{G,veg}$ fluxes for grid squares containing vegetation are calculated as
 
 \begin{equation}\label{eq:qgvtuf}
  Q_{G,veg} =  Q^{*}_{veg} - Q_{H,veg} - Q_{E,veg}
 \end{equation}
 
-\begin{equation}\label{eq:qgtuf}
- Q_{G,street} = k_{1}  ( T_{sfc} - T_{1} ) \frac {2}{T_{m}}
-\end{equation}
 
-where $k_{1}$ is the thermal conductivity of the surface (W m$^{-1}$ K$^{-1}$) , $T_{1}$ is the temperature of the shallowest layer (K), and $T_{m}$ is the temperature of the deepest layer (K).
 
-\nomenclature{$Q_{G}$}{ground heat storage (W m$^{-2}$)}
-\nomenclature{$Q_{G,veg}$}{calculation of vegetation ground heat storage (W m$^{-2}$)} 
-\nomenclature{$Q_{G,street}$}{calculation of street ground heat storage (W m$^{-2}$)} 
-\nomenclature{$T_{1}$}{temperature of the shallowest layer (K)} 
-\nomenclature{$T_{m}$}{temperature of the deepest layer (K)} 
-\nomenclature{$k_{1}$}{thermal conductivity of the surface (W m$^{-1}$K$^{-1}$)} 
 
-%\nomenclature{$r_{w,i}$}{wall roughness coefficient of patch i} 
-%\nomenclature{$z_{i}$}{depth to the bottom of layer $i$ (m)} 
-%\nomenclature{$U_{eff}(z)$}{effective wind speed at height z (m s$^{-1}$)} 
-%\nomenclature{$F_{R}$}{cumulative fraction of fine roots to depth z (m)} 
-%\nomenclature{$E_{i}$}{root water uptake (canopy transpiration) out of layer $i$ (mm)} 
-%\nomenclature{$E_{s}$}{rate of evaporation (mm)} 
-%\nomenclature{$G_{ws}$}{conductance of water vapour through the soil pore space (m s$^{-1}$)} 
-%\nomenclature{$D_{eff}$}{effective diffusivity of the soil pore space (m$^{2}$s$^{-1}$)} 
-%\nomenclature{$e_{s}$}{partial water vapour pressure of the soil pore space (KPa)} 
-%%\nomenclature{$W_{i}$}{water storage of the layer $i$ (mm)} 
-%\nomenclature{$k_{L}$}{total leaf-specific hydraulic conductance (mmol m$^{-2}$s$^{-1}$MPa$^{-1}$)} 
+
 
 \subsection{Mean radiant temperature and Universal Thermal Climate Index calculations}\label{sec:tmrtutci}
 
-VTUF-3D provides output of incoming and outgoing shortwave and longwave radiation and $T_{sfc}$ for each facet (surface) at each timestep. Air temperature for the canyon, $T_{can}$ (calculated in Section \ref{sec:tempprof}) is also provided for each timestep. Using these and values of vapour pressure from the forcing data and wind speed at street level (calculated in Section \ref{sec:convection}), the values for $T_{mrt}$ (mean radiant temperature (\SI{}{\degreeCelsius})) and the human thermal comfort index UTCI are calculated for each surface. User defined options in the model are available to either calculate $L\downarrow$, using the clear sky formula of \cite{Prata1996}, or use forcing values. Based on this, different options can be used to calculate the following equations.
+VTUF-3D provides output of incoming and outgoing shortwave and longwave radiation and $T_{sfc}$ for each facet (surface) at each timestep. Air temperature for the canyon, $T_{can}$ is also provided for each timestep. Using these and values of vapour pressure from the forcing data and wind speed at street level (calculated in Section \ref{sec:convection}), the values for $T_{mrt}$ (mean radiant temperature (\SI{}{\degreeCelsius})) and the human thermal comfort index UTCI are calculated for each surface. User defined options in the model are available to either calculate $L\downarrow$, using the clear sky formula of \cite{Prata1996}, or use forcing values. Based on this, different options can be used to calculate the following equations.
 
-\nomenclature{$T_{g}$}{globe temperature (K)} 
-\nomenclature{$A$}{surface area of a sphere of diameter D, of value 0.15m, (=$\pi 0.15^{2}$m$^{2}$)} 
-\nomenclature{$\epsilon_{a}$}{longwave emissivity of the atmosphere} 
-\nomenclature{$\epsilon_{g}$}{globe emissivity (=0.95)}  
-\nomenclature{$h$}{convective heat transfer coefficient (W m$^{-2}$K$^{-1}$)} 
-%\nomenclature{$\sigma$}{Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$W m$^{-2}$K$^{-4}$)} 
-\nomenclature{$T_{a}$}{dry bulb air temperature (K)} 
-\nomenclature{$S$}{horizontal solar irradiance (W m$^{-2}$)}  
-\nomenclature{$\theta$}{solar zenith angle} 
-\nomenclature{$\alpha_{sfc}$}{surface albedo (=0.15)} 
-\nomenclature{$\alpha_{g}$}{globe albedo (=0.05)} 
-\nomenclature{$f_{dir}$}{fraction of the total horizontal solar irradiance, $S$, due to the direct
-beam of the sun}
 
 Calculations of mean radiant temperature $T_{mrt}$ uses a two step procedure. First, globe temperature ($T_{g}$) is calculated by an iterative relaxation solution, using a formulation of \cite{Liljegren2008} in  
 
@@ -404,7 +318,20 @@ $\theta$, the solar zenith angle,
 $\alpha_{sfc}$, the surface albedo (of value 0.15),  
 $\alpha_{g}$, the globe albedo (of value 0.05), and 
 $f_{dir}$, the fraction of the total horizontal solar irradiance, $S$, due to the direct
-beam of the sun. The convective heat transfer coefficient, $h$, as used in Equation (\ref{eq:tg2}), is calculated using 
+beam of the sun. 
+
+
+%The third term on the RHS is correct and follows Liljegran et al., 2008 and relates to the direct irradiance on the projected area of the globe. Please see below. 
+%
+%Regarding exposure of a person compared to a surface, yes there is likely to be some differences, however Tg and Tmrt therefore are calculated per grid square, so there is variance across the domain. The assumption is that the radiation leaving a surface (e.g. a wall) reaches the person (sphere) located at each grid point.
+%
+%The use of a sphere is a simplification of the calculation of Tmrt on the human body and so the weighting factors usually applied for the calculation of Tmrt for the human body are instead those for a sphere.
+%
+%From Liljegren, J. C., Carhart, R. A., Lawday, P., Tschopp, S., Sharp, R., 2008. Modeling the wet bulb globe temperature using standard meteorological measurements. Journal of Occupational and Environmental Hygiene 5 (10), 645–655.
+%
+%“The second and third terms on the right represent the energy gained by the globe due to diffuse and direct solar irradiance. It is important to note that these act on different areas: the diffuse irradiance is incident on the upper hemisphere of the globe, whereas the direct irradiance is incident on the projected area of the globe normal to the solar zenith angle, which is the crosssectional area of the globe, πD2/4.”
+
+The convective heat transfer coefficient, $h$, as used in Equation (\ref{eq:tg2}), is calculated using 
 
 \begin{equation}\label{eq:h}
 Nu = 2.0 + 0.6Re^{1/2}Pr^{1/3};  ~~h = k / D Nu
@@ -415,16 +342,7 @@ $Re$, the Reynolds number (-),
 $Pr$, the Prandtl number (-), and 
 $k$, the thermal conductivity of the fluid (i.e. air) (W m$^{-1}$K$^{-1}$) \citep{Liljegren2008}.
 
-%\nomenclature{$Nu$}{Nusselt number (-)} 
-%\nomenclature{$Re$}{Reynolds number (-)} 
-%\nomenclature{$Pr$}{Prandtl number (-)} 
-\nomenclature{$k$}{thermal conductivity of the fluid (i.e. air) (W m$^{-1}$ K$^{-1}$)} 
 
-\nomenclature{$L \downarrow_{i,sky}$}{initial incident sky-derived longwave (W m$^{-2}$)} 
-\nomenclature{$K\downarrow_{dif}$}{domain-level incoming diffuse shortwave (W m$^{-2}$)}
-\nomenclature{$K\downarrow_{dir}$}{domain-level incoming direct shortwave (W m$^{-2}$)}
-\nomenclature{$\epsilon$}{longwave emissivity}
-\nomenclature{$T_{s,1}$}{soil surface temperature (K)}
 
 Depending on user defined scenario model configuration settings, a number of terms in Equation (\ref{eq:tg2}) can use internally calculated values. $\sigma (\epsilon_{a} T_{a}^{4} + \epsilon_{sfc} T_{sfc}^{4} )$ can be replaced with $L\downarrow + L\uparrow$, the result of reflections of $L \downarrow_{i,sky}$ calculated in Section \ref{sec:radiativetransfer}). $(1-f_{dir})S$ can be replaced with $K \downarrow_{dif}$, and $f_{dir}S/ \cos(\theta)$ with $K \downarrow_{dir}$. Also, for vegetated grid squares, the terms for $L\downarrow$ and $L\uparrow$ can be replaced with calculations of $L\downarrow$ and $L\uparrow$ from $\epsilon \sigma T^{4}$ where $T_{s,1}$, soil surface temperature (K), is used as the temperature term for the $L\uparrow$ calculation while leaf temperature (from Section \ref{sec:calcleaftemp}) is used for $L\downarrow$. 
 
@@ -440,13 +358,8 @@ Using $T_{g}$, calculated in Equation (\ref{eq:tg2}), the second step in calcula
 \end{equation}
  where $ws_{cm}$ is the wind speed (cm s$^{-1}$).
 
-%\nomenclature{$ws_{cm}$}{wind speed (cm s$^{-1}$)} 
 
 
-%\begin{equation}\label{eq:utci}
-%  UTCI = f(T_{a}, ws, rh, T_{mrt})
-%\end{equation}
-%\nomenclature{$ws$}{wind speed (m s$^{-1}$)} 
 
 Finally, the Universal Thermal Climate Index (UTCI) for each surface is calculated using the \cite{Brode2009u} UTCI formula, generating UTCI values for each surface, allowing human thermal comfort to be examined in detail across a modelled domain. The calculation uses modelled outputs of air temperature, wind speed (using model calculated wind speed at road level), relative humidity (from the forcing data), and $T_{mrt}$ (calculated above). VTUF-3D does not currently calculate a canopy level relative humidity. This is a current limitation and a future enhancement for the model. But as will be shown in a forthcoming paper detailing the further evaluations of VTUF-3D focussing on urban canopy layer air temperature and UTCI predictions and in the evaluation in Section \ref{sec:evalresults}, the model still performs well despite this limitation. 
 
@@ -459,37 +372,24 @@ In order to understand the changes made to create VTUF-3D, an overview of the TU
 
 \begin{figure}[!htbp]
    \subfloat[Initial view angles ray tracing.]{
-   %\fbox{
    \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-3.png}
-   %\label{fig:initray}
-   %}
    }
   \hspace{0.5cm}  
    \subfloat[TUF-3D unmodified shading.]{
-   %\fbox{
    \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-2.png}
-   %\label{fig:shading}
-   %}
    }
   \hspace{0.5cm}
   \\
    \subfloat[VTUF-3D modified shading.]{
-   %\fbox{
    \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-4.png}
-   %\label{fig:modshading}
-   %}
    }
   \hspace{0.5cm}
    \subfloat[VTUF-3D reverse ray tracing.]{
-   %\fbox{
    \includegraphics[trim=110mm 211mm 621mm 210mm, clip, scale=0.15]{images/VTUF-Design-5.png}
-   %\label{fig:modshadingreverse}
-   %}
    }
    \caption{(a) Initial view angles ray tracing, run during model initialisation to determine which surfaces are visible to each other. Trees depicted with dashed borders to emphasise they are present in the domain but are not considered at this point in the simulation. \label{fig:initray} (b) TUF-3D unmodified shading logic in which each surface performs four ray traces (from each surface quarter) towards the sun and determines sunlit percentage based on how many rays leave the domain without meeting an obstruction. Vegetation modelling is not possible in TUF-3D, so is not depicted. \label{fig:shading} (c) VTUF-3D modified shading, timestep ray tracing, using the same process as the unmodified logic but setting a flag for any ray that encounters vegetation. \label{fig:modshading} (d) VTUF-3D modified shading, reverse ray tracing. For any rays that encounter vegetation in forward ray tracing, reverse ray traces are performed to allocate radiation to intervening encountered surfaces. \label{fig:modshadingreverse}} 
 \end{figure}
 
-%\nomenclature{$z_{H}$}{mean building height (m)} 
 
 The domain initialisation ray tracing routines of TUF-3D have not been modified. In these (Figure \ref{fig:initray}a) unnecessary interactions are determined by finding which surfaces are visible to each other and which pairs of surfaces are fully obstructed by other surfaces and need not be considered in determining radiation exchanges. Then, as the model runs the main simulation, at each timestep, TUF-3D runs a shading routine (Figure \ref{fig:shading}b). In it, the model iterates through each surface in the domain (roads and building walls and roofs), four times from each quarter of the surface, towards the sun to determine that surface's level of illumination, yielding results of 0, 25, 50, 75, and 100\% illuminated. By using these sunlit levels, each surface can be allocated the appropriate amount of incoming shortwave during the energy balance process.
 
@@ -523,10 +423,7 @@ The modelled domain (100x100m with a 5m grid resolution) was an area of interest
 \caption{Observed Preston suburb showing 500m effective radius of flux tower observations. Black box annotates model domain area of interest (AOI). Adapted from \cite{GooglePreston2015}.\label{fig:PrestonModArea} / Digitisation of AOI, Preston suburban street, Oakhill Ave. Building heights in black, vegetation heights in green (in 5m units). Adapted from \cite{Nearmap2015}.\label{fig:PrestonDigitization}}      
 \end{figure}
 
-%\begin{figure}[!htbp]
-%\includegraphics[trim = 95mm 25mm 80mm 25mm, clip, scale=0.25]{images/PrestonWindrose.png}
-%\caption{Wind speed and direction at Preston observation site, 9 February-10 March 2004. \label{fig:PrestonWind}}      
-%\end{figure}
+
 
 \begin{table}[!htbp]
 \caption
@@ -609,7 +506,6 @@ IntercomparisonIntegrated & \cite{Best2012} intercomparison performance mean of 
 \end{center}
 
 
-%\section{Evaluation of VTUF-3D}
 \subsection{Evaluation results}\label{sec:evalresults}
 
 Figure \ref{fig:Preston30Day4} presents the mean diurnal pattern for each component of the surface energy balance ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$)  over the 30 day evaluation period. The observed individual fluxes were aggregated into hourly averages over the 30 days and compared with the model output. VTUF-3D was able to reproduce the important dynamics of this area as seen in the component fluxes. In the observations, the $Q_{H}$ and $Q_{G}$ fluxes dominate the urban area, with modest amounts of $Q_{E}$ fluxes, peaking under 100W m$^{-2}$ during the daytime and falling to roughly zero at night-time. This was also seen in the model, with $Q_{H}$ and $Q_{G}$ dominated the surface energy balance, while $Q_{E}$ was relatively small. VTUF-3D captures closely both the magnitude and diurnal cycle of $Q_{H}$, with a slight under-prediction during the morning and a slight over-prediction during the late mornings. VTUF-3D also captures closely the cycles of $Q^{*}$. The very small divergence between the predicted and observed values can be explained through the dual sources of values of $K\downarrow$ in the forcing data, a distance of approximately 20 km between Preston and the Melbourne Airport observation site, providing varying values as a component of the calculated $Q^{*}$ which are then compared to only the Preston observations. $Q_{G}$ shows close agreement except for a slight over-prediction during the mornings, and at mid-day, a slight under-prediction during the afternoon cooling period, and a very slight over-prediction during the evening. 
@@ -651,25 +547,6 @@ As an extension to the TUF-3D model, the addition of vegetation and associated $
 Using the RMSE and MBE values for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$ from Phase 4 of the Intercomparison project, the performance of the Pr04NoVeg scenario (as well as the Pr04NoVeg scenario) can be compared against the performance of 24 other urban land surface models. The RMSE and MBE values are taken from Figure 2 of \cite{Best2012}, for the Feb/Mar period, corresponding to the period for which the evaluation scenarios were run. A comparison of these Intercomparison MBE and RMSE results vs. modelled results is shown in Table \ref{fig:prestonrmse}. In the Phase 4 comparisons, for all fluxes, models with integrated vegetation had the lowest RMSE values (and \cite{Grimmond2011} found that models without vegetation were among the poorest performers). These were followed by tiled vegetation models while models without vegetation had the highest values. In comparison, the VTUF-3D Pr04Val scenario had lower RMSE values for all fluxes except $Q_{E}$ than each of the Phase 4 three model categories. For $Q_{E}$, the VTUF-3D scenario Pr04Val performed better than the no vegetation category, but with slightly higher errors than the tiled and integrated categories. In terms of absolute differences between RMSE values for the best performing Intercomparison model category, Pr04Val scenario RMSE values differed by -6, -5, -25, and 7 W m$^{-2}$ for $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$ respectively. In MBE values, VTUF-3D performed better for $Q_{H}$ and $Q_{G}$ in all categories, better than the tiled and integrated categories with $Q^{*}$, and better for $Q_{E}$ in the no vegetation category.
 
 
-%\begin{center}
-%\begin{table}[!htbp]
-%\caption{MBE and RMSE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
-%\begin{tabular}{  | l | l | l|l|l| l | l | l|l|} 
-%\hline \textbf{Scenario name} &\textbf{$Q^{*}$} RMSE& \textbf{$Q_{H}$} RMSE& \textbf{$Q_{G}$} RMSE& \textbf{$Q_{E}$} RMSE
-%&\textbf{$Q^{*}$} MBE& \textbf{$Q_{H}$} MBE& \textbf{$Q_{G}$} MBE& \textbf{$Q_{E}$} MBE  \\ \hline
-%Pr04Val & 19.0&	40.2&	52.5&	33.1    & 3.0&	-4.0&	-8.3&	-9.5    \\ \hline
-%Pr04NoVeg & 51.6&	87.0&	75.9&	47.1  & 41.1&	-6.3&	11.0&	23.8  \\ \hline	
-%IntercomparisonNoVeg & 40&	105&	85&	38  & 2&	45&	-16& -32   \\ \hline
-%IntercomparisonTiled &  27&	60&	77&	25  & -7&	13&	-22& -1  \\ \hline
-%IntercomparisonIntegrated & 25&	45&	77&	26  & -5&	13&	-18& -3   \\ \hline
-%  \end{tabular} 
-%\end{table}
-%\end{center}  
-
-
-
- 
- 
  \begin{center}
  \begin{table}[!htbp]
  \caption{RMSE and MBE (W m$^{-2}$) statistics VTUF-3D vs. Intercomparison \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
@@ -690,45 +567,6 @@ Using the RMSE and MBE values for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$ from Phase 4 
  \end{table}
  \end{center} 
  
-
-
-
- 
-
-
-
-%\begin{center}
-%\begin{table}[!htbp]
-%\caption{RMSE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonrmse}} 
-%\begin{tabular}{  | l | l | l|l|l| } 
-%\hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
-%Pr04Val & 19.0&	40.2&	52.5&	33.1    \\ \hline
-%Pr04NoVeg & 51.6&	87.0&	75.9&	47.1  \\ \hline	
-%IntercomparisonNoVeg & 40&	105&	85&	38   \\ \hline
-%IntercomparisonTiled &  27&	60&	77&	25  \\ \hline
-%IntercomparisonIntegrated & 25&	45&	77&	26   \\ \hline
-%  \end{tabular} 
-%\end{table}
-%\end{center} 
-%
-%\begin{center}
-%\begin{table}[!htbp]
-%\caption{MBE (W m$^{-2}$) VTUF-3D vs. Intercomparison results \citep{Best2012} comparison for Preston evaluation scenarios for 10 February-10 March 2004.\label{fig:prestonmbe}} 
-%\begin{tabular}{  | l | l | l|l|l| } 
-%\hline \textbf{Scenario name} &\textbf{$Q^{*}$}& \textbf{$Q_{H}$}& \textbf{$Q_{G}$}& \textbf{$Q_{E}$}  \\ \hline
-%Pr04Val & 3.0&	-4.0&	-8.3&	-9.5    \\ \hline
-%Pr04NoVeg & 41.1&	-6.3&	11.0&	23.8  \\ \hline	
-%IntercomparisonNoVeg & 2&	45&	-16& -32   \\ \hline
-%IntercomparisonTiled & -7&	13&	-22& -1  \\ \hline
-%IntercomparisonIntegrated & -5&	13&	-18& -3   \\ \hline
-%  \end{tabular} 
-%\end{table}
-%\end{center} 
-
-
-
-
-
 
 This project uses an innovative method, the first time vegetation has been tiled and incorporated into a micro-scaled surface energy balance model in this manner. This method was anticipated to bring performance improvements over the previous version of the model that did not consider vegetation. The results suggest that this is the case, shown in the the results of the Pr04NoVeg no vegetation evaluation scenario. In comparisons with other urban models, VTUF-3D has shown comparable performance to these other urban models (while delivering micro-scaled results). In addition to the improved modelling performance, the addition of vegetation modelling has dramatically improved the applicability of VTUF-3D to a wide range of modelling problems. Indeed, without this addition, the main aim of this model, to determine the thermal comfort improvements due to urban vegetation and water would not be possible. 
 
