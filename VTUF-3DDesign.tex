@@ -148,6 +148,7 @@ micro-climate modelling, urban vegetation, VTUF-3D, human thermal comfort
 \nomenclature{$\sigma$}{Stefan-Boltzmann constant (=5.67 $\times$ 10$^{-8}$W m$^{-2}$K$^{-4}$)} 
 \nomenclature{$\theta$}{solar zenith angle} 
 \nomenclature{$A$}{surface area of a sphere of diameter D, of value 0.15m, (=$\pi 0.15^{2}$m$^{2}$)} 
+\nomenclature{$d$}{index of agreement (0 <= d <= 1)} 
 \nomenclature{$f_{dir}$}{fraction of the total horizontal solar irradiance, $S$, due to the direct beam of the sun}
 \nomenclature{$h$}{convective heat transfer coefficient (W m$^{-2}$K$^{-1}$)} 
 \nomenclature{$h_{i}$}{heat transfer coefficient (W m$^{-2}$K$^{-1}$)} 
@@ -157,6 +158,7 @@ micro-climate modelling, urban vegetation, VTUF-3D, human thermal comfort
 \nomenclature{$K\downarrow$}{downward shortwave radiative flux density (W m$^{-2}$)} 
 \nomenclature{$L \downarrow_{i,sky}$}{initial incident sky-derived longwave (W m$^{-2}$)} 
 \nomenclature{$L\downarrow$}{downward longwave radiative flux density (W m$^{-2}$)}
+\nomenclature{$RMSE$}{root mean square error} 
 \nomenclature{$S$}{horizontal solar irradiance (W m$^{-2}$)} 
 \nomenclature{$T_{sfc,veg}$}{vegetation surface temperature (K)} 
 \nomenclature{$T_{sfc}$}{surface temperature (K)} 
@@ -170,6 +172,7 @@ micro-climate modelling, urban vegetation, VTUF-3D, human thermal comfort
 \nomenclature{$Q^{*}$}{net radiation flux density (W m$^{-2}$)} 
 \nomenclature{$Q_{E}$}{latent heat flux (W m$^{-2}$)}
 \nomenclature{$Q_{E,veg}$}{calculation of vegetation latent heat flux (W m$^{-2}$)} 
+\nomenclature{$Q_{F}$}{anthropogenic heat (W m$^{-2}$)}
 \nomenclature{$Q_{G}$}{ground heat storage (W m$^{-2}$)}
 \nomenclature{$Q_{G,veg}$}{calculation of vegetation ground heat storage (W m$^{-2}$)} 
 \nomenclature{$Q_{H}$}{sensible heat flux (W m$^{-2}$)} 
@@ -203,7 +206,7 @@ VTUF-3D is constructed using the TUF-3D model, as described in \cite{Krayenhoff2
 
 
 \begin{figure}[!htbp]
- \includegraphics[trim = 15mm 41mm 0mm 31mm, clip, scale=0.45]{images/TUFWithMaespaVegRadiation.pdf}  
+ \includegraphics[trim = 15mm 41mm 0mm 31mm, clip, scale=0.45]{images/TUFWithMaespaVegRadiation.png}  
  \caption{Integration of the tree model MAESPA into VTUF-3D radiation fluxes routines, in which tiled instances of MAESPA vegetation (in green) are used to calculate radiation transmission for VTUF-3D placeholder vegetation structures (in grey)\label{fig:TUFWithMaespaVegRadiation}.}
 \end{figure}
 
@@ -284,10 +287,6 @@ Ground storage fluxes ($Q_{G}$) of vegetated grid squares diverge from the TUF-3
 \begin{equation}\label{eq:qgvtuf}
  Q_{G,veg} =  Q^{*}_{veg} - Q_{H,veg} - Q_{E,veg}
 \end{equation}
-
-
-
-
 
 
 \subsection{Mean radiant temperature and Universal Thermal Climate Index calculations}\label{sec:tmrtutci}
@@ -410,7 +409,7 @@ Each item of vegetation in the domain is modelled offline and this data is made 
 \section{Model set up and evaluation}
 \subsection{Evaluation data}\label{sec:Validation}
 
-\nomenclature{$Q_{F}$}{anthropogenic heat (W m$^{-2}$)}
+
 
 Evaluations of VTUF-3D need to be performed to ensure that this new model is making accurate predictions. As an energy balance model, modelled output comparisons to observations of energy fluxes and temperatures are considered fundamental evaluations \citep{Masson2002a}. With the addition of vegetation modelling, it is important that those aspects are also properly evaluated. To evaluation VTUF-3D's accuracy in partitioning fluxes, an evaluation was performed based on flux tower observations recorded in the suburb of Preston, in northern Melbourne, Australia \citep{Coutts2007}. Preston is a homogeneous, low to medium density area and characterised as LCZ6B (open low-rise) \citep{Stewart2012b}. A 40 meter flux tower recorded observations during 2003 and 2004 \citep{Coutts2007}, providing observed values of $Q^{*}$, $Q_{H}$, $Q_{E}$, air temperature, humidity, wind speed and direction. $Q_{G}$ was calculated as a residual of the surface energy balance. Estimates of the anthropogenic heat flux ($Q_{F}$) were made using an inventory approach, though $Q_{F}$ is included implicitly in the observations and contributes to the observed sensible heat fluxes. The use of this data set allows an evaluation of surface energy balances against modelled predictions. This data set was also used as the forcing and comparison data set for Phase 2 and 4 of the International Urban Energy Balance Models Comparison Project \citep{Grimmond2011,Best2012}. Phase 2 of this comparison project evaluated the performance of 32 urban land surface modelling schemes, forced by and compared to these observations, using a consistent methodology. Phase 4 re-evaluated many of these modelling schemes for their performance across a variety of seasonal cycles.
 
@@ -583,6 +582,240 @@ Another consideration is that the under-prediction of $Q_{E}$ is likely contribu
 
 There will remain an amount of uncertainty in comparing the modelled results to the observations because of inherent uncertainties to both approaches. The observations were collected via a flux tower at 40m height, above the height of the urban roughness sublayer. The modelled results are the average of the fluxes from all of the urban surfaces, within the urban canyon and well within the urban roughness sublayer. While these comparisons can be done, i.e. \cite{Grimmond2011}, there remains an amount of uncertainly as they are comparing two slightly different values. However, tests were performed (not presented here) and found the model conserved energy despite different sources of modelled fluxes.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Model testing and validation using City of Melbourne, George and Gipps St. dataset}\label{sec:CoMValidations}
+
+While validation against the Preston flux observations indicates that VTUF-3D performs well in partitioning the basic energy fluxes, there are a number of other aspects that need to be validated to allow confidence in the model's accuracy, especially given the intended application of the model to assess the impacts of WSUD and urban greening on micro-climates and HTC. The flux validation ensures that the model models the fundamental drivers of urban climates and their temporal variations across the diurnal cycle. 
+
+Further validation is needed to ensure that the model correctly captures the spatial variations of $T_{mrt}$ driven by these fluxes. These values are also driven by varied shading effects across the urban canyon. Both then are highly influential on thermal comfort, as measured by UTCI. The validation will be performed by comparing spatial values of $T_{mrt}$ and UTCI to observed values. Validations of spatial air temperature ($T_{a}$) will not be possible as air temperature is only predicted as a single canyon-wide value and not spatially.
+
+\subsubsection{George St. and Gipps St. overview}
+This set of validations was undertaken using observations from George St. and Gipps St. in the City of Melbourne \citep{Coutts2015}. These observations were taken at a number of observation stations, recording air temperature, wind speed, humidity, and incoming short wave radiation, located along the two streets. The purpose of this study was to observe and quantify the effects of street trees on HTC and recorded observations in streets with varied canopy cover. Figure \ref{fig:GeorgeGippsSt2} shows the two streets used in this validation. 
+
+\begin{figure}[!htbp] 
+\center
+\includegraphics[trim = 60mm 95mm 0mm 0mm, clip, scale=1.0]{{images/GippsGeorgeImages(Coutts2015p58).png}} ~
+\includegraphics[trim = 0mm 0mm 0mm 112mm, clip, scale=1.0]{{images/GippsGeorgeImages(Coutts2015p58).png}} ~
+\includegraphics[trim = 0mm 0mm 0mm 64mm, clip, scale=0.73]{{images/GippsGeorgeImages2(Coutts2015p58).png}} ~
+ \includegraphics[trim=30mm 35mm 25mm 5mm, clip, scale=0.35]{images/CoMLocations-0.png}
+~
+ \includegraphics[trim=30mm 35mm 25mm 5mm, clip, scale=0.35]{images/CoMLocations-1.png}
+\caption{Location and photos of each street: Gipps St. (OPN), and George St. (TRD). Aerial view of the streets highlighting individual station locations and tree canopy coverage in Gipps St. (OPN), and George St. (TRD) \citep[p.58]{Coutts2015}.\label{fig:GeorgeGippsSt2}} 
+\end{figure}
+
+ 
+
+
+These two streets both have a shallow urban canyon and both orientated are E-W. Gipps St. contains a very limited canopy cover and is designated open (OPN) in the observation study. George St. contains a dense canopy cover and is designated as treed (TRD). Some of the sensors were placed directly under tree canopies and others out in the open. A main purpose of the VTUF-3D model will be to evaluate the impacts of different arrangements of WSUD features on HTC in urban canyons. Differing amounts of canopy cover are a major factor of these different arrangements. Because of this, a validation using observations from two very similar streetscapes which mainly differ in the amount of canopy cover will be an ideal evaluation of VTUF-3D's spatial accuracy in resolving the impacts of different arrangements of WSUD features on HTC.
+
+Tree cover of Gipps St consists of \textit{Ulmus parvifolia} (Chinese Elm) with median heights of 9.5m and crown diameters of 9.6m. The limited tree cover of George St. also consists of \textit{U. parvifolia}. The entire street canyon floor of both streets were impervious, consisting of concrete and asphalt, with the exception of a small pervious area of 1.2m$^{2}$ surrounding each tree in the road areas. General characteristics of the two sites are summarised in Table \ref{tab:comvalpara}.
+
+\begin{table}[!htbp]
+\caption{Gipps/George St. validation site characteristics \citep{Coutts2015}. \label{tab:comvalpara}}     
+\begin{tabular}{| l | l |l|}
+\hline
+\textbf{Property} & \textbf{Gipps St. (OPN)} & \textbf{George St. (TRD)} \\ \hline
+Observation stations & 5 & 7\\ \hline
+Minimum building height (m) & 4 & 4\\ \hline
+Maximum building height (m) & 14 & 11\\ \hline
+Average building height (m) & 7 & 8 \\ \hline
+Street width (m) & 25 & 25 \\ \hline
+Mean H:W & 0.27 & 0.32 \\ \hline
+Plan area canopy cover (\%) & 12 & 45 \\ \hline
+
+\end{tabular}
+\end{table}
+
+Observations were taken at heights of 3.5 to 4.0m on existing light poles at locations indicated in Figure \ref{fig:GeorgeGippsSt2}. The observation period was for 21 months, from October 2011 to June 2013. Each observation station recorded air temperature, wind speed, humidity, incoming shortwave, and black globe temperature. For each, mean radiant temperature was calculated using a formula of \cite{Kantor2011} (a slight variation of the equation used in this project in Section \ref{sec:tmrtutci}). UTCI was calculated using RayMan Pro 2.1 \citep{Matzarakis2010} for a 35 year old male, clothing factor of 0.9, and activity rate of 80 W. This temperature was then compared to \cite{Brode2012a} assessment scale of thermal stress.
+
+Station locations (noted on Figure \ref{fig:GeorgeGippsSt} as yellow pins and red dots on Figure \ref{fig:GeorgeGippsSt2}) are shown in the modelled domains for both streets. Stations for George St. are referred to as TRD\_2, TRD\_3, TRD\_4, and TRD\_5  (also known as EM12, EM9, EM3, and EM2 on Figure \ref{fig:GeorgeGippsSt}). Stations for Gipps St. are referred to as OPN\_3, OPN\_4, OPN\_5 (also known as EM5, EM11, and EM8). Table \ref{tab:georgegippsvf} shows sky view factor (SVF) resulting from buildings and trees at each observation site.
+
+% I understand why you have done this. I renamed those stations (from EMxx) in the paper for clarity... 
+
+%A question could be asked as to why they are named EMxx here? It could confuse the reader.... Annoying, but you should probably stick to the TRD and OPN labels....
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.33]{{images/GeorgeSt-100x100m-5m_grid_heights.png}}~
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.78]{{images/Gipp200x200_5mgrid_heights.png}}
+\caption[George St/Gipps St - Modelled domains with 4 and 3 observation stations located on street]{George St/Gipps St - Modelled domains with 4 and 3 observation stations located on street.\label{fig:GeorgeGippsSt}}  
+\end{figure}
+
+\begin{center}
+\begin{table}[!htbp]
+\caption{George St./Gipps St. observation station sky view factors \citep{Coutts2015}.\label{tab:georgegippsvf}}
+  \begin{tabular}{  | c|c|c | c |  } 
+	\hline \textbf{Observation point}  & \textbf{Total SVF} & \textbf{Build. SVF}& \textbf{Trees SVF} \\ \hline
+	OPN\_3 & 0.63  & 0.81  & 0.18    \\ \hline
+	OPN\_4& 0.86 & 0.94  & 0.08    \\ \hline
+	OPN\_5 & 0.77  & 0.78  & 0.01   \\ \hline
+    TRD\_2& 0.22  & 0.85  & 0.63    \\ \hline
+	TRD\_3 & 0.17  & 0.70  & 0.53    \\ \hline
+	TRD\_4 & 0.66  & 0.81  & 0.15   \\ \hline
+	TRD\_5 & 0.18  & 0.71  & 0.53    \\ \hline
+  \end{tabular} 
+\end{table}
+\end{center} 
+
+
+These domains were configured accordingly using a 100x100m subset of the two streets (Figure \ref{fig:GeorgeGippsSt}). Simulations were run for both streets for the period 1 February 2014 to 1 March 2014 with a domain resolution of 5m grids. Building heights and locations and vegetation location and heights for both streets are shown  in Figure \ref{fig:GippsStConfig}.
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.20]{{images/GeorgeValidationCentralBuildingHeights.png}}~
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.20]{{images/GippValidationCentralBuildingHeights.png}} \\
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.20]{{images/GeorgeValidationCentralVegHeights.png}}~
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.20]{{images/GippValidationCentralVegHeights.png}}
+\caption[Building heights (top) / Vegetation cover (bottom) - George St (left), Gipps St. (right)]{Building heights (top) / Vegetation cover (bottom) - George St (left), Gipps St. (right).\label{fig:GippsStConfig}}  
+\end{figure}
+
+
+Model parameters were set to the values given in Table \ref{tab:modcomvalpara}. Most of these values are TUF-3D default values, from \cite{Krayenhoff2007}. Vegetation settings for the mix of two tree types (olive and brushbox) as well as grass are set to the values given in the model design vegetation parametrisation section (Appendix \ref{sec:maespavegpara}).
+
+\begin{table}[!htbp]
+\caption{George/Gipps St. validation scenario model parameters. \label{tab:modcomvalpara}}     
+\begin{tabular}{| p{8.0cm} | l | l|}
+\hline
+\textbf{Parameter} & \textbf{Value(s)}& \textbf{Source} \\ \hline
+Albedo (roof, street, wall)   & 0.15, 0.10, 0.30 & \cite{Krayenhoff2007}   \\ \hline
+Emissivity (roof, street, wall)   & 0.92, 0.92, 0.88 & \cite{Krayenhoff2007}   \\ \hline
+Forcing data height (m)  & 4.0 & \cite{Coutts2015}   \\ \hline
+Mean height of buildings, George St./Gipps St. (m)  & 9.4, 6.8  & Calculated from domain  \\ \hline
+Mean height of trees, George St./Gipps St. (m)  & 7.45, 8.14  & Calculated from domain  \\ \hline
+Initial $T_{sfc}$ (roof, street, wall) (\SI{}{\degree})  & 18.0, 23.0, 22.0  & \cite{Krayenhoff2007}  \\ \hline
+Constant building internal air temperature (base of roofs and walls) (\SI{}{\degreeCelsius})  & 22.0, 20.0  & \cite{Krayenhoff2007}  \\ \hline
+Constant deep-ground temperature (\SI{}{\degreeCelsius})  & 19.0 & \cite{Krayenhoff2007}  \\ \hline
+Constant building internal floor temperature (\SI{}{\degreeCelsius})  & 15.0 & \cite{Krayenhoff2007}  \\ \hline
+\end{tabular}
+\end{table}
+
+The two validation simulations (which are named GeorgeValidation and GippsValidation) were run for 30 days between the dates 31 January 2012 and 1 March 2012, forced by the observations (of observation station OPN\_1), from \cite{Coutts2015} for those days. Values used from the observations include air temperature, wind speed, wind direction, and air pressure. Values for $L\downarrow$ are taken from Melbourne Airport observations (station 086282, Melbourne Airport) \citep{BOM2016b}. Values for $K\downarrow$ are taken from one minute solar observations (station 086282, Melbourne Airport) \citep{BOM2016}.  For full radiation vegetation runs, the mean global irradiance was used while for diffuse runs, the mean diffuse irradiance was used. In addition, the MAESPA FBEAM variable (fraction of incident PAR which is direct-beam) is set to 0.0 in the forcing data for diffuse runs. Values of CO$_{2}$ for vegetation forcing files were set to a constant of 450 ppm throughout the modelling period.
+
+
+The period covered contains a range of conditions, as shown in Figure \ref{fig:CoMtemp}. The period especially features a number of hot days (over 30\SI{}{\degreeCelsius}). As one of the major applications of VTUF-3D will be examining high temperature moderation, validation over a period containing these hot days is important. This observation period contains no days with precipitation.
+
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/CoMTempFeb2012.png}
+\caption{Daily maximum, minimum, and mean temperatures of Gipps/George St. observations during the validation period of 31 January - 1 March 2012.\label{fig:CoMtemp}} 
+\end{figure}
+
+
+
+\subsubsection{George/Gipps St. validation results}
+%GeorgeValidation
+%runDirectory=/home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation
+%Directories: /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation created
+%2 runDirectory=/home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation
+%domain=/home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation
+%Tree height average=7.45
+%Percentages: 
+%Trees: 0.137
+%Grass: 0.007
+%Building: 0.495
+%Streets: 0.361
+%getWeatherData=GeorgeSt_EM10 2012 31 30
+
+%runDirectory=/home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation
+%Directories: /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation created
+%2 runDirectory=/home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation
+%domain=/home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation
+%Tree height average=8.14
+%Percentages: 
+%Trees: 0.067
+%Grass: 0.022
+%Building: 0.495
+%Streets: 0.416
+%getWeatherData=GeorgeSt_EM10 2012 31 30
+
+
+
+
+The two scenarios GeorgeValidation and GippsValidation were completed for the February 2012 modelling period. Modelled predictions for the George St. observation locations (TRD\_2, TRD\_3, TRD\_4, and TRD\_5) and Gipps St. observation locations (OPN\_3, OPN\_4, and OPN\_5) were extracted from the results and compared to the observations for those locations. Error analysis for these four and three locations for $T_{mrt}$ and UTCI are presented in Figures \ref{fig:GeorgeStTmrtCompare} and \ref{fig:GeorgeStUtciCompare} for George St. and Figures \ref{fig:GippsStTmrtCompare} and \ref{fig:GippsStUtciCompare} for Gipps St. A summary of the statistical analysis of RMSE errors and d index of agreement values for $T_{mrt}$ and UTCI are shown in Table \ref{tab:georgetmrt}. 
+
+\begin{center}
+\begin{table}[!htbp]
+\caption{George St. GeorgeValidation and Gipps St. GippsValidation scenarios $T_{mrt}$ and UTCI predicted vs. observations statistical performance.\label{tab:georgetmrt}}
+  \begin{tabular}{  | c |c |c  | c | c | } 
+	\hline \textbf{Observation point} & \textbf{$T_{mrt}$ RMSE (\SI{}{\degreeCelsius})} & \textbf{$T_{mrt}$ d} & \textbf{UTCI RMSE (\SI{}{\degreeCelsius})} & \textbf{UTCI d}\\ \hline
+TRD\_2  &  5.48   & 0.938  & 3.02  & 0.931   \\ \hline
+TRD\_3   & 6.46   & 0.925  & 2.74  & 0.947   \\ \hline
+TRD\_4   & 7.94   & 0.913  & 3.64  & 0.914  \\ \hline
+TRD\_5   & 6.74   & 0.939  & 2.75  & 0.953   \\ \hline
+OPN\_3   & 6.01   & 0.959  & 2.33  & 0.971   \\ \hline
+OPN\_4  &  6.11   & 0.959  & 2.44  & 0.967   \\ \hline
+OPN\_5   & 5.82   & 0.961  & 2.45  & 0.965  \\ \hline
+  \end{tabular} 
+\end{table}
+\end{center} 
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GeorgeValidation-ErrorPlots-Tmrt5.png}
+\caption{George St. GeorgeValidation scenario point comparison of $T_{mrt}$ of 4 observation stations to modelled points.\label{fig:GeorgeStTmrtCompare}} 
+\end{figure}
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GeorgeValidation-ErrorPlots-UTCI5.png}
+\caption{George St. GeorgeValidation scenario point comparison of UTCI of 4 observation stations to modelled points.\label{fig:GeorgeStUtciCompare}} 
+\end{figure}
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GippsValidation-ErrorPlots-Tmrt5.png}
+\caption{Gipps St. GippValidation scenario point comparison of $T_{mrt}$ of 3 observation stations to modelled points.\label{fig:GippsStTmrtCompare}} 
+\end{figure}
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GippsValidation-ErrorPlots-UTCI5.png}
+\caption{Gipps St. GippValidation scenario point comparison of UTCI of 3 observation stations to modelled points.\label{fig:GippsStUtciCompare}} 
+\end{figure}
+
+The model shows reasonably good performance in this spatial point by point comparison. $T_{mrt}$ $RMSE$ values from George St. range from 5.48 to 7.94\SI{}{\degreeCelsius} with $d$ index of agreement values ranging from 0.913 to 0.939. UTCI $RMSE$ values range from 2.74 to 3.02\SI{}{\degreeCelsius} with $d$ index of agreement values ranging from 0.914 to 0.953.  Gipps St. shows similar results, with $T_{mrt}$ $RMSE$ values ranging from 5.82 to 6.11\SI{}{\degreeCelsius} with $d$ index of agreement values ranging from 0.959 to 0.961. UTCI $RMSE$ values range from 2.33 to 2.45\SI{}{\degreeCelsius} with $d$ index of agreement values ranging from 0.965 to 0.971.
+
+To examine the variations between the different observation points,  the four locations for George St. (TRD\_2, TRD\_3, TRD\_4, and TRD\_5) observations of $T_{mrt}$ were aggregated into hourly averages over 30 days and compared to the same aggregation of the modelled results (Figure \ref{fig:GeorgeSt30Compare}). This same analysis was also performed for the  Gipps St. points (OPN\_3, OPN\_4, and OPN\_5) in Figure \ref{fig:GippsSt30Compare}. For UTCI, a similar analysis for the Gipps St. points (OPN\_3, OPN\_4, and OPN\_5) is presented in Figure \ref{fig:GippsStUTCI30Compare}. 
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.32]{images/GeorgeValidationTmrtOverallAve5_.png}
+\caption{George St. GeorgeValidation scenario four observation stations (TRD\_2, TRD\_3, TRD\_4, and TRD\_5) values of $T_{mrt}$ aggregated into hourly averages over 30 days compared to modelled points, with error bars at observation standard deviations.\label{fig:GeorgeSt30Compare}} 
+\end{figure}
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.32]{images/GippValidationTmrtOverallAve5_.png}
+\caption{Gipps St. GippValidation scenario three observation stations (OPN\_3, OPN\_4, and OPN\_5) values of $T_{mrt}$ aggregated into hourly averages over 30 days compared to modelled points, with error bars at observation standard deviations.\label{fig:GippsSt30Compare}}
+\end{figure}
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.32]{images/GippValidationUtciOverallAve5_.png}
+\caption{Gipps St. GippValidation scenario three observation stations (OPN\_3, OPN\_4, and OPN\_5) values of UTCI aggregated into hourly averages over 30 days compared to modelled points, with error bars at observation standard deviations.\label{fig:GippsStUTCI30Compare}}
+\end{figure}
+
+In the observations, the open canyon of Gipps St. shows very little variation in $T_{mrt}$ across the locations while the treed canyon of George St. shows wide variations, especially between stations TRD\_2 and TRD\_3. TRD\_4, a highly exposed location, shows the highest $T_{mrt}$ values in the late mornings, warming quicker than all the other locations, as well as reaching the highest afternoon peak. TRD\_3 warms the slowest in the mornings, with early morning building shade with continued early afternoon canopy shading. TRD\_2 and TRD\_5 also warm slowly in the mornings due to building shading and vegetation shading respectively and both reach a reduced afternoon peak (compared to TRD\_4).  All observation stations come back into closer agreement in the late afternoons.
+
+The modelled results reproduce the close agreement between the three locations in the open canyon of Gipps St. Variations from the diurnal trends in the observations are seen in slightly slower warming during the mornings but then coming into good agreement at the afternoon peak and throughout the rest of the day and night into the next morning. Very similar patterns are seen in the diurnal trends of UTCI, of which $T_{mrt}$ is the main driver, showing slower warming during the mornings. However, lower modelled UTCI values during the night-time would suggest there is some room for improvement in modelling wind speed or relative humidity, as modelled values of air temperature and $T_{mrt}$ tend to be slightly high and could not be the source of these lower calculated values.
+
+In the treed canyon, George St., the model shows some of the same variation in $T_{mrt}$ between modelled locations seen in the observations. Modelled values of TRD\_4 do reproduce the slower warming trends in the mornings seen in the observations (but diverge in the late mornings). However, the stronger warming of TRD\_4 seen in the observations is not completely captured by the model. In variations from the observed diurnal trends, the modelling results reproduce well the trends from late afternoon, over night, and into early mornings. The main variability during the warming mornings do not show the wide ranges seen in the observations but follow a more average range between those wider ranges. 
+
+There are a number of differences in the way $T_{g}$ (and its use in calculating $T_{mrt}$) (see Section \ref{sec:tmrtutci}) is calculated compared to the observed values, which could explain some of the divergences. First, the modelled results are calculated for each surface in the domain (and only for surfaces in the domain). As there are no surfaces at the locations at which the observations were taken (3.5 to 4m above the ground), the comparisons of $T_{mrt}$ needed to be performed on the modelled results at a 0m height underneath the observation locations. This would lead to lower amounts of $K\downarrow$ (using $K\downarrow_{dir,i}$ from Section \ref{sec:radiativetransfer}) reaching the ground due to reduced sky view factors deeper into the urban canyon, especially in the mornings when much of the canyon floor will be in shadow due to lower sun angles.
+
+A second important difference is due to the limitation of domains created using flat cubic surfaces. The globe thermometer in the observation would have been exposed to radiation from all side angles in addition to up and down. As flat surfaces, the modelled points will see a reduction in received shortwave, especially in the mornings. In addition, the lower locations of the points in the canyon will also contribute to lower received shortwave in the same way.
+
+
+A comparison of modelled $T_{can}$ from scenarios GeorgeValidation and GippValidation to observed $T_{a}$ of George St. 4 treed canopy stations and Gipps St. 3 open canopy stations is shown in Figure \ref{fig:GeorgeGippsStTcanCompare}. Values from both data sets are aggregated into hourly averages over the modelled period. 
+
+A direct comparison of these two data sets is difficult as the modelled $T_{can}$ values are averages of the entire canopy air space while the seven observation stations record the air temperatures at 3.5 to 4m height for each specific location. However, the modelled $T_{can}$ of the open canopy street (Gipps St.) shows peak values approximately 1\SI{}{\degreeCelsius} warmer (as well as being overall warmer throughout daylight hours) than the treed street (George St.). This result is comparable to the \cite{Coutts2015} observations and shows the model is able to capture the cooling effects of increased canopy cover in air temperature predictions.
+
+\begin{figure}[!htbp]
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GeorgeValidationTcanAgg.png}
+\caption{George/Gipps St. modelled $T_{can}$ from scenarios GeorgeValidation and GippValidation compared to observed $T_{a}$ of George St. 4 treed canopy stations and Gipps St. 3 open canopy stations, aggregated into hourly averages over February 2012 modelled period.\label{fig:GeorgeGippsStTcanCompare}} 
+\end{figure}
+
+
+
+\subsubsection{George St. and Gipps St. validation conclusion}
+This validation was performed in order to complete sub-objective 2, evaluation of model performance for $T_{mrt}$ and UTCI. Two contrasting street canyons with varying amounts of canopy cover were used to evaluate the model's performance and test VTUF-3D's ability to predict values of $T_{mrt}$ and UTCI, both spatially and temporally. 
+
+$RMSE$ and $d$ index of agreement values when comparing the modelled results of both variables to point observations show reasonably good performance of the model. In reproducing diurnal trends of $T_{mrt}$, VTUF-3D is able to reproduce the overall trends well except is slightly slow to warm during the mornings. In the treed canyon of George St., where wide variations between the observation stations are seen in the observations, VTUF-3D is able to reproduce much of those variations but not the entire range. This indicates that there is still room for improvement in the specific modelling of vegetation in urban canyons and resolving the $T_{mrt}$ values.
+
+The completion of this validation shows that VTUF-3D is able to successfully predict values of $T_{mrt}$ and UTCI across a variety of urban canyons. This validation is an important step in determining the suitability of the model's use in evaluating HTC impacts of WSUD in urban areas.
 
 
 
