@@ -95,18 +95,19 @@
 
 
 %% use optional labels to link authors explicitly to addresses:
-\author[monash,crc]{Kerry~A~Nice\corref{cor1}}
+\author[monash,melb,crc]{Kerry~A.~Nice\corref{cor1}}
 \ead{mothlight@fastmail.fm}
-\author[monash,crc]{Andrew Coutts}
-\author[monash,crc]{Nigel~Tapper}
+\author[monash,crc]{Andrew~M.~Coutts}
+\author[monash,crc]{Nigel~J.~Tapper}
 \cortext[cor1]{Principal corresponding author}
-\address[monash]{School of Earth, Atmosphere and Environment, Monash University, Clayton, VIC 3800, Australia}
+\address[monash]{School of Earth, Atmosphere and Environment, Monash University, Clayton, Victoria 3800, Australia}
+\address[melb]{Transport, Health, and Urban Design, Faculty of Architecture, Building and Planning, University of Melbourne, Victoria 3010, Australia}
 \address[crc]{Cooperative Research Centre for Water Sensitive Cities, Melbourne, Australia}
 
 
 \begin{abstract}
 
-With urban areas facing longer duration heat-waves and temperature extremes from climate change and growing urban development, adaptation strategies are needed to protect city residents. Examining the role that increased tree cover and water availability can have on human thermal comfort (HTC) is needed to help guide the development of thermally comfortable cities. To inform planning, modelling tools are needed that provide sufficient resolution to resolve urban influences on HTC and the ability to model important physiological processes of vegetation. To achieve this, a new micro-scale model, VTUF-3D (Vegetated Temperatures of Urban Facets), has been developed using an innovative approach of embedding the functionality of the MAESPA tree process model \citep{Duursma2012}, that can model individual trees, vegetation, and soil components, within the TUF-3D \citep{Krayenhoff2007} urban micro-climate model. A innovative tiling approach allows the new model to account for important vegetative physiological processes and shading effects, using configurable templates to allow representation of any type of vegetation or water sensitive design feature. This allows detailed calculations of surface temperatures ($T_{sfc}$), mean radiant temperature ($T_{mrt}$), and a HTC index, the universal thermal climate index (UTCI), across an urban canyon. This study presents an outline of VTUF-3D, along with an evaluation of the modelled surface energy balance for Preston, Australia \citep{Coutts2007}. The VTUF-3D model has shown it performs well and is suitable for use to examine critical questions relating to the role of vegetation and water in the urban environment. Using this model, it is now possible to conduct further analysis to quantify the impact each individual tree can have on temperatures in urban canyons. Further, the model can help inform the optimal arrangement and quantity of trees to maximise temperature moderation effects and be used to generate best practices guidelines for urban greening.
+With urban areas facing longer duration heat-waves and temperature extremes from climate change and growing urban development, adaptation strategies are needed to protect city residents. Examining the role that increased tree cover and water availability can have on human thermal comfort (HTC) is needed to help guide the development of thermally comfortable cities. To inform planning, modelling tools are needed that provide sufficient resolution to resolve urban influences on HTC and the ability to model important physiological processes of vegetation. To achieve this, a new micro-scale model, VTUF-3D (Vegetated Temperatures of Urban Facets), has been developed using an innovative approach of embedding the functionality of the MAESPA tree process model \citep{Duursma2012}, that can model individual trees, vegetation, and soil components, within the TUF-3D \citep{Krayenhoff2007} urban micro-climate model. A innovative tiling approach allows the new model to account for important vegetative physiological processes and shading effects, using configurable templates to allow representation of any type of vegetation or water sensitive design feature. This allows detailed calculations of surface temperatures ($T_{sfc}$), mean radiant temperature ($T_{mrt}$), and a HTC index, the universal thermal climate index (UTCI), across an urban canyon. This study presents an outline of VTUF-3D, along with two evaluations, the first of the modelled surface energy flux balances for Preston, Australia \citep{Coutts2007}, and the second of spatial and temporal predictions of $T_{sfc}$ and UTCI across two observed street canyons in the City of Melbourne \citep{Coutts2015}. The VTUF-3D model has shown it performs well and is suitable for use to examine critical questions relating to the role of vegetation and water in the urban environment. Using this model, it is now possible to conduct further analysis to quantify the impact each individual tree can have on temperatures in urban canyons. Further, the model can help inform the optimal arrangement and quantity of trees to maximise temperature moderation effects and be used to generate best practices guidelines for urban greening.
 
 
 \end{abstract}
@@ -227,7 +228,7 @@ In order to track the movement and allocation of radiation, VTUF-3D’s modellin
 
 For vegetated parts of the domain, radiative transfer is calculated by components from MAESPA. Incoming radiation, both photosynthetic radiation (PAR) and near infrared (NIR) is partitioned into direct and diffuse using \cite{Weiss1985}. Canopy structure is calculated based on \cite{Wang1990}, supporting a variety of crown shapes namely: conical, half-ellipsoidal, ellipsoidal and paraboloidal. Absorption and scattering of radiation (PAR, NIR, and thermal radiation) by the canopy is calculated using \cite{Norman1979}. Full details of these calculations are included in \cite{Duursma2012}. VTUF-3D distributes the transmitted and absorbed quantities (as detailed in Section \ref{sec:Representationofvegetation}), however scattered quantities are currently disregarded by VTUF-3D.
 
-Net radiation ($Q^{*}_{veg}$ for vegetated grid squares, uses the vegetation surface temperatures (calculated by MAESPA), calculated in 
+Calculation of net radiation ($Q^{*}_{veg}$) for vegetated grid squares replaces the TUF-3D calculated $T_{sfc}$ with MAESPA calculated vegetation surface temperatures ($T_{sfc,veg}$) in 
 
 \begin{equation}\label{eq:rnet}
 Q^{*}_{veg} = K\downarrow - (\alpha _{veg} K\downarrow) + \epsilon _{veg} L\downarrow - \epsilon _{veg} \sigma  (T_{sfc,veg}) ^{4} 
@@ -240,15 +241,16 @@ where $K\downarrow$ is the downward shortwave radiative flux density (W m$^{-2}$
 
 \subsection{Convective energy fluxes}
 
-As the simulation proceeds through each timestep, an energy balance is performed on each surface. For each surface with vegetation, the surface temperature ($T_{sfc}$) is set to the value calculated by MAESPA for that tree. The following describes the differences that the unmodified TUF-3D uses to calculate the energy balances needed by VTUF-3D to partition the energy fluxes of a vegetated surface.
+As the simulation proceeds through each timestep, an energy balance is performed on each surface. For each surface with vegetation, the surface temperature ($T_{sfc}$) is set to the value calculated by MAESPA for that tree replacing the TUF-3D calculated value. Using this new value, the following describes modifications to the TUF-3D methods used to partition the energy fluxes of a vegetated surface.
 
 \subsubsection{Latent energy fluxes}
 \label{sec:calcleaftemp}
 \label{sec:waterbalance}
 
-For latent energy fluxes, $Q_{E,veg}$ is calculated for each grid square, loaded from offline MAESPA modelled data for the individual item of vegetation and accompanying soil in the domain (\cite{Duursma2012} and \cite{Medlyn2007} for complete details). MAEPSA uses a number of variations of the Ball-Berry type approach \citep{Ball1987,Duursma2012} for stomatal conductance. Canopy transpiration and leaf temperature for a MAESPA tile is calculated using an iterative scheme based on \cite{Wang1998}. The Penman-Monteith equation \citep{Penman1948,Monteith1965} is applied to each grid point (to account for variations due to sunlit and shaded portions of the canopy) and summed over all the grid points to calculate transpiration. Finally, leaf temperature is found by iteratively closing the energy balance of the leaf, based on \cite{Wang1998}. MAESPA also accounts for water balance functionality. In MAESPA, infiltration is based on a function from the BROOK90 model \citep{Federer2003}. Soil evaporation is based on models developed by \cite{Choudhury1988} and \cite{Williams2001}. Canopy interception of precipitation uses the \cite{Rutter1975} rainfall interception model. Finally, hydraulics of the soil-to-leaf pathway are estimated using the single root model of \cite{Gardner1960}.
+For latent energy fluxes, $Q_{E,veg}$ is calculated for each grid square, loaded from offline MAESPA modelled data for the individual item of vegetation and accompanying soil in the domain.
+These methods are fully described in \cite{Duursma2012} and \cite{Medlyn2007}, but will be highlighted here briefly. MAEPSA uses a number of variations of the Ball-Berry type approach \citep{Ball1987,Duursma2012} for stomatal conductance. Canopy transpiration and leaf temperature for a MAESPA tile is calculated using an iterative scheme based on \cite{Wang1998}. The Penman-Monteith equation \citep{Penman1948,Monteith1965} is applied to each grid point (to account for variations due to sunlit and shaded portions of the canopy) and summed over all the grid points to calculate transpiration. Finally, leaf temperature is found by iteratively closing the energy balance of the leaf, based on \cite{Wang1998}. MAESPA also accounts for water balance functionality. In MAESPA, infiltration is based on a function from the BROOK90 model \citep{Federer2003}. Soil evaporation is based on models developed by \cite{Choudhury1988} and \cite{Williams2001}. Canopy interception of precipitation uses the \cite{Rutter1975} rainfall interception model. Finally, hydraulics of the soil-to-leaf pathway are estimated using the single root model of \cite{Gardner1960}.
 
-VTUF-3D combines MAESPA predicted canopy transpiration and soil evaporation into a total $Q_{E}$ for each vegetated tile. Using MAESPA outputs of storage of intercepted rain ($canopystore$), evaporation of wet canopy ($evapstore$), soil evaporation ($soilevap$), and modelled canopy transpiration ($et$) (all in mm) (variables fully documented in \cite{Duursma2016}) are converted to W m$^{-2}$ in 
+VTUF-3D combines MAESPA predicted canopy transpiration and soil evaporation values into a total $Q_{E}$ amount for each vegetated tile. MAESPA outputs values of storage of intercepted rain ($canopystore$), evaporation of wet canopy ($evapstore$), soil evaporation ($soilevap$), and modelled canopy transpiration ($et$) (all in mm) (variables fully documented in \cite{Duursma2016}) are converted to W m$^{-2}$ for each variable by 
 
 \begin{equation}\label{eq:mmtowm2} 
   Q_{E,et} = et \times A _{mm} \times m_{mol,w} \times \Delta H_{vap} \times c_{w,kj} \times Time  
@@ -256,7 +258,7 @@ VTUF-3D combines MAESPA predicted canopy transpiration and soil evaporation into
  
 where $et$ is evapotranspiration (mm), $A _{mm}$ is the 2-dimensional tree area (mm$^{2}$), $Time$ is the time (seconds), $\Delta H_{vap}$, the enthalpy of evaporation (=42809 J mol$^{-1}$), $c_{w,kj}$, the conversion to watts (=1W/1000KJ/sec), and $m_{mol,w}$, the molar mass of water (=18.0152g mol$^{-1}$).
 
-These values are combined to calculate the $Q_{E}$ for a grid square in 
+These values are combined to calculate the total $Q_{E,veg}$ for a grid square in 
 
 
 \begin{equation}\label{eq:lefromet} 
@@ -265,15 +267,13 @@ Q_{E} = Q_{E,et} + Q_{E,soil} + Q_{E,canopy} + Q_{E,evap}
 \end{aligned}
 \end{equation}
 
-where $Q_{E,et}$, the latent heat flux calculated from $et$ (W m$^{-2}$), $Q_{E,soil}$, the latent heat flux calculated from $soilevap$ (W m$^{-2}$), $Q_{E,canopy}$, the latent heat flux calculated from $canopystore$ (W m$^{-2}$), and $Q_{E,evap}$, the latent heat flux calculated from $evapstore$ (W m$^{-2}$).
-
-With these additions, VTUF-3D is now able to account for the evapotranspiration influence of urban vegetation. The water cycle components supplied by MAESPA modelled vegetation supplies estimates of canopy and soil evaporation and evapotranspiration. Through scaling and conversion of these estimates to units of W m$^{-2}$, the model is able to account for $Q_{E}$ in energy balance partitioning, and thus account for this influence of water and vegetation on temperature predictions in urban canyons.
+where each $Q_{E}$ value was previously converted in Equation (\ref{eq:mmtowm2}). With these additions, VTUF-3D is now able to account for $Q_{E}$ in energy balance partitioning, and thus determine the influence of water and vegetation evapotranspiration on temperature predictions in urban canyons.
 
 
 \subsubsection{Convective sensible heat fluxes and ground storage fluxes}\label{sec:convection} 
 Convection in TUF-3D (and thus in VTUF-3D) is implemented as an adaptation of the facet-averaged approach of \cite{Masson2000}. Horizontal advective exchanges are not considered, which is considered to be a reasonable approach given the well-mixed nature of canopy layer air \citep{Krayenhoff2007}. A more accurate but computationally intensive approach could be undertaken using a computational fluid dynamics (CFD) method. However, forcing by the convection between facets is likely less important than the forcing of surface temperatures through the shaded and unshaded radiation distribution and its interactions of surface material properties \citep{Krayenhoff2007}. There is the possibility that the addition of vegetation to the model will increase the importance of interactions between neighbouring surfaces of varying temperatures and moistures. However, as will be seen in the model evaluation process (Section \ref{sec:Validation}), this simplified approach still delivers suitably accurate results without justifying more computationally intensive methods. Full details of calculations are described in \cite{Krayenhoff2007}.
 
-For sensible heat fluxes ($Q_{H}$), vegetation is accounted for differently by modifying the TUF-3D $Q_{H}$ calculations for grid squares with vegetation, using the $T_{sfc,veg}$ of the vegetation instead of the TUF-3D $T_{sfc}$ value in Equation (\ref{eq:qhveg})
+Using this convective scheme for sensible heat fluxes ($Q_{H}$), vegetation is accounted for differently by modifying the TUF-3D $Q_{H}$ calculations for grid squares with vegetation, using the $T_{sfc,veg}$ of the vegetation instead of the TUF-3D $T_{sfc}$ value in Equation (\ref{eq:qhveg})
 
 \begin{equation}\label{eq:qhveg}
  Q_{H,veg} = h_{i}  (T_{sfc,veg}-T_{can}) 
@@ -282,7 +282,7 @@ For sensible heat fluxes ($Q_{H}$), vegetation is accounted for differently by m
 where $h_{i}$ is a calculated heat transfer coefficient (W m$^{-2}$ K$^{-1}$) (using \cite{Mascart1995} and the effective wind speed). 
 
 
-Ground storage fluxes ($Q_{G}$) of vegetated grid squares diverge from the TUF-3D method for non-vegetated grid squares, and are calculated as a residual of the energy balance equation (where $Q_{G}$ = $Q^{*}$ - $Q_{H}$ - $Q_{E}$). Thus $Q_{G,veg}$ fluxes for grid squares containing vegetation are calculated as
+Ground storage flux ($Q_{G}$) calculations of vegetated grid squares are modified from the TUF-3D method for non-vegetated grid squares, and are calculated as a residual of the energy balance equation (where $Q_{G}$ = $Q^{*}$ - $Q_{H}$ - $Q_{E}$). Thus $Q_{G,veg}$ fluxes for grid squares containing vegetation are calculated as
 
 \begin{equation}\label{eq:qgvtuf}
  Q_{G,veg} =  Q^{*}_{veg} - Q_{H,veg} - Q_{E,veg}
@@ -360,7 +360,7 @@ Using $T_{g}$, calculated in Equation (\ref{eq:tg2}), the second step in calcula
 
 
 
-Finally, the Universal Thermal Climate Index (UTCI) for each surface is calculated using the \cite{Brode2009u} UTCI formula, generating UTCI values for each surface, allowing human thermal comfort to be examined in detail across a modelled domain. The calculation uses modelled outputs of air temperature, wind speed (using model calculated wind speed at road level), relative humidity (from the forcing data), and $T_{mrt}$ (calculated above). VTUF-3D does not currently calculate a canopy level relative humidity. This is a current limitation and a future enhancement for the model. But as will be shown in a forthcoming paper detailing the further evaluations of VTUF-3D focussing on urban canopy layer air temperature and UTCI predictions and in the evaluation in Section \ref{sec:evalresults}, the model still performs well despite this limitation. 
+Finally, the Universal Thermal Climate Index (UTCI) for each surface is calculated using the \cite{Brode2009u} UTCI formula, generating UTCI values for each surface, allowing human thermal comfort to be examined in detail across a modelled domain. The calculation uses modelled outputs of air temperature, wind speed (using model calculated wind speed at road level), relative humidity (from the forcing data), and $T_{mrt}$ (calculated above). VTUF-3D does not currently calculate a canopy level relative humidity. This is a current limitation and a future enhancement for the model. But as will be shown in the evaluation of VTUF-3D focussing on urban canopy layer air temperature, $T_{mrt}$, and UTCI predictions (Section \ref{sec:CoMValidations}) and in the energy flux evaluation in Section \ref{sec:evalresults}, the model still performs well despite this limitation. 
 
 %This UTCI formula was designed to provide human thermal comfort assessments using thermal environment parameters with fixed values (incorporated into the formula) for metabolic rates and clothing levels \citep{Brode2012a}. While future development is needed to provide wider flexibility to vary metabolic rates and clothing levels, existing versions of this formula were developed to embody equivalent human physiological responses to differing thermal parameters \citep{Havenith2012,Fiala2012}.
 
@@ -406,14 +406,15 @@ To resolve the sunlit factor for surfaces that encountered vegetation during the
 
 Each item of vegetation in the domain is modelled offline and this data is made available for the main simulation run. In order to account for the effects of inter-tree shading or shading by buildings during the main simulation run, these offline simulations are run twice using varied amounts of incoming shortwave. The first variation uses 100\% incoming solar radiation to account for when the vegetation is in full sun. The second variation uses only the diffuse component of the incoming solar radiation for when the vegetation is shaded by obstructions. The proper variation for each item of vegetation is chosen automatically (based on its current sunlit percentage) during the model run. As the illumination levels vary in each location in an urban canyon across the diurnal cycle, these variations allow the differing vegetation responses (varying levels of photosynthesis due to lower levels of PAR, changes in surface temperatures, and varying vegetation evapotranspiration due to differences in stomatal conductance and vapour pressure deficits) to be captured. However, these variations will not be able to exactly capture every variation, such as a reduction in diffuse shortwave due to a nearby building. Examples of the forcing data required for these offline variations are described in the Pr04Val evaluation (Section \ref{sec:modelsetup}).
 
-\section{Model set up and evaluation}
-\subsection{Evaluation data}\label{sec:Validation}
+\section{Model evaluation}
+\subsection{Energy flux predictions evaluation}
+\subsubsection{Evaluation data}\label{sec:Validation}
 
 
 
 Evaluations of VTUF-3D need to be performed to ensure that this new model is making accurate predictions. As an energy balance model, modelled output comparisons to observations of energy fluxes and temperatures are considered fundamental evaluations \citep{Masson2002a}. With the addition of vegetation modelling, it is important that those aspects are also properly evaluated. To evaluation VTUF-3D's accuracy in partitioning fluxes, an evaluation was performed based on flux tower observations recorded in the suburb of Preston, in northern Melbourne, Australia \citep{Coutts2007}. Preston is a homogeneous, low to medium density area and characterised as LCZ6B (open low-rise) \citep{Stewart2012b}. A 40 meter flux tower recorded observations during 2003 and 2004 \citep{Coutts2007}, providing observed values of $Q^{*}$, $Q_{H}$, $Q_{E}$, air temperature, humidity, wind speed and direction. $Q_{G}$ was calculated as a residual of the surface energy balance. Estimates of the anthropogenic heat flux ($Q_{F}$) were made using an inventory approach, though $Q_{F}$ is included implicitly in the observations and contributes to the observed sensible heat fluxes. The use of this data set allows an evaluation of surface energy balances against modelled predictions. This data set was also used as the forcing and comparison data set for Phase 2 and 4 of the International Urban Energy Balance Models Comparison Project \citep{Grimmond2011,Best2012}. Phase 2 of this comparison project evaluated the performance of 32 urban land surface modelling schemes, forced by and compared to these observations, using a consistent methodology. Phase 4 re-evaluated many of these modelling schemes for their performance across a variety of seasonal cycles.
 
-\subsection{Model set up}\label{sec:modelsetup}
+\subsubsection{Evaluation set up}\label{sec:modelsetup}
 
 The modelled domain (100x100m with a 5m grid resolution) was an area of interest (AOI), chosen to be representative of the overall land cover influencing the fluxes at the tower (Figure \ref{fig:PrestonModArea}). Aerial imagery from 2015 \citep{GooglePreston2015} was used as an initial basis for the modelling domain. The measurement height for the observations ensured that the measured fluxes well represented the local scale (approximately 1000 meters) of the area \citep{Coutts2007}. Additionally, the site selection ensured a homogeneous nature of the overall flux coverage area \citep{Schmid1994}. Because of this, the micro-scale modelled domain is representative of the fluxes observed at a local scale. This is confirmed by the land surface classification of the site. \cite{Coutts2007} undertook a land surface classifications to support interpretation of the 2003-04 flux data, from aerial imagery (from 2002) within a 500 m radius of the observation tower. The selected AOI (Figure \ref{fig:PrestonModArea}) is in good agreement with the 500 m radius classification of \cite{Coutts2007} with respect to the pervious/impervious fractions. Breakdowns of both classifications, and the 100m x 100m domain used here are shown in Table \ref{tab:expertValues}. Overall, the modelled domain selection is very similar to the broader area, is representative of the local scale and will allow an appropriate comparison between the observed and modelled results. In addition to the land cover fractions, other properties of the observation site are listed in Table \ref{tab:prvalpara}.
 
@@ -486,7 +487,7 @@ The evaluation simulation (which is named Pr04Val) was run for 30 days, from 10 
 
 The evaluation period contained a range of conditions. The period especially features a number of hot days (over \SI{30}{\degreeCelsius}). As one of the major applications of VTUF-3D will be examining high temperature moderation of increasing tree cover, evaluation over a period containing these hot days is important. The observation period also contains a number of days with precipitation. In the current VTUF-3D design, precipitation will only be received in grid squares which contain vegetation and pervious surfaces. The expected impact of this is that predictions of $Q_{E}$ will be understated for days which contain precipitation. Accounting for rainfall on impervious surfaces is a current limitation of VTUF-3D (to be addressed in later versions of VTUF-3D) and caution should be used in modelling periods which contain significant rainfall. In the intended primary use of VTUF-3D, which focuses on temperature moderation in the hottest periods of the year (which contain little rainfall), this should be less of an issue. Also, in most urban areas, precipitation on impervious surfaces will be rapidly removed as stormwater.
 
-\subsection{Evaluation approach}\label{sec:prvalresults}
+\subsubsection{Evaluation approach}\label{sec:prvalresults}
 
 The evaluation scenario (named Pr04Val) compares the modelled results for the 30 day run with the observed fluxes ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$) for the domain that aligns well with the land surface classification for the wider local scale area (Table \ref{tab:expertValues}). Comparisons with the observations will be performed using the \cite{Willmott1981} d index of agreement. In addition, the VTUF-3D model was run with a no vegetation scenario, undertaken to demonstrate the significant improvement of the model. This scenario (named Pr04NoVeg), will represent an unimproved TUF-3D without vegetation modelling capability, as the lack of vegetation will not trigger any of the new logic and improvements added to the model. Finally, as the observations used in this evaluation are the same as in Phase 4 of the Intercomparison project \citep{Best2012}, using the \cite{Coutts2007} Preston dataset, the performance of the VTUF-3D model can also be placed within this evaluation of urban land surface modelling schemes. These include the 24 surface energy balance models with sufficient resolution to resolve features of and interactions in urban areas. The Intercomparison Phase 4 provides mean bias error (MBE) and root-mean-square error (RMSE) statistics for fluxes $Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$, grouped by three classifications of urban models. These three categories are of models that do not consider vegetation, those that model vegetation using tiles, and models that integrate vegetation into the urban area (referred to as classifications IntercomparisonNoVeg, IntercomparisonTiled, and IntercomparisonIntegrated, described in Table \ref{tab:simscompared}). These are approaches of increasing complexity where the tiled approach calculates vegetation and urban surfaces separately and the two only interact through their combined influence on variables such as temperatures. As most complex, the integrated approach allows interactions between and influences of on each other of the two elements within a timestep. VTUF-3D aligns most closely with a tiled vegetation approach. Table \ref{tab:simscompared} summarises all the different scenarios compared during the evaluation process.
 
@@ -505,7 +506,7 @@ IntercomparisonIntegrated & \cite{Best2012} intercomparison performance mean of 
 \end{center}
 
 
-\subsection{Evaluation results}\label{sec:evalresults}
+\subsubsection{Evaluation results}\label{sec:evalresults}
 
 Figure \ref{fig:Preston30Day4} presents the mean diurnal pattern for each component of the surface energy balance ($Q^{*}$, $Q_{H}$, $Q_{G}$, and $Q_{E}$)  over the 30 day evaluation period. The observed individual fluxes were aggregated into hourly averages over the 30 days and compared with the model output. VTUF-3D was able to reproduce the important dynamics of this area as seen in the component fluxes. In the observations, the $Q_{H}$ and $Q_{G}$ fluxes dominate the urban area, with modest amounts of $Q_{E}$ fluxes, peaking under 100W m$^{-2}$ during the daytime and falling to roughly zero at night-time. This was also seen in the model, with $Q_{H}$ and $Q_{G}$ dominated the surface energy balance, while $Q_{E}$ was relatively small. VTUF-3D captures closely both the magnitude and diurnal cycle of $Q_{H}$, with a slight under-prediction during the morning and a slight over-prediction during the late mornings. VTUF-3D also captures closely the cycles of $Q^{*}$. The very small divergence between the predicted and observed values can be explained through the dual sources of values of $K\downarrow$ in the forcing data, a distance of approximately 20 km between Preston and the Melbourne Airport observation site, providing varying values as a component of the calculated $Q^{*}$ which are then compared to only the Preston observations. $Q_{G}$ shows close agreement except for a slight over-prediction during the mornings, and at mid-day, a slight under-prediction during the afternoon cooling period, and a very slight over-prediction during the evening. 
 
@@ -585,14 +586,12 @@ There will remain an amount of uncertainty in comparing the modelled results to 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Model testing and validation using City of Melbourne, George and Gipps St. dataset}\label{sec:CoMValidations}
+\subsection{Spatial and temporal $T_{mrt}$ and UTCI evaluation}\label{sec:CoMValidations}
 
-While validation against the Preston flux observations indicates that VTUF-3D performs well in partitioning the basic energy fluxes, there are a number of other aspects that need to be validated to allow confidence in the model's accuracy, especially given the intended application of the model to assess the impacts of WSUD and urban greening on micro-climates and HTC. The flux validation ensures that the model models the fundamental drivers of urban climates and their temporal variations across the diurnal cycle. 
+While evaluating against the Preston flux observations indicates that VTUF-3D performs well in partitioning the basic energy fluxes, there are a number of other aspects that need to be validated to allow confidence in the model's accuracy, especially given the intended application of the model to assess the impacts of urban greening on micro-climates and HTC. Further evaluation is needed to ensure that the model correctly captures the spatial variations of $T_{mrt}$ driven by these fluxes. These values are also driven by varied shading effects across the urban canyon. Both values are highly influential on thermal comfort. The evaluation will be performed by comparing spatial values of $T_{mrt}$ and UTCI to observed values. Evaluations of spatial air temperature ($T_{a}$) will not be possible as air temperature is only predicted as a single canyon-wide value and not spatially.
 
-Further validation is needed to ensure that the model correctly captures the spatial variations of $T_{mrt}$ driven by these fluxes. These values are also driven by varied shading effects across the urban canyon. Both then are highly influential on thermal comfort, as measured by UTCI. The validation will be performed by comparing spatial values of $T_{mrt}$ and UTCI to observed values. Validations of spatial air temperature ($T_{a}$) will not be possible as air temperature is only predicted as a single canyon-wide value and not spatially.
-
-\subsubsection{George St. and Gipps St. overview}
-This set of validations was undertaken using observations from George St. and Gipps St. in the City of Melbourne \citep{Coutts2015}. These observations were taken at a number of observation stations, recording air temperature, wind speed, humidity, and incoming short wave radiation, located along the two streets. The purpose of this study was to observe and quantify the effects of street trees on HTC and recorded observations in streets with varied canopy cover. Figure \ref{fig:GeorgeGippsSt2} shows the two streets used in this validation. 
+\subsubsection{George St. and Gipps St. dataset overview}
+This set of evaluations was undertaken using observations from George St. and Gipps St. in the City of Melbourne \citep{Coutts2015}. These observations were taken at a number of observation stations, recording air temperature, wind speed, humidity, and incoming short wave radiation, located along the two streets. The purpose of this study was to observe and quantify the effects of street trees on HTC and recorded observations in streets with varied canopy cover. Figure \ref{fig:GeorgeGippsSt2} shows the two streets used in this evaluation. 
 
 \begin{figure}[!htbp] 
 \center
@@ -605,15 +604,12 @@ This set of validations was undertaken using observations from George St. and Gi
 \caption{Location and photos of each street: Gipps St. (OPN), and George St. (TRD). Aerial view of the streets highlighting individual station locations and tree canopy coverage in Gipps St. (OPN), and George St. (TRD) \citep[p.58]{Coutts2015}.\label{fig:GeorgeGippsSt2}} 
 \end{figure}
 
- 
+These two streets both have a shallow urban canyon and both are orientated E-W. Gipps St. contains a very limited canopy cover and is designated open (OPN) in the observation study. George St. contains a dense canopy cover and is designated as treed (TRD). Some of the sensors were placed directly under tree canopies and others out in the open. A main purpose of the VTUF-3D model will be to evaluate the impacts of different arrangements urban vegetation on HTC in urban canyons. Differing amounts of canopy cover are a major factor of these different arrangements. Because of this, an evaluation using observations from two very similar streetscapes which mainly differ in the amount of canopy cover will be an ideal evaluation of VTUF-3D's spatial accuracy in resolving the impacts of different arrangements and quantities of urban greenery on HTC.
 
-
-These two streets both have a shallow urban canyon and both orientated are E-W. Gipps St. contains a very limited canopy cover and is designated open (OPN) in the observation study. George St. contains a dense canopy cover and is designated as treed (TRD). Some of the sensors were placed directly under tree canopies and others out in the open. A main purpose of the VTUF-3D model will be to evaluate the impacts of different arrangements of WSUD features on HTC in urban canyons. Differing amounts of canopy cover are a major factor of these different arrangements. Because of this, a validation using observations from two very similar streetscapes which mainly differ in the amount of canopy cover will be an ideal evaluation of VTUF-3D's spatial accuracy in resolving the impacts of different arrangements of WSUD features on HTC.
-
-Tree cover of Gipps St consists of \textit{Ulmus parvifolia} (Chinese Elm) with median heights of 9.5m and crown diameters of 9.6m. The limited tree cover of George St. also consists of \textit{U. parvifolia}. The entire street canyon floor of both streets were impervious, consisting of concrete and asphalt, with the exception of a small pervious area of 1.2m$^{2}$ surrounding each tree in the road areas. General characteristics of the two sites are summarised in Table \ref{tab:comvalpara}.
+Tree cover of Gipps St consists of \textit{Ulmus parvifolia} (Chinese Elm) with median heights of 9.5m and crown diameters of 9.6m. The limited tree cover of George St. also consists of \textit{U. parvifolia}. The entire street canyon floor of both streets are impervious, consisting of concrete and asphalt, with the exception of a small pervious area of 1.2m$^{2}$ surrounding each tree in the road areas. General characteristics of the two sites are summarised in Table \ref{tab:comvalpara}.
 
 \begin{table}[!htbp]
-\caption{Gipps/George St. validation site characteristics \citep{Coutts2015}. \label{tab:comvalpara}}     
+\caption{Gipps/George St. evaluation site characteristics \citep{Coutts2015}. \label{tab:comvalpara}}     
 \begin{tabular}{| l | l |l|}
 \hline
 \textbf{Property} & \textbf{Gipps St. (OPN)} & \textbf{George St. (TRD)} \\ \hline
@@ -628,7 +624,7 @@ Plan area canopy cover (\%) & 12 & 45 \\ \hline
 \end{tabular}
 \end{table}
 
-Observations were taken at heights of 3.5 to 4.0m on existing light poles at locations indicated in Figure \ref{fig:GeorgeGippsSt2}. The observation period was for 21 months, from October 2011 to June 2013. Each observation station recorded air temperature, wind speed, humidity, incoming shortwave, and black globe temperature. For each, mean radiant temperature was calculated using a formula of \cite{Kantor2011} (a slight variation of the equation used in this project in Section \ref{sec:tmrtutci}). UTCI was calculated using RayMan Pro 2.1 \citep{Matzarakis2010} for a 35 year old male, clothing factor of 0.9, and activity rate of 80 W. This temperature was then compared to \cite{Brode2012a} assessment scale of thermal stress.
+Observations were taken at heights of 3.5 to 4.0m on existing light poles at locations indicated in Figure \ref{fig:GeorgeGippsSt2}. The observation period was for 21 months, from October 2011 to June 2013. Each observation station recorded air temperature, wind speed, humidity, incoming shortwave, and black globe temperature. For each, mean radiant temperature was calculated using a formula of \cite{Kantor2011} (a slight variation of the equation used in this study, in Section \ref{sec:tmrtutci}). UTCI was calculated using RayMan Pro 2.1 \citep{Matzarakis2010} for a 35 year old male, clothing factor of 0.9, and activity rate of 80 W. This temperature was then compared to \cite{Brode2012a} assessment scale of thermal stress.
 
 Station locations (noted on Figure \ref{fig:GeorgeGippsSt} as yellow pins and red dots on Figure \ref{fig:GeorgeGippsSt2}) are shown in the modelled domains for both streets. Stations for George St. are referred to as TRD\_2, TRD\_3, TRD\_4, and TRD\_5  (also known as EM12, EM9, EM3, and EM2 on Figure \ref{fig:GeorgeGippsSt}). Stations for Gipps St. are referred to as OPN\_3, OPN\_4, OPN\_5 (also known as EM5, EM11, and EM8). Table \ref{tab:georgegippsvf} shows sky view factor (SVF) resulting from buildings and trees at each observation site.
 
@@ -659,7 +655,7 @@ Station locations (noted on Figure \ref{fig:GeorgeGippsSt} as yellow pins and re
 \end{center} 
 
 
-These domains were configured accordingly using a 100x100m subset of the two streets (Figure \ref{fig:GeorgeGippsSt}). Simulations were run for both streets for the period 1 February 2014 to 1 March 2014 with a domain resolution of 5m grids. Building heights and locations and vegetation location and heights for both streets are shown  in Figure \ref{fig:GippsStConfig}.
+These domains were configured accordingly using a 100x100m subset of the two streets (Figure \ref{fig:GeorgeGippsSt}). Simulations were run for both streets for the period 1 February 2014 to 1 March 2014 with a domain resolution of 5m grids. Building heights and locations and vegetation location and heights for both streets are shown in Figure \ref{fig:GippsStConfig}. Model parameters were set to the values given in Table \ref{tab:modcomvalpara}. Most of these values are TUF-3D default values, from \cite{Krayenhoff2007}. Vegetation settings for the mix of two tree types (olive and brushbox) as well as grass are set to the values given in the model design vegetation parametrisation section (\ref{sec:maespavegpara}).
 
 \begin{figure}[!htbp]
 \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.20]{{images/GeorgeValidationCentralBuildingHeights.png}}~
@@ -669,11 +665,8 @@ These domains were configured accordingly using a 100x100m subset of the two str
 \caption[Building heights (top) / Vegetation cover (bottom) - George St (left), Gipps St. (right)]{Building heights (top) / Vegetation cover (bottom) - George St (left), Gipps St. (right).\label{fig:GippsStConfig}}  
 \end{figure}
 
-
-Model parameters were set to the values given in Table \ref{tab:modcomvalpara}. Most of these values are TUF-3D default values, from \cite{Krayenhoff2007}. Vegetation settings for the mix of two tree types (olive and brushbox) as well as grass are set to the values given in the model design vegetation parametrisation section (Appendix \ref{sec:maespavegpara}).
-
 \begin{table}[!htbp]
-\caption{George/Gipps St. validation scenario model parameters. \label{tab:modcomvalpara}}     
+\caption{George/Gipps St. evaluation scenario model parameters. \label{tab:modcomvalpara}}     
 \begin{tabular}{| p{8.0cm} | l | l|}
 \hline
 \textbf{Parameter} & \textbf{Value(s)}& \textbf{Source} \\ \hline
@@ -689,20 +682,20 @@ Constant building internal floor temperature (\SI{}{\degreeCelsius})  & 15.0 & \
 \end{tabular}
 \end{table}
 
-The two validation simulations (which are named GeorgeValidation and GippsValidation) were run for 30 days between the dates 31 January 2012 and 1 March 2012, forced by the observations (of observation station OPN\_1), from \cite{Coutts2015} for those days. Values used from the observations include air temperature, wind speed, wind direction, and air pressure. Values for $L\downarrow$ are taken from Melbourne Airport observations (station 086282, Melbourne Airport) \citep{BOM2016b}. Values for $K\downarrow$ are taken from one minute solar observations (station 086282, Melbourne Airport) \citep{BOM2016}.  For full radiation vegetation runs, the mean global irradiance was used while for diffuse runs, the mean diffuse irradiance was used. In addition, the MAESPA FBEAM variable (fraction of incident PAR which is direct-beam) is set to 0.0 in the forcing data for diffuse runs. Values of CO$_{2}$ for vegetation forcing files were set to a constant of 450 ppm throughout the modelling period.
+The two evaluation simulations (designated GeorgeValidation and GippsValidation) were run for 30 days between the dates 31 January 2012 and 1 March 2012, forced by the observations (of observation station OPN\_1), from \cite{Coutts2015} for those days. Values used from the observations include air temperature, wind speed, wind direction, and air pressure. Values for $L\downarrow$ are taken from Melbourne Airport observations (station 086282, Melbourne Airport) \citep{BOM2016b}. Values for $K\downarrow$ are taken from one minute solar observations (station 086282, Melbourne Airport) \citep{BOM2016}.  For full radiation vegetation runs, the mean global irradiance was used while for diffuse runs, the mean diffuse irradiance was used. In addition, the MAESPA FBEAM variable (fraction of incident PAR which is direct-beam) is set to 0.0 in the forcing data for diffuse runs. Values of CO$_{2}$ for vegetation forcing files were set to a constant of 450 ppm throughout the modelling period.
 
 
-The period covered contains a range of conditions, as shown in Figure \ref{fig:CoMtemp}. The period especially features a number of hot days (over 30\SI{}{\degreeCelsius}). As one of the major applications of VTUF-3D will be examining high temperature moderation, validation over a period containing these hot days is important. This observation period contains no days with precipitation.
+The period covered contains a range of conditions, as shown in Figure \ref{fig:CoMtemp}. The period especially features a number of hot days (over 30\SI{}{\degreeCelsius}). As one of the major applications of VTUF-3D will be examining high temperature moderation, evaluation over a period containing these hot days is important. This observation period contains no days with precipitation.
 
 
 \begin{figure}[!htbp]
 \includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/CoMTempFeb2012.png}
-\caption{Daily maximum, minimum, and mean temperatures of Gipps/George St. observations during the validation period of 31 January - 1 March 2012.\label{fig:CoMtemp}} 
+\caption{Daily maximum, minimum, and mean air temperature observations of Gipps/George St. during the evaluation period of 31 January - 1 March 2012.\label{fig:CoMtemp}} 
 \end{figure}
 
 
 
-\subsubsection{George/Gipps St. validation results}
+\subsubsection{George/Gipps St. evaluation results}
 %GeorgeValidation
 %runDirectory=/home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation
 %Directories: /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation created
@@ -809,22 +802,13 @@ A direct comparison of these two data sets is difficult as the modelled $T_{can}
 \end{figure}
 
 
-
-\subsubsection{George St. and Gipps St. validation conclusion}
-This validation was performed in order to complete sub-objective 2, evaluation of model performance for $T_{mrt}$ and UTCI. Two contrasting street canyons with varying amounts of canopy cover were used to evaluate the model's performance and test VTUF-3D's ability to predict values of $T_{mrt}$ and UTCI, both spatially and temporally. 
-
-$RMSE$ and $d$ index of agreement values when comparing the modelled results of both variables to point observations show reasonably good performance of the model. In reproducing diurnal trends of $T_{mrt}$, VTUF-3D is able to reproduce the overall trends well except is slightly slow to warm during the mornings. In the treed canyon of George St., where wide variations between the observation stations are seen in the observations, VTUF-3D is able to reproduce much of those variations but not the entire range. This indicates that there is still room for improvement in the specific modelling of vegetation in urban canyons and resolving the $T_{mrt}$ values.
-
-The completion of this validation shows that VTUF-3D is able to successfully predict values of $T_{mrt}$ and UTCI across a variety of urban canyons. This validation is an important step in determining the suitability of the model's use in evaluating HTC impacts of WSUD in urban areas.
-
-
-
-
 \section{Summary and Conclusions}
 
 This study presents the development of a new model, VTUF-3D, that is able to model vegetation and WSUD features, accounting for latent energy fluxes and their impacts on HTC. Two major modifications were made to the original TUF-3D model in the development of VTUF-3D. The first major modification added physical representations of vegetation and allow the shading effects of these features to be modelled. The second major modification added the ability to model vegetation physiological processes (and associated water cycles) and account for latent energy fluxes in surface energy balances.
 
-This analysis of VTUF-3D performance when comparing predicted results to flux tower observations and in comparison to error rates of other urban models has shown significant improvement over the unimproved (non-vegetated) TUF-3D model. Furthermore, these comparisons to observations show the model is able to capture well the temporal and amplitude variations of fluxes observed by flux towers. In a comparison of VTUF-3D modelled results to other types of urban land surface schemes, VTUF-3D performs well within the range of those other models. VTUF-3D is able to perform with this level of accuracy at a micro-scale. The majority of the other compared urban models can only deliver local-scaled results at best. Error analysis puts VTUF-3D's performance in all fluxes, except $Q_{E}$, as slightly better than all categories of these models. With the $Q_{E}$ flux, VTUF-3D performs with lower error rates than the models in the no vegetation category but with slightly higher errors than in the tiled and integrated categories. This evaluation demonstrates that VTUF-3D performs well in terms of surface energy balances, lending weight to its suitability to assess the impacts of urban greenery on human thermal comfort. Two further evaluation focussing on urban canopy layer air temperature and the Universal Thermal Climate Index (to be detailed in a forthcoming paper), will add additional confidence to VTUF-3D's suitability to accurately model urban areas and urban vegetation.
+This analysis of VTUF-3D performance when comparing predicted results to flux tower observations and in comparison to error rates of other urban models has shown significant improvement over the unimproved (non-vegetated) TUF-3D model. Furthermore, these comparisons to observations show the model is able to capture well the temporal and amplitude variations of fluxes observed by flux towers. In a comparison of VTUF-3D modelled results to other types of urban land surface schemes, VTUF-3D performs well within the range of those other models. VTUF-3D is able to perform with this level of accuracy at a micro-scale. The majority of the other compared urban models can only deliver local-scaled results at best. Error analysis puts VTUF-3D's performance in all fluxes, except $Q_{E}$, as slightly better than all categories of these models. With the $Q_{E}$ flux, VTUF-3D performs with lower error rates than the models in the no vegetation category but with slightly higher errors than in the tiled and integrated categories. This evaluation demonstrates that VTUF-3D performs well in terms of surface energy balances, lending weight to its suitability to assess the impacts of urban greenery on human thermal comfort.
+
+Two contrasting street canyons with varying amounts of canopy cover were used to further evaluate the model's performance and test VTUF-3D's ability to predict values of $T_{mrt}$ and UTCI, both spatially and temporally. $RMSE$ and $d$ index of agreement values when comparing the modelled results of both variables to point observations show reasonably good performance of the model. In reproducing diurnal trends of $T_{mrt}$, VTUF-3D is able to reproduce the overall trends well except is slightly slow to warm during the mornings. In the treed canyon of George St., where wide variations between the observation stations are seen in the observations, VTUF-3D is able to reproduce much of those variations but not the entire range. This indicates that there is still room for improvement in the specific modelling of vegetation in urban canyons and resolving the $T_{mrt}$ values. The completion of this evaluation shows that VTUF-3D is able to successfully predict values of $T_{mrt}$ and UTCI across a variety of urban canyons.
 
 VTUF-3D is a unique model involving an innovative tiling approach that accounts for the detailed physiological processes of vegetation. The model incorporates a templated scalable configuration system, used to represent specific types of vegetation, allowing any variety and mix of vegetation to be added to a modelled domain. Also, differential shading functionality allows impacts of urban geometry and inter-tree shading on vegetation anywhere in an urban canyon to be properly modelled. Finally, the addition of mean radiant temperature and UTCI output for all surfaces allows detailed analysis of the impact of vegetation on these important parameters influencing HTC in these areas.
 
