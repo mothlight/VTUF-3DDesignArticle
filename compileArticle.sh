@@ -21,10 +21,21 @@ cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation/Centra
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation/CentralVegHeights.png images/GeorgeValidationCentralVegHeights.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation/CentralVegHeights.png images/GippValidationCentralVegHeights.png
 cp -u /home/kerryn/Documents/Work/Data/CityOfMelbourne2011-12/CoMTempFeb2012.png images/CoMTempFeb2012.png
+
+
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation/GeorgeValidation-ErrorPlots-Tmrt5.png images/GeorgeValidation-ErrorPlots-Tmrt5.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation/GeorgeValidation-ErrorPlots-UTCI5.png images/GeorgeValidation-ErrorPlots-UTCI5.png
+
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation/GeorgeValidation-ErrorPlots-Tmrt7.png images/GeorgeValidation-ErrorPlots-Tmrt7.png
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation/GeorgeValidation-ErrorPlots-UTCI7.png images/GeorgeValidation-ErrorPlots-UTCI7.png
+
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation/GippsValidation-ErrorPlots-Tmrt5.png images/GippsValidation-ErrorPlots-Tmrt5.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation/GippsValidation-ErrorPlots-UTCI5.png images/GippsValidation-ErrorPlots-UTCI5.png
+
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation/GippsValidation-ErrorPlots-Tmrt7.png images/GippsValidation-ErrorPlots-Tmrt7.png
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation/GippsValidation-ErrorPlots-UTCI7.png images/GippsValidation-ErrorPlots-UTCI7.png
+
+
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation/TmrtOverallAve5_.png images/GeorgeValidationTmrtOverallAve5_.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation/TmrtOverallAve5_.png images/GippValidationTmrtOverallAve5_.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GippValidation/UtciOverallAve5_.png images/GippValidationUtciOverallAve5_.png

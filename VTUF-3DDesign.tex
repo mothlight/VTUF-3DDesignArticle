@@ -715,45 +715,52 @@ The period covered contains a range of conditions, as shown in Figure \ref{fig:C
 
 
 
-The two scenarios GeorgeValidation and GippsValidation were completed for the February 2012 modelling period. Modelled predictions for the George St. observation locations (TRD\_2, TRD\_3, TRD\_4, and TRD\_5) and Gipps St. observation locations (OPN\_3, OPN\_4, and OPN\_5) were extracted from the results and compared to the observations for those locations. Statistical analysis for these four and three locations for $T_{mrt}$ and UTCI are presented in Figures \ref{fig:GeorgeStTmrtCompare} and \ref{fig:GeorgeStUtciCompare} for George St. and Figures \ref{fig:GippsStTmrtCompare} and \ref{fig:GippsStUtciCompare} for Gipps St. A summary of the statistical analysis of RMSE errors and d index of agreement values for $T_{mrt}$ and UTCI are shown in Table \ref{tab:georgetmrt}. 
+The two scenarios GeorgeValidation and GippsValidation were completed for the February 2012 modelling period. Modelled predictions for the George St. observation locations (TRD\_2, TRD\_3, TRD\_4, and TRD\_5) and Gipps St. observation locations (OPN\_3, OPN\_4, and OPN\_5) were extracted from the results and compared to the observations for those locations. Statistical analysis for these four and three locations for $T_{mrt}$ and UTCI are presented in Figures \ref{fig:GeorgeStTmrtCompare} and \ref{fig:GeorgeStUtciCompare} for George St. and Figures \ref{fig:GippsStTmrtCompare} and \ref{fig:GippsStUtciCompare} for Gipps St. A summary of the statistical analysis of RMSE, MBE, and d index of agreement for $T_{mrt}$ and UTCI is shown in Table \ref{tab:georgetmrt}. 
 
 \begin{center}
 \begin{table}[!htbp]
 \caption{George St. GeorgeValidation and Gipps St. GippsValidation scenarios $T_{mrt}$ and UTCI predicted vs. observations statistical performance.\label{tab:georgetmrt}}
-  \begin{tabular}{  | c |c |c  | c | c | } 
-	\hline \textbf{Observation point} & \textbf{$T_{mrt}$ RMSE (\SI{}{\degreeCelsius})} & \textbf{$T_{mrt}$ d} & \textbf{UTCI RMSE (\SI{}{\degreeCelsius})} & \textbf{UTCI d}\\ \hline
-TRD\_2  &  5.48   & 0.938  & 3.02  & 0.931   \\ \hline
-TRD\_3   & 6.46   & 0.925  & 2.74  & 0.947   \\ \hline
-TRD\_4   & 7.94   & 0.913  & 3.64  & 0.914  \\ \hline
-TRD\_5   & 6.74   & 0.939  & 2.75  & 0.953   \\ \hline
-OPN\_3   & 6.01   & 0.959  & 2.33  & 0.971   \\ \hline
-OPN\_4  &  6.11   & 0.959  & 2.44  & 0.967   \\ \hline
-OPN\_5   & 5.82   & 0.961  & 2.45  & 0.965  \\ \hline
+  \begin{tabular}{  | c |c |c  | c | c | c| c | } 
+	\hline \textbf{Observation point} 
+	& \textbf{$T_{mrt}$ RMSE (\SI{}{\degreeCelsius})} 
+		& \textbf{$T_{mrt}$ MBE (\SI{}{\degreeCelsius})} 
+	& \textbf{$T_{mrt}$ d} 
+	& \textbf{UTCI RMSE (\SI{}{\degreeCelsius})} 
+	& \textbf{UTCI MBE (\SI{}{\degreeCelsius})} 
+	& \textbf{UTCI d}\\ \hline
+TRD\_2  & 5.48 & -2.59  & 0.938  & 3.02 & -2.58 & 0.931   \\ \hline
+TRD\_3  & 6.46 & 0.24  & 0.925  & 2.74 & -1.65 & 0.947   \\ \hline
+TRD\_4  & 7.94 & -4.29  & 0.913  & 3.64 & -2.93 & 0.914  \\ \hline
+TRD\_5  & 6.74 & 1.30  & 0.939  & 2.75 & -1.58 & 0.953   \\ \hline
+OPN\_3  & 6.01 & -0.28  & 0.959  & 2.33 & -0.98 & 0.971   \\ \hline
+OPN\_4  & 6.11 & -0.99  & 0.959  & 2.44 & -1.09 & 0.967   \\ \hline
+OPN\_5  & 5.82 & -1.12  & 0.961  & 2.45 & -1.15 & 0.965  \\ \hline
   \end{tabular} 
 \end{table}
 \end{center} 
 
 \begin{figure}[!htbp]
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GeorgeValidation-ErrorPlots-Tmrt5.png}
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GeorgeValidation-ErrorPlots-Tmrt7.png}
 \caption{George St. GeorgeValidation scenario point comparison of $T_{mrt}$ of 4 observation stations to modelled points.\label{fig:GeorgeStTmrtCompare}} 
 \end{figure}
 
 \begin{figure}[!htbp]
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GeorgeValidation-ErrorPlots-UTCI5.png}
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GeorgeValidation-ErrorPlots-UTCI7.png}
 \caption{George St. GeorgeValidation scenario point comparison of UTCI of 4 observation stations to modelled points.\label{fig:GeorgeStUtciCompare}} 
 \end{figure}
 
 \begin{figure}[!htbp]
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GippsValidation-ErrorPlots-Tmrt5.png}
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GippsValidation-ErrorPlots-Tmrt7.png}
 \caption{Gipps St. GippValidation scenario point comparison of $T_{mrt}$ of 3 observation stations to modelled points.\label{fig:GippsStTmrtCompare}} 
 \end{figure}
 
 \begin{figure}[!htbp]
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GippsValidation-ErrorPlots-UTCI5.png}
+\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, scale=0.30]{images/GippsValidation-ErrorPlots-UTCI7.png}
 \caption{Gipps St. GippValidation scenario point comparison of UTCI of 3 observation stations to modelled points.\label{fig:GippsStUtciCompare}} 
 \end{figure}
 
-The model shows reasonably good performance in this spatial point by point comparison. $T_{mrt}$ $RMSE$ values from George St. range from 5.48 to 7.94\SI{}{\degreeCelsius} with $d$ index of agreement values ranging from 0.913 to 0.939. UTCI $RMSE$ values range from 2.74 to 3.02\SI{}{\degreeCelsius} with $d$ index of agreement values ranging from 0.914 to 0.953.  Gipps St. shows similar results, with $T_{mrt}$ $RMSE$ values ranging from 5.82 to 6.11\SI{}{\degreeCelsius} with $d$ index of agreement values ranging from 0.959 to 0.961. UTCI $RMSE$ values range from 2.33 to 2.45\SI{}{\degreeCelsius} with $d$ index of agreement values ranging from 0.965 to 0.971.
+
+The model shows reasonably good performance in this spatial point by point comparison. $T_{mrt}$ $RMSE$ values from George St. range from 5.48 to 7.94\SI{}{\degreeCelsius}, $T_{mrt}$ $MBE$ values from 0.24 to -4.29\SI{}{\degreeCelsius}, and $d$ index of agreement values range from 0.913 to 0.939. UTCI $RMSE$ values range from 2.74 to 3.02\SI{}{\degreeCelsius}, $T_{mrt}$ $UTCI$ values -1.58 to -2.93\SI{}{\degreeCelsius}, and $d$ index of agreement values range from 0.914 to 0.953.  Gipps St. shows similar results, with $T_{mrt}$ $RMSE$ values ranging from 5.82 to 6.11\SI{}{\degreeCelsius}, $T_{mrt}$ $MBE$ values from -0.28 to -1.12\SI{}{\degreeCelsius}, and $d$ index of agreement values range from 0.959 to 0.961. UTCI $RMSE$ values range from 2.33 to 2.45\SI{}{\degreeCelsius}, $T_{mrt}$ $UTCI$ values from -0.98 to -1.15\SI{}{\degreeCelsius}, and $d$ index of agreement values range from 0.965 to 0.971.
 
 To examine the variations between the different observation points,  the four locations for George St. (TRD\_2, TRD\_3, TRD\_4, and TRD\_5) observations of $T_{mrt}$ were aggregated into hourly averages over 30 days and compared to the same aggregation of the modelled results (Figure \ref{fig:GeorgeSt30Compare}). This same analysis was also performed for the  Gipps St. points (OPN\_3, OPN\_4, and OPN\_5) in Figure \ref{fig:GippsSt30Compare}. For UTCI, a similar analysis for the Gipps St. points (OPN\_3, OPN\_4, and OPN\_5) is presented in Figure \ref{fig:GippsStUTCI30Compare}. 
 
