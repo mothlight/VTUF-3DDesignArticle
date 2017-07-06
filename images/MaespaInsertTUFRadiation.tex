@@ -1,0 +1,335 @@
+\documentclass[parskip]{scrartcl}
+\usepackage[margin=15mm,landscape]{geometry}
+\usepackage{tikz}
+
+\usepackage{keyval}
+\usepackage{ifthen}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{calc}
+%====================================
+%emphasize vertices --> switch and emph style (e.g. thick,black)
+%====================================
+\makeatletter
+% Standard Values for Parameters
+\newcommand{\tikzcuboid@shiftx}{0}
+\newcommand{\tikzcuboid@shifty}{0}
+\newcommand{\tikzcuboid@dimx}{3}
+\newcommand{\tikzcuboid@dimy}{3}
+\newcommand{\tikzcuboid@dimz}{3}
+\newcommand{\tikzcuboid@scale}{1}
+\newcommand{\tikzcuboid@densityx}{1}
+\newcommand{\tikzcuboid@densityy}{1}
+\newcommand{\tikzcuboid@densityz}{1}
+\newcommand{\tikzcuboid@rotation}{0}
+\newcommand{\tikzcuboid@anglex}{0}
+\newcommand{\tikzcuboid@angley}{90}
+\newcommand{\tikzcuboid@anglez}{225}
+\newcommand{\tikzcuboid@scalex}{1}
+\newcommand{\tikzcuboid@scaley}{1}
+\newcommand{\tikzcuboid@scalez}{sqrt(0.5)}
+\newcommand{\tikzcuboid@linefront}{black}
+\newcommand{\tikzcuboid@linetop}{black}
+\newcommand{\tikzcuboid@lineright}{black}
+\newcommand{\tikzcuboid@fillfront}{white}
+\newcommand{\tikzcuboid@filltop}{white}
+\newcommand{\tikzcuboid@fillright}{white}
+\newcommand{\tikzcuboid@shaded}{N}
+\newcommand{\tikzcuboid@shadecolor}{black}
+\newcommand{\tikzcuboid@shadeperc}{25}
+\newcommand{\tikzcuboid@emphedge}{N}
+\newcommand{\tikzcuboid@emphstyle}{thick}
+
+% Definition of Keys
+\define@key{tikzcuboid}{shiftx}[\tikzcuboid@shiftx]{\renewcommand{\tikzcuboid@shiftx}{#1}}
+\define@key{tikzcuboid}{shifty}[\tikzcuboid@shifty]{\renewcommand{\tikzcuboid@shifty}{#1}}
+\define@key{tikzcuboid}{dimx}[\tikzcuboid@dimx]{\renewcommand{\tikzcuboid@dimx}{#1}}
+\define@key{tikzcuboid}{dimy}[\tikzcuboid@dimy]{\renewcommand{\tikzcuboid@dimy}{#1}}
+\define@key{tikzcuboid}{dimz}[\tikzcuboid@dimz]{\renewcommand{\tikzcuboid@dimz}{#1}}
+\define@key{tikzcuboid}{scale}[\tikzcuboid@scale]{\renewcommand{\tikzcuboid@scale}{#1}}
+\define@key{tikzcuboid}{densityx}[\tikzcuboid@densityx]{\renewcommand{\tikzcuboid@densityx}{#1}}
+\define@key{tikzcuboid}{densityy}[\tikzcuboid@densityy]{\renewcommand{\tikzcuboid@densityy}{#1}}
+\define@key{tikzcuboid}{densityz}[\tikzcuboid@densityz]{\renewcommand{\tikzcuboid@densityz}{#1}}
+\define@key{tikzcuboid}{rotation}[\tikzcuboid@rotation]{\renewcommand{\tikzcuboid@rotation}{#1}}
+\define@key{tikzcuboid}{anglex}[\tikzcuboid@anglex]{\renewcommand{\tikzcuboid@anglex}{#1}}
+\define@key{tikzcuboid}{angley}[\tikzcuboid@angley]{\renewcommand{\tikzcuboid@angley}{#1}}
+\define@key{tikzcuboid}{anglez}[\tikzcuboid@anglez]{\renewcommand{\tikzcuboid@anglez}{#1}}
+\define@key{tikzcuboid}{scalex}[\tikzcuboid@scalex]{\renewcommand{\tikzcuboid@scalex}{#1}}
+\define@key{tikzcuboid}{scaley}[\tikzcuboid@scaley]{\renewcommand{\tikzcuboid@scaley}{#1}}
+\define@key{tikzcuboid}{scalez}[\tikzcuboid@scalez]{\renewcommand{\tikzcuboid@scalez}{#1}}
+\define@key{tikzcuboid}{linefront}[\tikzcuboid@linefront]{\renewcommand{\tikzcuboid@linefront}{#1}}
+\define@key{tikzcuboid}{linetop}[\tikzcuboid@linetop]{\renewcommand{\tikzcuboid@linetop}{#1}}
+\define@key{tikzcuboid}{lineright}[\tikzcuboid@lineright]{\renewcommand{\tikzcuboid@lineright}{#1}}
+\define@key{tikzcuboid}{fillfront}[\tikzcuboid@fillfront]{\renewcommand{\tikzcuboid@fillfront}{#1}}
+\define@key{tikzcuboid}{filltop}[\tikzcuboid@filltop]{\renewcommand{\tikzcuboid@filltop}{#1}}
+\define@key{tikzcuboid}{fillright}[\tikzcuboid@fillright]{\renewcommand{\tikzcuboid@fillright}{#1}}
+\define@key{tikzcuboid}{shaded}[\tikzcuboid@shaded]{\renewcommand{\tikzcuboid@shaded}{#1}}
+\define@key{tikzcuboid}{shadecolor}[\tikzcuboid@shadecolor]{\renewcommand{\tikzcuboid@shadecolor}{#1}}
+\define@key{tikzcuboid}{shadeperc}[\tikzcuboid@shadeperc]{\renewcommand{\tikzcuboid@shadeperc}{#1}}
+\define@key{tikzcuboid}{emphedge}[\tikzcuboid@emphedge]{\renewcommand{\tikzcuboid@emphedge}{#1}}
+\define@key{tikzcuboid}{emphstyle}[\tikzcuboid@emphstyle]{\renewcommand{\tikzcuboid@emphstyle}{#1}}
+% Commands
+\newcommand{\tikzcuboid}[1]{
+    \setkeys{tikzcuboid}{#1} % Process Keys passed to command
+    \pgfmathsetmacro{\vectorxx}{\tikzcuboid@scalex*cos(\tikzcuboid@anglex)}
+    \pgfmathsetmacro{\vectorxy}{\tikzcuboid@scalex*sin(\tikzcuboid@anglex)}
+    \pgfmathsetmacro{\vectoryx}{\tikzcuboid@scaley*cos(\tikzcuboid@angley)}
+    \pgfmathsetmacro{\vectoryy}{\tikzcuboid@scaley*sin(\tikzcuboid@angley)}
+    \pgfmathsetmacro{\vectorzx}{\tikzcuboid@scalez*cos(\tikzcuboid@anglez)}
+    \pgfmathsetmacro{\vectorzy}{\tikzcuboid@scalez*sin(\tikzcuboid@anglez)}
+    \begin{scope}[xshift=\tikzcuboid@shiftx, yshift=\tikzcuboid@shifty, scale=\tikzcuboid@scale, rotate=\tikzcuboid@rotation, x={(\vectorxx,\vectorxy)}, y={(\vectoryx,\vectoryy)}, z={(\vectorzx,\vectorzy)}]
+    \pgfmathsetmacro{\steppingx}{1/\tikzcuboid@densityx}
+    \pgfmathsetmacro{\steppingy}{1/\tikzcuboid@densityy}
+    \pgfmathsetmacro{\steppingz}{1/\tikzcuboid@densityz}
+    \newcommand{\dimx}{\tikzcuboid@dimx}
+    \newcommand{\dimy}{\tikzcuboid@dimy}
+    \newcommand{\dimz}{\tikzcuboid@dimz}
+    \pgfmathsetmacro{\secondx}{2*\steppingx}
+    \pgfmathsetmacro{\secondy}{2*\steppingy}
+    \pgfmathsetmacro{\secondz}{2*\steppingz}
+    \foreach \x in {\steppingx,\secondx,...,\dimx}
+    {   \foreach \y in {\steppingy,\secondy,...,\dimy}
+        {   \pgfmathsetmacro{\lowx}{(\x-\steppingx)}
+            \pgfmathsetmacro{\lowy}{(\y-\steppingy)}
+            \filldraw[fill=\tikzcuboid@fillfront,draw=\tikzcuboid@linefront] (\lowx,\lowy,\dimz) -- (\lowx,\y,\dimz) -- (\x,\y,\dimz) -- (\x,\lowy,\dimz) -- cycle;
+
+        }
+    }
+    \foreach \x in {\steppingx,\secondx,...,\dimx}
+    {   \foreach \z in {\steppingz,\secondz,...,\dimz}
+        {   \pgfmathsetmacro{\lowx}{(\x-\steppingx)}
+            \pgfmathsetmacro{\lowz}{(\z-\steppingz)}
+            \filldraw[fill=\tikzcuboid@filltop,draw=\tikzcuboid@linetop] (\lowx,\dimy,\lowz) -- (\lowx,\dimy,\z) -- (\x,\dimy,\z) -- (\x,\dimy,\lowz) -- cycle;
+        }
+    }
+    \foreach \y in {\steppingy,\secondy,...,\dimy}
+    {   \foreach \z in {\steppingz,\secondz,...,\dimz}
+        {   \pgfmathsetmacro{\lowy}{(\y-\steppingy)}
+            \pgfmathsetmacro{\lowz}{(\z-\steppingz)}
+            \filldraw[fill=\tikzcuboid@fillright,draw=\tikzcuboid@lineright] (\dimx,\lowy,\lowz) -- (\dimx,\lowy,\z) -- (\dimx,\y,\z) -- (\dimx,\y,\lowz) -- cycle;
+        }
+    }
+    \ifthenelse{\equal{\tikzcuboid@emphedge}{Y}}%
+        {\draw[\tikzcuboid@emphstyle](0,\dimy,0) -- (\dimx,\dimy,0) -- (\dimx,\dimy,\dimz) -- (0,\dimy,\dimz) -- cycle;%
+        \draw[\tikzcuboid@emphstyle] (0,0,\dimz) -- (0,\dimy,\dimz) -- (\dimx,\dimy,\dimz) -- (\dimx,0,\dimz) -- cycle;%
+        \draw[\tikzcuboid@emphstyle](\dimx,0,0) -- (\dimx,\dimy,0) -- (\dimx,\dimy,\dimz) -- (\dimx,0,\dimz) -- cycle;%
+        }%
+        {}
+    \end{scope}
+}
+
+\makeatother
+
+
+
+
+
+
+\begin{document}
+
+\begin{figure}
+\begin{tikzpicture}
+
+
+\def\densityX{2}
+\def\densityY{2}
+\def\densityZ{2}
+
+\def\densityBuildingX{1}
+\def\densityBuildingY{1}
+\def\densityBuildingZ{1}
+
+\def\leftTreeX{\leftBuildingX+0cm}
+\def\leftTreeY{0cm}
+
+\def\rightTreeX{\leftBuildingX+15cm}
+\def\rightTreeY{7cm}
+
+\def\leftBuildingX{0cm}
+\def\leftBuildingY{0cm}
+
+\def\groundX{\leftBuildingX+4cm}
+\def\groundY{8cm}
+
+\def\rightBuildingX{\leftBuildingX+24cm}
+\def\rightBuildingY{\leftBuildingY}
+
+%%%
+\def\BOffset{-9cm}
+
+\def\densityBX{2}
+\def\densityBY{2}
+\def\densityBZ{2}
+
+\def\densityBuildingBX{1}
+\def\densityBuildingBY{1}
+\def\densityBuildingBZ{1}
+
+\def\leftTreeBX{\leftBuildingBX+6cm}
+\def\leftTreeBY{\BOffset+7cm}
+
+\def\rightTreeBX{\leftBuildingBX+15cm}
+\def\rightTreeBY{\BOffset+7cm}
+
+\def\leftBuildingBX{0cm}
+\def\leftBuildingBY{\BOffset+8cm}
+
+\def\groundBX{\leftBuildingBX+4cm}
+\def\groundBY{\BOffset+8cm}
+
+\def\rightBuildingBX{\leftBuildingBX+24cm}
+\def\rightBuildingBY{\BOffset+\leftBuildingBY}
+
+\def\leftGroundX{\leftBuildingX-1cm}
+\def\leftGroundY{\leftBuildingY+0cm}
+
+
+\coordinate (G1BCenter) at (0,0);
+\coordinate (G1BCenter2) at (G1BCenter) ++(-1.0,-5.0);
+\coordinate (soilstore) at (G1BCenter) ++ (0,-2.2);
+
+\def\leftGround2X{\leftGroundX+1cm}    
+        \tikzcuboid{%  ground
+        shiftx=\leftGround2X,
+        shifty=\leftGroundY,
+        scale=1.0,
+        rotation=0,
+        densityx=\densityBuildingX,
+        densityy=\densityBuildingY,
+        densityz=\densityBuildingZ,
+        dimx=0,
+        dimy=0,
+        dimz=0,
+        linefront=white!0!white,
+        linetop=black!50!black,
+        lineright=white!25!white,
+        fillfront=gray!0!white,
+        filltop=gray!25!white,
+        fillright=white!25!white,        
+        emphedge=Y,
+        emphstyle=thick,
+    }  
+
+        \tikzcuboid{%  ground
+        shiftx=\leftGroundX,
+        shifty=\leftGroundY,
+        scale=1.0,
+        rotation=0,
+        densityx=\densityBuildingX,
+        densityy=\densityBuildingY,
+        densityz=\densityBuildingZ,
+        dimx=0,
+        dimy=0,
+        dimz=0,
+        linefront=white!0!white,
+        linetop=black!50!black,
+        lineright=white!25!white,
+        fillfront=gray!0!white,
+        filltop=gray!50!white,
+        fillright=white!25!white,        
+        emphedge=Y,
+        emphstyle=thick,
+    }
+    
+  
+
+%\begin{tikzpicture}
+%    \draw[thick,->,black] (0,0,0) -- (4,0,0) node[anchor=north east]{$x$};
+%    \draw[thick,->] (0,0,0) -- (0,2,0) node[anchor=north east]{$y$};
+%    \draw[thick,->] (0,0,0) -- (0,0,2) node[anchor=east]{$z$};
+%    \draw (1,1,1) rectangle ++(1,1,1);
+%\end{tikzpicture}
+
+
+%[cm={-1,-1,0,1,(0,0)},z=1cm,x=3.85mm]
+%\begin{tikzpicture}
+%    \draw[thick,->,black] (0,0,0) -- (4,0,0) node[anchor=north east]{$x$};
+%    \draw[thick,->] (0,0,0) -- (0,2,0) node[anchor=north east]{$y$};
+%    \draw[thick,->] (0,0,0) -- (0,0,2) node[anchor=east]{$z$};
+%    \draw[rotate=30] (0,0,0) rectangle ++(1,0,1);
+%    \draw (1,0,1) rectangle ++(1,0,1);
+%\end{tikzpicture}
+
+ % \begin{tikzpicture}[scale=.8, z={(-.707,-.3)}]
+%    \draw (4,0,0) -- (0,0,0) -- (0,5,0);
+%    \draw (4,0,0) -- (4,0,-3) -- (4,5,-3) -- (4,5,0) -- cycle;
+%%%%    \draw (4,5,0) -- (0,5,0) -- (0,5,-3) -- (4,5,-3);
+%    \draw[style=dashed, color=gray] (4,0,-3) -- (0,0,-3) 
+      -- (0,5,-3);
+%    \draw[style=dashed, color=gray] (0,0,0) -- (0,0,-3); 
+%    \draw (2,-.4,0) node{4 ft};
+%    \draw (4.6,-.2,-1.5) node{3 ft};
+%    \draw (4.5,2.5,-3) node{5 ft};
+
+%\draw[red,thick] (0,0,0)  ellipse (0.1cm and 0.1cm);
+%\draw[blue,thick] (0,5,0)  ellipse (0.1cm and 0.1cm);
+%\draw[green,thick] (0,5,-3)  ellipse (0.1cm and 0.1cm);
+%\draw[brown,thick] (4,5,-3)  ellipse (0.1cm and 0.1cm);
+%  \end{tikzpicture}
+
+
+
+%\draw[rotate around={270:(0,0)},red] (0,0) rectangle (4,4);
+
+%    %  left tree  
+        \tikzcuboid{%  tree
+        shiftx=\leftTreeX,shifty=\leftTreeY+0cm,scale=1.0,rotation=0,densityx=\densityX,
+        densityy=\densityY,densityz=\densityZ,
+        dimx=1,dimy=5,dimz=1,
+        linefront=black!75!black,%
+        linetop=black!50!black,%
+        lineright=gray!25!black,%1
+        fillfront=gray!50!white,%
+        filltop=gray!25!white,%
+        fillright=gray!25!white,%
+        emphedge=Y,emphstyle=thin,
+    }  
+    
+    %tree sun/shade
+\coordinate (insertbox) at (1.0,6.0); 
+%\draw[blue,thick] (insertbox)  ellipse (0.1cm and 0.1cm); 
+\coordinate (insertbox2) at (1.0,5.0);
+%\draw[red,thick] (insertbox2)  ellipse (0.1cm and 0.1cm);
+
+\node[anchor=west] at ([xshift=-0.0cm,yshift=-0.2cm]insertbox.center) (description) {\huge Tsurf (shaded)};
+\node[anchor=east] at ([xshift=-0.7cm,yshift=-1.0cm]insertbox2.center) (text) {};
+\draw (description) edge[out=180,in=50,->] (text);	
+    
+\coordinate (insertbox3) at (1.5,5.5); 
+\coordinate (insertbox4) at (1.5,4.5);
+%\draw[blue,thick] (insertbox3)  ellipse (0.1cm and 0.1cm); 
+%\draw[red,thick] (insertbox4)  ellipse (0.1cm and 0.1cm);
+
+ \node[anchor=west] at ([xshift=-0.0cm,yshift=-0.5cm]insertbox3.center) (description) {\huge Tsurf (sunlit)};
+ \node[anchor=east] at ([xshift=-0.7cm,yshift=-1.0cm]insertbox4.center) (text) {};
+ \draw (description) edge[out=180,in=50,->] (text);	
+    
+    
+     %ground sun/shade
+\coordinate (insertbox5) at (1.2,1.0); 
+\coordinate (insertbox6) at (0.5,0.0);
+%\draw[blue,thick] (insertbox5)  ellipse (0.1cm and 0.1cm); 
+%\draw[red,thick] (insertbox6)  ellipse (0.1cm and 0.1cm);
+
+\node[anchor=west] at ([xshift=-0.0cm,yshift=0.2cm]insertbox5.center) (description) {\huge Tsurf (shaded)};
+\node[anchor=east] at ([xshift=-0.7cm,yshift=-1.0cm]insertbox6.center) (text) {};
+\draw (description) edge[out=180,in=50,->] (text);	
+    
+\coordinate (insertbox7) at (1.5,0.5); 
+\coordinate (insertbox8) at (1.5,0.0);
+%\draw[blue,thick] (insertbox7)  ellipse (0.1cm and 0.1cm); 
+%\draw[red,thick] (insertbox8)  ellipse (0.1cm and 0.1cm);
+
+ \node[anchor=west] at ([xshift=-0.0cm,yshift=0.0cm]insertbox7.center) (description) {\huge Tsurf (sunlit)};
+ \node[anchor=east] at ([xshift=-0.7cm,yshift=-1.0cm]insertbox8.center) (text) {};
+ \draw (description) edge[out=180,in=50,->] (text);	   
+    
+    
+    \draw[] (0.00,-2.00) node[font=\Large,label={[xshift=0.0cm, yshift=0.0cm]\huge TUF-3D radiation routines}] 	{} ;
+    
+    
+\end{tikzpicture}
+\end{figure}
+
+
+
+\end{document}

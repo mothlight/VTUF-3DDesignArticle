@@ -1,0 +1,491 @@
+\documentclass[parskip]{scrartcl}
+\usepackage[margin=15mm,landscape]{geometry}
+\usepackage{tikz}
+\usepackage{keyval}
+\usepackage{ifthen}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{calc}
+%====================================
+%emphasize vertices --> switch and emph style (e.g. thick,black)
+%====================================
+\makeatletter
+% Standard Values for Parameters
+\newcommand{\tikzcuboid@shiftx}{0}
+\newcommand{\tikzcuboid@shifty}{0}
+\newcommand{\tikzcuboid@dimx}{3}
+\newcommand{\tikzcuboid@dimy}{3}
+\newcommand{\tikzcuboid@dimz}{3}
+\newcommand{\tikzcuboid@scale}{1}
+\newcommand{\tikzcuboid@densityx}{1}
+\newcommand{\tikzcuboid@densityy}{1}
+\newcommand{\tikzcuboid@densityz}{1}
+\newcommand{\tikzcuboid@rotation}{0}
+\newcommand{\tikzcuboid@anglex}{0}
+\newcommand{\tikzcuboid@angley}{90}
+\newcommand{\tikzcuboid@anglez}{225}
+\newcommand{\tikzcuboid@scalex}{1}
+\newcommand{\tikzcuboid@scaley}{1}
+\newcommand{\tikzcuboid@scalez}{sqrt(0.5)}
+\newcommand{\tikzcuboid@linefront}{black}
+\newcommand{\tikzcuboid@linetop}{black}
+\newcommand{\tikzcuboid@lineright}{black}
+\newcommand{\tikzcuboid@fillfront}{white}
+\newcommand{\tikzcuboid@filltop}{white}
+\newcommand{\tikzcuboid@fillright}{white}
+\newcommand{\tikzcuboid@shaded}{N}
+\newcommand{\tikzcuboid@shadecolor}{black}
+\newcommand{\tikzcuboid@shadeperc}{25}
+\newcommand{\tikzcuboid@emphedge}{N}
+\newcommand{\tikzcuboid@emphstyle}{thick}
+
+% Definition of Keys
+\define@key{tikzcuboid}{shiftx}[\tikzcuboid@shiftx]{\renewcommand{\tikzcuboid@shiftx}{#1}}
+\define@key{tikzcuboid}{shifty}[\tikzcuboid@shifty]{\renewcommand{\tikzcuboid@shifty}{#1}}
+\define@key{tikzcuboid}{dimx}[\tikzcuboid@dimx]{\renewcommand{\tikzcuboid@dimx}{#1}}
+\define@key{tikzcuboid}{dimy}[\tikzcuboid@dimy]{\renewcommand{\tikzcuboid@dimy}{#1}}
+\define@key{tikzcuboid}{dimz}[\tikzcuboid@dimz]{\renewcommand{\tikzcuboid@dimz}{#1}}
+\define@key{tikzcuboid}{scale}[\tikzcuboid@scale]{\renewcommand{\tikzcuboid@scale}{#1}}
+\define@key{tikzcuboid}{densityx}[\tikzcuboid@densityx]{\renewcommand{\tikzcuboid@densityx}{#1}}
+\define@key{tikzcuboid}{densityy}[\tikzcuboid@densityy]{\renewcommand{\tikzcuboid@densityy}{#1}}
+\define@key{tikzcuboid}{densityz}[\tikzcuboid@densityz]{\renewcommand{\tikzcuboid@densityz}{#1}}
+\define@key{tikzcuboid}{rotation}[\tikzcuboid@rotation]{\renewcommand{\tikzcuboid@rotation}{#1}}
+\define@key{tikzcuboid}{anglex}[\tikzcuboid@anglex]{\renewcommand{\tikzcuboid@anglex}{#1}}
+\define@key{tikzcuboid}{angley}[\tikzcuboid@angley]{\renewcommand{\tikzcuboid@angley}{#1}}
+\define@key{tikzcuboid}{anglez}[\tikzcuboid@anglez]{\renewcommand{\tikzcuboid@anglez}{#1}}
+\define@key{tikzcuboid}{scalex}[\tikzcuboid@scalex]{\renewcommand{\tikzcuboid@scalex}{#1}}
+\define@key{tikzcuboid}{scaley}[\tikzcuboid@scaley]{\renewcommand{\tikzcuboid@scaley}{#1}}
+\define@key{tikzcuboid}{scalez}[\tikzcuboid@scalez]{\renewcommand{\tikzcuboid@scalez}{#1}}
+\define@key{tikzcuboid}{linefront}[\tikzcuboid@linefront]{\renewcommand{\tikzcuboid@linefront}{#1}}
+\define@key{tikzcuboid}{linetop}[\tikzcuboid@linetop]{\renewcommand{\tikzcuboid@linetop}{#1}}
+\define@key{tikzcuboid}{lineright}[\tikzcuboid@lineright]{\renewcommand{\tikzcuboid@lineright}{#1}}
+\define@key{tikzcuboid}{fillfront}[\tikzcuboid@fillfront]{\renewcommand{\tikzcuboid@fillfront}{#1}}
+\define@key{tikzcuboid}{filltop}[\tikzcuboid@filltop]{\renewcommand{\tikzcuboid@filltop}{#1}}
+\define@key{tikzcuboid}{fillright}[\tikzcuboid@fillright]{\renewcommand{\tikzcuboid@fillright}{#1}}
+\define@key{tikzcuboid}{shaded}[\tikzcuboid@shaded]{\renewcommand{\tikzcuboid@shaded}{#1}}
+\define@key{tikzcuboid}{shadecolor}[\tikzcuboid@shadecolor]{\renewcommand{\tikzcuboid@shadecolor}{#1}}
+\define@key{tikzcuboid}{shadeperc}[\tikzcuboid@shadeperc]{\renewcommand{\tikzcuboid@shadeperc}{#1}}
+\define@key{tikzcuboid}{emphedge}[\tikzcuboid@emphedge]{\renewcommand{\tikzcuboid@emphedge}{#1}}
+\define@key{tikzcuboid}{emphstyle}[\tikzcuboid@emphstyle]{\renewcommand{\tikzcuboid@emphstyle}{#1}}
+% Commands
+\newcommand{\tikzcuboid}[1]{
+    \setkeys{tikzcuboid}{#1} % Process Keys passed to command
+    \pgfmathsetmacro{\vectorxx}{\tikzcuboid@scalex*cos(\tikzcuboid@anglex)}
+    \pgfmathsetmacro{\vectorxy}{\tikzcuboid@scalex*sin(\tikzcuboid@anglex)}
+    \pgfmathsetmacro{\vectoryx}{\tikzcuboid@scaley*cos(\tikzcuboid@angley)}
+    \pgfmathsetmacro{\vectoryy}{\tikzcuboid@scaley*sin(\tikzcuboid@angley)}
+    \pgfmathsetmacro{\vectorzx}{\tikzcuboid@scalez*cos(\tikzcuboid@anglez)}
+    \pgfmathsetmacro{\vectorzy}{\tikzcuboid@scalez*sin(\tikzcuboid@anglez)}
+    \begin{scope}[xshift=\tikzcuboid@shiftx, yshift=\tikzcuboid@shifty, scale=\tikzcuboid@scale, rotate=\tikzcuboid@rotation, x={(\vectorxx,\vectorxy)}, y={(\vectoryx,\vectoryy)}, z={(\vectorzx,\vectorzy)}]
+    \pgfmathsetmacro{\steppingx}{1/\tikzcuboid@densityx}
+    \pgfmathsetmacro{\steppingy}{1/\tikzcuboid@densityy}
+    \pgfmathsetmacro{\steppingz}{1/\tikzcuboid@densityz}
+    \newcommand{\dimx}{\tikzcuboid@dimx}
+    \newcommand{\dimy}{\tikzcuboid@dimy}
+    \newcommand{\dimz}{\tikzcuboid@dimz}
+    \pgfmathsetmacro{\secondx}{2*\steppingx}
+    \pgfmathsetmacro{\secondy}{2*\steppingy}
+    \pgfmathsetmacro{\secondz}{2*\steppingz}
+    \foreach \x in {\steppingx,\secondx,...,\dimx}
+    {   \foreach \y in {\steppingy,\secondy,...,\dimy}
+        {   \pgfmathsetmacro{\lowx}{(\x-\steppingx)}
+            \pgfmathsetmacro{\lowy}{(\y-\steppingy)}
+            \filldraw[fill=\tikzcuboid@fillfront,draw=\tikzcuboid@linefront] (\lowx,\lowy,\dimz) -- (\lowx,\y,\dimz) -- (\x,\y,\dimz) -- (\x,\lowy,\dimz) -- cycle;
+
+        }
+    }
+    \foreach \x in {\steppingx,\secondx,...,\dimx}
+    {   \foreach \z in {\steppingz,\secondz,...,\dimz}
+        {   \pgfmathsetmacro{\lowx}{(\x-\steppingx)}
+            \pgfmathsetmacro{\lowz}{(\z-\steppingz)}
+            \filldraw[fill=\tikzcuboid@filltop,draw=\tikzcuboid@linetop] (\lowx,\dimy,\lowz) -- (\lowx,\dimy,\z) -- (\x,\dimy,\z) -- (\x,\dimy,\lowz) -- cycle;
+        }
+    }
+    \foreach \y in {\steppingy,\secondy,...,\dimy}
+    {   \foreach \z in {\steppingz,\secondz,...,\dimz}
+        {   \pgfmathsetmacro{\lowy}{(\y-\steppingy)}
+            \pgfmathsetmacro{\lowz}{(\z-\steppingz)}
+            \filldraw[fill=\tikzcuboid@fillright,draw=\tikzcuboid@lineright] (\dimx,\lowy,\lowz) -- (\dimx,\lowy,\z) -- (\dimx,\y,\z) -- (\dimx,\y,\lowz) -- cycle;
+        }
+    }
+    \ifthenelse{\equal{\tikzcuboid@emphedge}{Y}}%
+        {\draw[\tikzcuboid@emphstyle](0,\dimy,0) -- (\dimx,\dimy,0) -- (\dimx,\dimy,\dimz) -- (0,\dimy,\dimz) -- cycle;%
+        \draw[\tikzcuboid@emphstyle] (0,0,\dimz) -- (0,\dimy,\dimz) -- (\dimx,\dimy,\dimz) -- (\dimx,0,\dimz) -- cycle;%
+        \draw[\tikzcuboid@emphstyle](\dimx,0,0) -- (\dimx,\dimy,0) -- (\dimx,\dimy,\dimz) -- (\dimx,0,\dimz) -- cycle;%
+        }%
+        {}
+    \end{scope}
+}
+
+\makeatother
+
+
+
+\begin{document}
+
+% Place the TikZ picture in a figure environment.
+\begin{figure}
+\begin{tikzpicture}
+
+\def\densityX{2}
+\def\densityY{2}
+\def\densityZ{2}
+
+\def\densityBuildingX{1}
+\def\densityBuildingY{1}
+\def\densityBuildingZ{1}
+
+\def\leftTreeX{\leftBuildingX+6cm}
+\def\leftTreeY{7cm}
+
+\def\rightTreeX{\leftBuildingX+15cm}
+\def\rightTreeY{7cm}
+
+\def\leftBuildingX{0cm}
+\def\leftBuildingY{8cm}
+
+\def\groundX{\leftBuildingX+4cm}
+\def\groundY{8cm}
+
+\def\rightBuildingX{\leftBuildingX+24cm}
+\def\rightBuildingY{\leftBuildingY}
+
+%%%
+\def\BOffset{-9cm}
+
+\def\densityBX{2}
+\def\densityBY{2}
+\def\densityBZ{2}
+
+\def\densityBuildingBX{1}
+\def\densityBuildingBY{1}
+\def\densityBuildingBZ{1}
+
+\def\leftTreeBX{\leftBuildingBX+6cm}
+\def\leftTreeBY{\BOffset+7cm}
+
+\def\rightTreeBX{\leftBuildingBX+15cm}
+\def\rightTreeBY{\BOffset+7cm}
+
+\def\leftBuildingBX{0cm}
+\def\leftBuildingBY{\BOffset+8cm}
+
+\def\groundBX{\leftBuildingBX+4cm}
+\def\groundBY{\BOffset+8cm}
+
+\def\rightBuildingBX{\leftBuildingBX+24cm}
+\def\rightBuildingBY{\BOffset+\leftBuildingBY}
+
+%%%
+
+
+        \tikzcuboid{%  ground
+        shiftx=\groundX,%
+        shifty=\groundY,%
+        scale=1.0,%
+        rotation=0,%
+        densityx=\densityBuildingX,%
+        densityy=\densityBuildingY,%
+        densityz=\densityBuildingZ,%
+        dimx=20,%
+        dimy=0,%
+        dimz=4,%
+        linefront=black!75!black,%
+        linetop=black!50!black,%
+        lineright=gray!25!black,%
+        fillfront=gray!25!white,%
+        filltop=gray!25!white,%
+        fillright=gray!75!white,%
+        emphedge=Y,%
+        emphstyle=thick,
+    }
+    
+    \tikzcuboid{%  left building
+        shiftx=\leftBuildingX,%
+        shifty=\leftBuildingY,%
+        scale=1.0,%
+        rotation=0,%
+        densityx=\densityBuildingX,%
+        densityy=\densityBuildingY,%
+        densityz=\densityBuildingZ,%
+        dimx=4,%
+        dimy=8,%
+        dimz=4,%
+        linefront=black!75!black,%
+        linetop=black!50!black,%
+        lineright=gray!25!black,%
+        fillfront=gray!75!white,%
+        filltop=gray!25!white,%
+        fillright=gray!25!white,%
+        emphedge=Y,%
+        emphstyle=thick,
+    }    
+    
+    \tikzcuboid{%  right building
+        shiftx=\rightBuildingX,%
+        shifty=\rightBuildingY,%
+        scale=1.0,%
+        rotation=0,%
+        densityx=\densityBuildingX,%
+        densityy=\densityBuildingY,%
+        densityz=\densityBuildingZ,%
+        dimx=4,%
+        dimy=8,%
+        dimz=4,%
+        linefront=black!75!black,%
+        linetop=black!50!black,%
+        lineright=gray!25!black,%
+        fillfront=gray!75!white,%
+        filltop=gray!25!white,%
+        fillright=gray!75!white,%
+        emphedge=Y,%
+        emphstyle=thick,
+    }
+    
+     \coordinate (G1Center) at (0,17.1);  
+  
+
+   
+%    %  left tree  
+        \tikzcuboid{%  tree
+        shiftx=\leftTreeX,shifty=\leftTreeY+0cm,scale=1.0,rotation=0,densityx=\densityX,
+        densityy=\densityY,densityz=\densityZ,
+        dimx=1,dimy=5,dimz=1,
+        linefront=black!75!black,%
+        linetop=black!50!black,%
+        lineright=gray!25!black,%
+        fillfront=gray!75!white,%
+        filltop=gray!25!white,%
+        fillright=gray!25!white,%
+        emphedge=Y,emphstyle=thin,
+    }  
+%%%%%%%%%%%%%%%%%%%put this back
+%            %  right tree
+        \tikzcuboid{%  tree middle bit
+        shiftx=\rightTreeX,shifty=\rightTreeY+0cm,scale=1.0,rotation=0,densityx=\densityX,
+        densityy=\densityY,densityz=\densityZ,
+        dimx=1,dimy=5,dimz=1,
+        linefront=black!75!black,%
+        linetop=black!50!black,%
+        lineright=gray!25!black,%
+        fillfront=gray!75!white,%
+        filltop=gray!50!white,%
+        fillright=gray!25!white,%
+        emphedge=Y,emphstyle=thick,
+    }  
+     
+ 
+ \coordinate (G1BCenter2) at (6,8);  
+	% stem of MAESPA tree   
+	\draw[line width=2pt,fill opacity=0.15] (G1BCenter2)  -- ++(0,-2)  ;
+	% and tree
+	\draw[fill=green,fill opacity=0.15] (G1BCenter2) ++(0,2) ellipse (1cm and 2cm);
+	%ellipses inside of tree
+	\draw (G1BCenter2)  ++(0,1.5) ellipse (.75cm and 1.5cm);
+	\draw (G1BCenter2)  ++(0,1) ellipse (.5cm and 1cm);
+	\draw (G1BCenter2)  ++(0,.5) ellipse (.25cm and .5cm);
+	%draw lines across tree
+	\draw (G1BCenter2)  ++(0,1)  -- ++(-.9,0)  ;
+	\draw (G1BCenter2)  ++(0,1)  -- ++(+.9,0)  ;
+	
+	\draw (G1BCenter2)  ++(0,2)  -- ++(-1.0,0)  ;
+	\draw (G1BCenter2)  ++(0,2)  -- ++(+1.0,0)  ;
+	
+	\draw (G1BCenter2)  ++(0,3)  -- ++(-.9,0)  ;
+	\draw (G1BCenter2)  ++(0,3)  -- ++(+.9,0)  ;
+	%draw small grid circles
+	\draw (G1BCenter2)  ++(.3,3.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(-.3,3.5) ellipse (.05cm and 0.05cm);
+	
+	\draw (G1BCenter2)  ++(.0,2.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(-.37,2.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(.37,2.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(.7,2.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(-.7,2.5) ellipse (.05cm and 0.05cm);
+	
+	\draw (G1BCenter2)  ++(.0,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(-.37,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(.37,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(-.75,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(.75,1.5) ellipse (.05cm and 0.05cm);
+	
+	\draw (G1BCenter2)  ++(.0,0.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(-.25,0.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(.25,0.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(-.5,0.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter2)  ++(.5,0.5) ellipse (.05cm and 0.05cm);	
+% end left Maespa tree
+
+
+
+
+%% superimpose Maespa tree over right tree
+
+%\def\leftTreeBX{\leftBuildingBX+6cm}
+%\def\leftTreeBY{\BOffset+7cm}
+
+\tikzstyle{triangletree} = [draw,shape border rotate=90, isosceles triangle,fill=green,opacity=0.15, node distance=3cm, minimum height=5cm]
+%\node[triangletree]{}; 
+ 
+ \coordinate (G1BCenter3) at (15,8);  
+	% stem of MAESPA tree   
+	\draw[line width=2pt,fill opacity=0.15] (G1BCenter3)  -- ++(0,-2)  ;
+	% and tree
+	%\draw[fill=green,fill opacity=0.15] (G1BCenter3) ++(0,2) ellipse (1cm and 2cm);
+	\node[triangletree,xshift=15.2cm,yshift=9cm] {}; 
+	%ellipses inside of tree
+	%\draw (G1BCenter3)  ++(0,1.5) ellipse (.75cm and 1.5cm);
+	%\draw (G1BCenter3)  ++(0,1) ellipse (.5cm and 1cm);
+	%\draw (G1BCenter3)  ++(0,.5) ellipse (.25cm and .5cm);
+	%draw lines across tree
+	\draw (G1BCenter3)  ++(0,1)  -- ++(-1.4,0)  ;
+	\draw (G1BCenter3)  ++(0,1)  -- ++(+1.7,0)  ;
+	
+	\draw (G1BCenter3)  ++(0,2)  -- ++(-0.95,0)  ;
+	\draw (G1BCenter3)  ++(0,2)  -- ++(+1.3,0)  ;
+	
+	\draw (G1BCenter3)  ++(0,3)  -- ++(-0.50,0)  ;
+	\draw (G1BCenter3)  ++(0,3)  -- ++(+0.9,0)  ;
+	%draw small grid circles
+	\draw (G1BCenter3)  ++(.3,3.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(-.1,3.5) ellipse (.05cm and 0.05cm);
+	
+	\draw (G1BCenter3)  ++(.0,2.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(-.37,2.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(.37,2.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(.7,2.5) ellipse (.05cm and 0.05cm);
+	%\draw (G1BCenter3)  ++(-.7,2.5) ellipse (.05cm and 0.05cm);
+	
+	\draw (G1BCenter3)  ++(.0,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(-.37,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(.37,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(-.75,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(.75,1.5) ellipse (.05cm and 0.05cm);
+	\draw (G1BCenter3)  ++(1.05,1.5) ellipse (.05cm and 0.05cm);
+
+	\draw (G1BCenter3)  ++(-1.05,0.5) ellipse (.05cm and 0.05cm); %0
+	\draw (G1BCenter3)  ++(-.75,0.5) ellipse (.05cm and 0.05cm);  %1
+	\draw (G1BCenter3)  ++(-.37,0.5) ellipse (.05cm and 0.05cm); %2
+	\draw (G1BCenter3)  ++(.0,0.5) ellipse (.05cm and 0.05cm); %3	
+	\draw (G1BCenter3)  ++(.37,0.5) ellipse (.05cm and 0.05cm); %4
+	\draw (G1BCenter3)  ++(.75,0.5) ellipse (.05cm and 0.05cm); %5
+	\draw (G1BCenter3)  ++(1.05,0.5) ellipse (.05cm and 0.05cm); %6
+	\draw (G1BCenter3)  ++(1.40,0.5) ellipse (.05cm and 0.05cm); %7
+
+	
+	
+	
+	
+\tikzset{
+    sunflames/.style={
+        line width=1pt,
+        draw=red,
+        fill=yellow,
+        regular polygon, 
+        regular polygon sides=3,
+        inner sep=0.07cm
+    },
+    sunbody/.style={
+        line width=2pt,
+        draw=red,
+        fill=yellow,
+        circle,
+        minimum size=2cm
+    }
+ }
+	
+	\draw (G1BCenter3)  ++(8.0,10.0)  node[sunbody] (TheSun) {};
+    \foreach \angle in { 0,45,...,359  }
+    {
+        \draw [rotate around={\angle:(TheSun.center)}]
+            ($(TheSun.center) + (1.1,0)$)
+            node[shape border rotate=\angle-90,sunflames] {};
+     }
+     
+\draw[arrows=->,line width=0.6pt] (TheSun.center)++(0.0,0.0) -- ++(-8.6,-8.6)   		 	%node[font=\Large,label={[xshift=-1.7cm, yshift=-0.2cm]$K$}] 
+{} ;
+\draw[arrows=->,line width=0.6pt] (TheSun.center)++(0.0,0.0) -- ++(-7.0,-7.0)  
+%		node[font=\Large,label={[xshift=-1.7cm, yshift=-0.2cm]$K$}] 
+		{} ;
+\draw[arrows=->,line width=0.6pt] (TheSun.center)++(-7.0,-7.0) -- ++(0.5,0.25) node[font=\Large,label={[xshift=0.5cm, yshift=-0.4cm]\huge$Alb$}] 	{} ;	
+\draw[arrows=->,line width=0.6pt] (TheSun.center)++(-7.0,-7.0) -- ++(0.25,0.5) node[font=\Large,label={[xshift=0.5cm, yshift=-0.4cm]}] 	{} ;		
+
+
+\draw[arrows=->,line width=0.6pt] (TheSun.center)++(-7.0,-7.0) -- ++(-0.25,-0.5) node[font=\Large,label={[xshift=1.0cm, yshift=-0.4cm]\huge$Abs$}] 	{} ;	
+\draw[arrows=->,line width=0.6pt] (TheSun.center)++(-7.0,-7.0) -- ++(-0.25,0.3) node[font=\Large,label={[xshift=0.5cm, yshift=-0.4cm]}] 	{} ;	
+
+
+
+%draw ray exits
+\def\centerarc[#1](#2)(#3:#4:#5)% [draw options] (center) (initial angle:final angle:radius) 
+{ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5); }
+%\coordinate (treeexit) at (G1BCenter)++(0,0)++(3.0,3.0)++(-3.9,-3.9);
+% (TheSun.center)++(-8.6,-8.6)   	
+\centerarc[thick](14.5,9.5)(90:270:0.5);
+%\draw[red] (-0.90,1.10)  ellipse (.1cm and 0.1cm);	
+
+%transmission
+\draw[arrows=->,line width=0.6pt] (14.5,9.5)  -- ++(-1.0,-0.5) node[font=\Large,label={[xshift=-0.8cm, yshift=-0.0cm]\huge$Trans$}] 	{} ;	
+\draw[arrows=->,line width=0.6pt] ((14.5,9.5) -- ++(-0.5,-1.0) node[font=\Large,label={[xshift=0.5cm, yshift=-0.4cm]}] 	{} ;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Insert MAESPA
+\coordinate (G1BCenter) at (14.0,15.5);
+\coordinate (insertbox) at (11.0,19.0); %top right
+%\draw[blue,thick] (insertbox)  ellipse (0.1cm and 0.1cm); % to find the corners
+\coordinate (insertbox2) at (5.0,12.5); %change x to move to left/right
+	%maespa insert image
+%\draw[red,thick] (insertbox2)  ellipse (0.1cm and 0.1cm); %to find the corners
+\node[] at (G1BCenter) (mapespainsertimage) {\pgftext{\includegraphics[width=20cm]{MaespaInsertMaespaRadiation}}} ;
+	%red box around insert
+\draw [-,thick,red,dotted] (insertbox) node (yaxis) [above] {} -| (insertbox2) node (xaxis) [right] {};
+\draw [-,thick,red,dotted] (insertbox) node (yaxis) [above] {} |- (insertbox2) node (xaxis) [right] {};
+	%arrow pointing to left tile
+ \node[anchor=west] at ([xshift=-0.0cm,yshift=0.0cm]insertbox2.center) (description) {};
+ \node[anchor=east] at ([xshift=0.7cm,yshift=-0.7cm]insertbox2.center) (text) {};
+ \draw (description) edge[out=180,in=50,->] (text);	
+ \node[anchor=west] at ([xshift=0.1cm,yshift=-0.0cm]insertbox2.center) (description2) {};
+ \node[anchor=east] at ([xshift=0.7cm,yshift=-0.7cm]insertbox2.center) (text2) {};
+ \draw[] (description2) edge[out=180,in=50,->] (text2);	
+
+%  end of Maespa insert
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Insert TUF
+\coordinate (G1BCenter) at (21.0,14.5);
+\coordinate (insertbox) at (19.5,18.5); %top right
+%\draw[blue,thick] (insertbox)  ellipse (0.1cm and 0.1cm); % to find the corners
+\coordinate (insertbox2) at (11.5,12.5); %change x to move to left/right
+	%maespa insert image
+%\draw[red,thick] (insertbox2)  ellipse (0.1cm and 0.1cm); %to find the corners
+\node[] at (G1BCenter) (mapespainsertimage) {\pgftext{\includegraphics[width=20cm]{MaespaInsertTUFRadiation}}} ;
+	%red box around insert
+\draw [-,thick,red,dotted] (insertbox) node (yaxis) [above] {} -| (insertbox2) node (xaxis) [right] {};
+\draw [-,thick,red,dotted] (insertbox) node (yaxis) [above] {} |- (insertbox2) node (xaxis) [right] {};
+	%arrow pointing to left tile
+ \node[anchor=west] at ([xshift=-0.0cm,yshift=-0.0cm]insertbox2.center) (description) {};
+ \node[anchor=east] at ([xshift=-4.4cm,yshift=-1.0cm]insertbox2.center) (text) {};
+ \draw (description) edge[out=180,in=50,->] (text);	
+ \node[anchor=west] at ([xshift=-0.0cm,yshift=-0.1cm]insertbox2.center) (description2) {};
+ \node[anchor=east] at ([xshift=-4.4cm,yshift=-1.0cm]insertbox2.center) (text2) {};
+ \draw[] (description2) edge[out=180,in=50,->] (text2);	
+
+%  end of Maespa insert
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+	
+	
+    
+\end{tikzpicture}
+
+
+%\caption{TUF-3D/MAESPA vegetation/radiation interactions}
+\end{figure}
+
+
+
+
+\end{document}
