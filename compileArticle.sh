@@ -9,6 +9,7 @@ cp -u /home/kerryn/Documents/Work/Data/PrestonData/PrestonWindrose.png images/Pr
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04Val-ErrorPlotsSquare5.png images/Pr04Val-ErrorPlots.png
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/PrestonBase/Analysis/Pr04NoVeg-ErrorPlotsSquare5.png images/Pr04NoVeg-ErrorPlots.png
 
+cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMValidations/GeorgeValidation/GippsValidation-TmrtUtci4Panes8.png images/GippsValidation-TmrtUtci4Panes8.png
 
 
 cp -u /home/kerryn/Documents/Work/VTUF-Runs/CoMGeorgeRun5-30DaysCombinedTrees/GeorgeSt-100x100m-5m_grid_heights.png images/GeorgeSt-100x100m-5m_grid_heights.png
