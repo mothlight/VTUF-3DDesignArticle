@@ -1,0 +1,178 @@
+Response to Reviewer #1 Major comment No. 1:
+
+Thank you for this suggestion. We agree that the text and equations were cumbersome. We have revised the paper and have now only included the new developments applied in the creation of VTUF-3D. This includes the structure of the model  and added equations. Description of a few key techniques used in TUF-3D and MAESPA were retained but highly abbreviated to give readers not already highly familiar with those models a basic understanding of how they relate to the new functionality in VTUF-3D. And much more clarification has been added to the rest of the text highlighting exactly what new methods are contained in VTUF-3D (as opposed to inherited from TUF-3D and MAESPA) to add the new functionality.
+
+Response to Reviewer #1 Major comment No. 2:
+Reorganised the results section as suggested (moving 4.2 into 4.1).
+
+Response to Reviewer #1 Major comment No. 3:
+
+Ahh, ok. I haven’t noticed before how often I do this. Err, I mean use indefinite pronouns. I always do a ‘which’ hunt during proofreading, I’ll have to add a pronoun check as well. So, I’ve gone over the article and eliminated as many as I could find.
+
+Response to Reviewer #1 Major comment No. 4:
+Due to all reviewers suggestions, I have added in the Tmrt and UTCI evaluation instead of deferring that to a future article.
+
+Minor Comments:
+Note: all minor comments not noted below were addressed in the suggested manner.
+
+Response to Reviewer #1 Minor comment No. 3:
+Good point, I had assumed a familiarity with CFD modelling. Added that CFD modelling would take at least an order of magnitude more.
+
+
+
+Response to Reviewer #1 Minor comment No. 5:
+Tried to clarify in the text. MAE is not an acronym (came from MAESTRO model which was just a name), while SPA (Soil-plant-atmosphere) is.
+
+Response to Reviewer #1 Minor comment No. 9:
+The equation section has been heavily edited and non-relevant variables removed.
+
+
+Response to Reviewer #1 Minor comment No. 11:
+Ok, I agree that the UTCI function is not useful. The actual equation is about a page long and documented in the citation. I’m happy to remove the actual equation (UTCI function) and point to the equation source. 
+However, due to comments from all reviewers about including the 2nd evaluation of Tmrt and UTCI in this paper, I have added that section in as well (instead of deferring that to the next article). This makes the Tmrt and UTCI discussion very relevant.
+
+Response to Reviewer #1 Minor comment No. 12:
+Clarified that ray traces are performed 4 times towards the sun for each surface.
+
+Response to Reviewer #1 Minor comment No. 13:
+
+Added (such as described in the Pr04Val evaluation in Section \ref{sec:modelsetup})  
+
+Response to Reviewer #1 Minor comment No. 23:
+Moved brief index of agreement overview to evaluation approach section and added brief introduction to 0-1 scale to first usage of index.
+
+
+
+_________________________________
+
+
+Response to Reviewer #2 General comment No. 1:
+
+
+Figure 3 shows the interactions between vegetation and building and ground surfaces, as well as being detailed in section 2.5.1. The figure (panels c and d) do not show ray traces from roof surfaces, but ray traces are performed from all surfaces towards the sun and if vegetation is encountered, a reverse ray trace allocates energy downward. So, yes trees will shade roofs. 
+
+Paragraph 2 of section 2.2 mentions that scattered shortwave radiation is currently disregarded. 
+
+Longwave interactions with vegetation are handled entirely within the offline MAESPA vegetation modelling and not explicitly dealt with by VTUF-3D. The differential shading method (paragraph 4 of section 2.5.1) attempts to account for these variations.
+
+Response to Reviewer #2 General comment No. 2:
+The two models do not interact directly, as the vegetation modelling is done offline before the main model run. Section 2.5.1 paragraph 4 spells this out, as well as the rationale behind modelling each vegetation item twice (with full incoming radiation and with diffuse only). So, the models do not directly interact, but VTUF-3D does use different offline vegetation model results depending on whether that vegetation would currently, within the timestep, be illuminated or not. I have also added a number of times in the text that vegetation is modelled offline to try and relieve possible confusion about the interactions better.
+
+Response to Reviewer #2 General comment No. 3:
+Yes, this test was performed, but not presented. Added “tests were performed (not presented here) and found the model conserved energy despite different sources of modelled fluxes.” 
+
+Response to Reviewer #2 General comment No. 4:
+As the UTCI predictions are a critical component of the work VTUF-3D was designed to perform, and due to many comments from all reviewers, the Tmrt and UTCI evaluation was added to the article. This evaluation combined with the flux evaluation should demonstrate confidence in the predictions at a micro-scale, both temporally and spatially. I originally thought this would make the article too long but appears to be necessary to address concerns expressed in this comment (and others). As mentioned in section 3.1, the Preston flux data was chosen as evaluations against flux observations are considered a fundamental evaluation technique. In addition, the Preston dataset is well regarded and widely used in model evaluations such as the Grimmond et al (2010) and Best & Grimmond (2012) inter-comparison project. This also allows comparison to the Best & Grimmond (2012) results.
+
+Response to Reviewer #2 General comment No. 5:
+Added calculations of MBE (in addition to MAE) in order to compare to Best & Grimmond (2012) who use RMSE and MBE.
+
+Response to Reviewer #2 General comment No. 6:
+Yes, reviewer #1 pointed this out as well. I’ve given the article another thorough edit, simplifying, removing indefinite pronouns, passive voice, etc.
+
+
+Response to Reviewer #2 Line by line comments
+Some very minor changes addressed exactly in the reviewer's suggested manor are not noted below.
+
+P5L36-37: 
+Simplified description in the text, as this functionality exists in the original TUF-3D model.
+
+P5L45-46: 
+Added clarification, scattered radiation is currently not distributed in VTUF-3D.
+
+
+P8L32: 
+Simplified. Replaced Tconv with Tcan. The iterative converging method to calculate Tsfc then Tcan is fully contained in original TUF-3D model, so is not necessary to detail in this article.
+
+Eq. 8: 
+Testing of MAESPA found that the sensible heat fluxes were somewhat unreliable, while Qe performed quite well. Using this and in order to keep the consistency of the approach for sensible heat fluxes already employed for non-vegetated surfaces, see Eq (4), using the modelled MAESPA surface temperature of the canopy was found to work well. In addition, correct modelling of heat storage of the canopy and woody biomass in trees was far too complex. The method to maintain our consistency was to model this as a residual, which also assisted in energy balance closure.
+
+Eq. 10: 
+This is something unchanged from the original TUF-3D (Krayenhoff 2007). As such, it has been removed from this manuscript as part of the overall removal of all already published portions of the model (see Reviewer #1, major comment #1).
+
+Eq. 11: 
+The third term on the RHS is correct and follows Liljegran et al., 2008 and relates to the direct irradiance on the projected area of the globe. Please see below. 
+
+Regarding exposure of a person compared to a surface, yes there is likely to be some differences, however Tg and Tmrt therefore are calculated per grid square, so there is variance across the domain. The assumption is that the radiation leaving a surface (e.g. a wall) reaches the person (sphere) located at each grid point.
+
+The use of a sphere is a simplification of the calculation of Tmrt on the human body and so the weighting factors usually applied for the calculation of Tmrt for the human body are instead those for a sphere.
+
+From Liljegren, J. C., Carhart, R. A., Lawday, P., Tschopp, S., Sharp, R., 2008. Modeling the wet bulb globe temperature using standard meteorological measurements. Journal of Occupational and Environmental Hygiene 5 (10), 645–655.
+
+“The second and third terms on the right represent the energy gained by the globe due to diffuse and direct solar irradiance. It is important to note that these act on different areas: the diffuse irradiance is incident on the upper hemisphere of the globe, whereas the direct irradiance is incident on the projected area of the globe normal to the solar zenith angle, which is the crosssectional area of the globe, πD2/4.”
+
+P10L52-P11L8: 
+Rewrote the paragraph to clarify the important points.
+
+Fig. 3: 
+Increased font sizes.
+
+P11L11-16:
+Added additional clarifications. Radiation exchanges proceed normally using TUF-3D methods if no vegetation is encountered. Otherwise, additional processing determines radiation exchanges between surfaces and intervening vegetation.
+
+P11L27-29:
+Yes, that was probably written as by a (former) software engineer. The sentence wasn’t really necessary, took it out.
+
+P11L32-33: 
+No, with only two variations, there will be some variations that are not exactly captured. Added “However, these variations will not be able to exactly capture every variation, such as a reduction in diffuse shortwave due to a nearby building.”
+
+P11L33-39: 
+Rewrote the paragraph to clarify and removed some unnecessary confusing details.
+
+
+P12L12-13: 
+Yes, and this was a concern about this approach and dataset. But given the very homogeneous nature of the observed area and the positive results from the evaluation, this gave us confidence the model’s ability to capture the fundamental driving forces in the area. In addition, the now added evaluation of Tmrt and UTCI using a micro-climate dataset (as mentioned in numerous comments) showed that the model also performs well spatially and temporally against micro-climate observations of Tmrt and UTCI.
+
+Table 3: 
+This is just a piece of the original TUF-3D model. It is assumed the building interiors are kept to a constant temperature and can impact the amounts of anthropogenic heat generated.
+
+
+P15L11:
+Conservation of energy was also raised by the general comments of reviewer #2. I added a comment to the article that conservation of energy was tested but not presented in the article. The concern is that TUF-3D and MAESPA are different sources of fluxes but this was not found to be a problem. In normal operation of the model, the special circumstances requiring dual sources of forcing data in the Preston evaluation to compare the performance against the observation shouldn’t be necessary and this potential energy conservation problem will not be applicable.
+
+P15L47:
+Repeating the response to general comment #2 for reviewer #2:
+The two models do not interact directly, as the vegetation modelling is done offline before the main model run. Section 2.5.1 paragraph 4 spells this out, as well as the rationale behind modelling each vegetation item twice (with full incoming radiation and with diffuse only). So, the models do not directly interact, but VTUF-3D does use different offline vegetation model results depending on whether that vegetation would currently, within the timestep, be illuminated or not. I have also added a number of times in the text that vegetation is modelled offline to try and relieve possible confusion about the interactions better.
+
+
+P21L21-27: 
+Due to comments from all reviewers, the Tmrt and UTCI evaluation has been added instead of deferring it to a future article.
+
+_____________________________________________
+
+
+Reviewer #3: 
+
+Response to Reviewer #3 General comments:
+
+Thanks for these suggestions. I’ve added some added discussion around trees and energy usage to the introduction based on those. 
+
+Now that the micro-climate Tmrt/UTCI validation section has been added, the street orientation suggestions were useful in revising the overview section of that validation (section 3.2).
+
+I didn’t use your suggestions of Nakayama et al (2010) and Kim et al (2012) since we didn’t attempt to model permeable pavement. I did file those away for future model enhancements to include those features (which are common WSUD features). However, your suggestion reminded me of Hendel et al. (2016), who’s observations after pavement watering found maximum air temperature (at 1.5m) reductions of  0.79C as well as 1.67C Tmrt and 1.03C UTCI. So I added:
+“In other parameters, there is evidence that wet impervious surfaces can have some other short term cooling impacts. \cite{Hendel2016} observed that hourly watering of urban pavement during heat wave conditions could deliver maximum air temperature reductions (at 1.5m above ground level) of 0.79 \SI{}{\degreeCelsius} as well as $T_{mrt}$ and UTCI reductions of 1.67\SI{}{\degreeCelsius} and 1.03\SI{}{\degreeCelsius}. While this might indicate an upper bound to the impact of wet pavement, until this portion of precipitation received is accounted for in the model, care should be taken when modelling periods which contain precipitation.”
+
+
+The comment about extremes originally drew on a larger lit review which had a longer discussion about temperature thresholds and human health (i.e. Nicholls et al., 2008; Loughnan et al., 2010). In this more abbreviated form, I’ve changed that to a more general comment about “understanding how current urban design will respond to changing urban climate conditions.” The initial design goal of the model was to examine short (less than a week) extreme temperature events, which coloured some of the overall discussion in the drafts, but there is no need to restrict the usage of the model to only these scenarios. 
+
+I think I should defer the larger discussion of species selection to the follow up article, which include an evaluation using observations of single isolated trees and scenarios of canopy cover. It seems like this article is already pretty long and complex and it would be quite difficult addressing species in a meaningful way here. As I’ve had to pull quite a lot of what was already planned for the 2nd article, that discussion seems like it would fit well there.
+
+I think the suggestion about drawing out the future uses and future users is a good way to sum up this article. I hadn’t quite figured out how to include that sort of detail but I was able to turn this suggestion into my final paragraph for the article. 
+
+“However, the creation and evaluation of VTUF-3D is only a first step. As the intended end users of the knowledge gained through VTUF-3D, planners and policy makers, often lack the time, expertise, and scientific rigour needed to generate and interpret climate model output \citep{Elasson2000,Moser2014,Winkler2011}, additional work will need to be done with VTUF-3D to systematically analyse a wide variety of scenarios seeking optimal uses of urban vegetation for HTC and summarise these findings. A forthcoming article will start this process with an examination by VTUF-3D of varying urban canopy cover on HTC in street canyons. VTUF-3D has also adopted by the CRC for Water Sensitive Cities as their micro-climate tool to evaluate climatic impacts of WSUD, with the findings disseminated to industry partners and the public at large. Finally, work is under way to provide a simpler user interface to VTUF-3D, allowing a wider adoption beyond the current academic research user-base.”
+
+
+Response to Reviewer #3 Detailed notes:
+Some very minor changes addressed exactly in the reviewer's suggested manor are not noted below.
+
+
+Abstract line 23: 
+SPA is Soil-plant-atmosphere but MAESTRO doesn’t stand for anything (Wang, Y.P. and Jarvis, P.G., 1990. Description and validation of an array model - MAESTRO. Agric. For. Meteorol., 51: 257-280.)
+
+
+Page 3, line 46: 
+(amalgamation of the MAESTRO and SPA (Soil-plant-atmosphere) models). See Abstract line 23 comment.
+
+Page 21, line 26: 
+I replaced the emergency response with understanding how the urban designs respond to extremes. One of the major intended uses of the tool (and major effort in evaluating model performance) is to examine short term extreme heat scenarios. 
+
